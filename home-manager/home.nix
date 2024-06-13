@@ -38,7 +38,7 @@
     };
   };
 
-  # TODO: Set your username
+  # DONE: Set your username
   home = {
     username = "matt";
     homeDirectory = "/home/matt";
@@ -49,7 +49,7 @@
   services.nextcloud-client.enable = true;
   services.nextcloud-client.startInBackground = true;
 
-  home.packages = with pkgs; [ openshot-qt inkscape gimp ];
+  home.packages = with pkgs; [ keepassxc openshot-qt inkscape gimp ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
