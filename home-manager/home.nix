@@ -46,7 +46,7 @@
 
   # Add stuff for your user as you see fit:
   programs.neovim.enable = true;
-  home.packages = with pkgs; [ openshot-qt ];
+  home.packages = with pkgs; [ openshot-qt inkscape gimp ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
