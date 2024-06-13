@@ -83,7 +83,7 @@
   
   # Global Software
   programs.firefox.enable = true;
-  
+  programs.nextcloud-client.enable = true;  
 
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
