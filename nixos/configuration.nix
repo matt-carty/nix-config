@@ -78,9 +78,14 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  # Enable CUPS
+  # Enable CUPS and wifi compatible printers
   services.printing.enable = true;
-  
+  services.avahi = {
+  enable = true;
+  nssmdns = true;
+  openFirewall = true;
+  };
+
   # Global Software
   programs.firefox.enable = true;
   # programs.nextcloud-client.enable = true;  
