@@ -49,7 +49,7 @@
   services.nextcloud-client.enable = true;
   services.nextcloud-client.startInBackground = true;
 
-  home.packages = with pkgs; [ obsidian keepassxc openshot-qt inkscape gimp ];
+  home.packages = with pkgs; [ obsidian keepassxc openshot-qt inkscape gimp alacritty];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
