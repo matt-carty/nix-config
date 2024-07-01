@@ -110,6 +110,13 @@
     };
   };
 
+  #Trying to add some fonts
+  fonts.packages = with pkgs; [
+    (google-fonts.override { fonts = [ "MouseMemoirs" ]; })
+  ];
+
+
+
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
   services.openssh = {
