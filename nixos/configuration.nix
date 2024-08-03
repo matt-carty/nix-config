@@ -112,7 +112,7 @@
 
   #Trying to add some fonts
   fonts.packages = with pkgs; [
-    (google-fonts.override { fonts = [ "MouseMemoirs" ]; })
+    (google-fonts.override { fonts = [ "MouseMemoirs" "Lobster"]; })
   ];
 
 
