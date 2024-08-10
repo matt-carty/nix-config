@@ -58,33 +58,25 @@
         # > Our main home-manager configuration file <
         modules = [./home-manager/home.nix];
       };
-    };
+    
     
     #Matt on Home Laptop
-    homeConfigurations = {
-      # DONE replace with your username@hostname
       "matt@bigmac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/matt/bigmac/home.nix];
       };
-    };
     
     #Kasumi on Home Laptop
-    homeConfigurations = {
-      # DONE replace with your username@hostname
       "kasumi@bigmac" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/kasumi/bigmac/home.nix];
       };
-    };
     
     #Matt on Home Virt Machine
-    homeConfigurations = {
-      # DONE replace with your username@hostname
       "matt@homevm" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
@@ -93,5 +85,4 @@
       };
     };
 
-  };
 }
