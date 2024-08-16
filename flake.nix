@@ -25,7 +25,7 @@
       homevm = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
-        modules = [./nixos/homevm/configuration.nix];
+        modules = [./systems/homevm/configuration.nix];
       };
     };
 
