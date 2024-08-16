@@ -1,4 +1,3 @@
-# Matt's flake stolen from m77 and edited
 {
   description = "My NixOS configuration";
 
