@@ -1,7 +1,7 @@
 # Matt's flake starting from scratch-ish
 
 {
-  description = "Your new nix config";
+  description = "Flake for all the computers half taken from m77 and half mine";
 
   inputs = {
     # Nixpkgs
