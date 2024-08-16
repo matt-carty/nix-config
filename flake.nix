@@ -3,14 +3,14 @@
   description = "My NixOS configuration";
 
   nixConfig = {
-    extra-substituters = [
-      "https://cache.m7.rs"
-      "https://nix-gaming.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "cache.m7.rs:kszZ/NSwE/TjhOcPPQ16IuUiuRSisdiIwhKZCxguaWg="
-      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-    ];
+#    extra-substituters = [
+#      "https://cache.m7.rs"
+#      "https://nix-gaming.cachix.org"
+#    ];
+#    extra-trusted-public-keys = [
+#      "cache.m7.rs:kszZ/NSwE/TjhOcPPQ16IuUiuRSisdiIwhKZCxguaWg="
+#      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+#    ];
   };
 
   inputs = {
@@ -21,7 +21,7 @@
 
     hardware.url = "github:nixos/nixos-hardware";
     # impermanence.url = "github:nix-community/impermanence";
-    impermanence.url = "github:misterio77/impermanence";
+ #   impermanence.url = "github:misterio77/impermanence";
     nix-colors.url = "github:misterio77/nix-colors";
     home-manager = {
       url = "github:nix-community/home-manager";
