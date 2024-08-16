@@ -56,5 +56,4 @@
         modules = [./home/matt/homevm.nix];
       };
     };
-  };
-}
+  }
