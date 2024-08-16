@@ -44,14 +44,14 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
 
-      "matt@alien" = home-manager.lib.homeManagerConfiguration {
+      "matt@alien" = lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
         modules = [./home/matt/alien.nix];
       };
 
-      "matt@homevm" = home-manager.lib.homeManagerConfiguration {
+      "matt@homevm" = lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
