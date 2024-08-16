@@ -60,6 +60,14 @@
   };
 
   # FIXME: Add the rest of your current configuration
+environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
+  neovim
+  git
+  gh
+  home-manager
+  ];
 
   # Bootloader.
   boot.loader.grub.enable = true;
