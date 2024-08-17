@@ -3,6 +3,6 @@
   ...
 }: {
   imports = [
-    ./global/default.nix
+    ./common/global/default.nix
   ];
 }
