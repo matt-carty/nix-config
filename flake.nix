@@ -27,6 +27,11 @@
         # > Our main nixos configuration file <
         modules = [./systems/homevm/configuration.nix];
       };
+      alien = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [./systems/homevm/configuration.nix];
+      };
     };
 
     # Standalone home-manager configuration entrypoint

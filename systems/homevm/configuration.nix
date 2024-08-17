@@ -14,8 +14,8 @@
     # inputs.hardware.nixosModules.common-ssd
     
     # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
     ../common/global/default.nix
+    
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -60,8 +60,7 @@
   };
 
   # FIXME: Add the rest of your current configuration
-environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  environment.systemPackages = with pkgs; [
   #  wget
   #neovim
   git
@@ -90,24 +89,6 @@ environment.systemPackages = with pkgs; [
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Set your time zone.
-#  time.timeZone = "Asia/Tokyo";
-
-  # Select internationalisation properties.
- # i18n.defaultLocale = "en_US.UTF-8";
-
-  #i18n.extraLocaleSettings = {
-   # LC_ADDRESS = "en_AU.UTF-8";
-   # LC_IDENTIFICATION = "en_AU.UTF-8";
-    #LC_MEASUREMENT = "en_AU.UTF-8";
-    #LC_MONETARY = "en_AU.UTF-8";
-    #LC_NAME = "en_AU.UTF-8";
-    #LC_NUMERIC = "en_AU.UTF-8";
-    #LC_PAPER = "en_AU.UTF-8";
-    #LC_TELEPHONE = "en_AU.UTF-8";
-    #LC_TIME = "en_AU.UTF-8";
- # };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -146,23 +127,6 @@ environment.systemPackages = with pkgs; [
 
   # TODO: Set your hostname
   networking.hostName = "homevm";
-
-  # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
-  #users.users = {
-    # FIXME: Replace with your username
-  #  matt = {
-      # TODO: You can set an initial password for your user.
-      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-      # Be sure to change it (using passwd) after rebooting!
-   #   initialPassword = "correcthorsebatterystaple";
-    #  isNormalUser = true;
-    #  openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-     # ];
-      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-   #   extraGroups = ["wheel"];
-   # };
-#  };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
