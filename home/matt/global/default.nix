@@ -11,7 +11,7 @@
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModule
-
+    ./common/nvim
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
   ];
@@ -51,11 +51,11 @@
   # Enable home-manager and git
 #  programs.home-manager.enable = true;
   programs.git.enable = true;
-  programs.neovim.enable = true;
   
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+# moving to its own file >  programs.neovim.enable = true;
   home.stateVersion = "24.05";
 }
