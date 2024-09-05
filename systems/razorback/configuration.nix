@@ -59,6 +59,11 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
+  # Bootloader. NEED TO CHANGE
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
+
   # FIXME: Add the rest of your current configuration
   environment.systemPackages = with pkgs; [
   #  wget
