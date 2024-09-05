@@ -37,6 +37,11 @@
         # > Our main nixos configuration file <
         modules = [./systems/homevm/configuration.nix];
       };
+       razorback = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [./systems/razorback/configuration.nix];
+      };
     };
 
     # Standalone home-manager configuration entrypoint
