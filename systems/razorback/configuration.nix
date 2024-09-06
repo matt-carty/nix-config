@@ -59,21 +59,19 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  # Bootloader. NEED TO CHANGE
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # FIXME: Add the rest of your current configuration
   environment.systemPackages = with pkgs; [
   #  wget
-  #neovim
+  neovim
   git
   gh
   home-manager
+  firefox
   ];
-
-  # Bootloader.
 
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -117,8 +115,6 @@
     #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # TODO: Set your hostname
   networking.hostName = "razorback";
