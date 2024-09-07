@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
   }: {
@@ -9,10 +10,10 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-    home.file."${config.xdg.configHome}/test" = {
-     source = ./test;
-     recursive = true;
-    };
+  };
+  home.file."${config.xdg.configHome}/nvim" = {
+   source = ./config;
+   recursive = true;
   };
 
 }
