@@ -16,6 +16,7 @@
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
     ../common/optional/desktop/desktop-apps.nix
+    ../common/optional/desktop/fonts.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -67,10 +68,10 @@
   # FIXME: Add the rest of your current configuration
   environment.systemPackages = with pkgs; [
   #  wget
-  neovim
-  git
-  gh
-  home-manager
+#  neovim
+#  git
+#  gh
+#  home-manager
   ];
 
 
