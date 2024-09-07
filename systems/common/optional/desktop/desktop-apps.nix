@@ -4,6 +4,8 @@
   nextcloud-client
   firefox
   keepassxc
+  alacritty
+  kitty
   ];
 
 }
