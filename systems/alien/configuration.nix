@@ -15,7 +15,7 @@
     
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
-#    ../common/optional/desktop/desktop-apps.nix
+    ../common/optional/desktop/desktop-apps.nix
     ../common/optional/desktop/fonts.nix
     ../common/optional/desktop/gnome.nix
 
@@ -63,10 +63,8 @@
   };
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
-
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # FIXME: Add the rest of your current configuration
   environment.systemPackages = with pkgs; [
@@ -121,7 +119,7 @@
 
 
   # TODO: Set your hostname
-  networking.hostName = "homevm";
+  networking.hostName = "razorback";
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
