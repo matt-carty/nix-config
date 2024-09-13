@@ -18,7 +18,8 @@
     ../common/optional/desktop/desktop-apps.nix
     ../common/optional/desktop/fonts.nix
     ../common/optional/desktop/gnome.nix
-
+    ../common/optional/desktop/printers.nix
+    
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
