@@ -15,10 +15,7 @@
     
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
-#    ../common/optional/desktop/desktop-apps.nix
-    ../common/optional/desktop/fonts.nix
-    ../common/optional/desktop/gnome.nix
-
+    
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -62,22 +59,28 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
+  # FIXME: Add the rest of your current configuration
+  environment.systemPackages = with pkgs; [
+  #  wget
+  #neovim
+  git
+  gh
+  home-manager
+  ];
+
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
+  # Setup keyfile
+  boot.initrd.secrets = {
+    "/crypto_keyfile.bin" = null;
+  };
 
-  # FIXME: Add the rest of your current configuration
-  environment.systemPackages = with pkgs; [
-  #  wget
-#  neovim
-#  git
-#  gh
-#  home-manager
-  ];
+  boot.loader.grub.enableCryptodisk=true;
 
-
+  boot.initrd.luks.devices."luks-8adee8f6-df91-4889-a625-d528b9fd82cb".keyFile = "/crypto_keyfile.bin";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -119,6 +122,8 @@
     #media-session.enable = true;
   };
 
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
 
   # TODO: Set your hostname
   networking.hostName = "homevm";
