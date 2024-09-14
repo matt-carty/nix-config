@@ -3,12 +3,18 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-
+    #nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    
+    # Nix ecosystem
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    systems.url = "github:nix-systems/default-linux";
+    
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     
+    # Sops - not yet implemented
     sops-nix = {
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,7 +41,7 @@
       alien = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
-        modules = [./systems/homevm/configuration.nix];
+        modules = [./systems/alien/configuration.nix];
       };
        razorback = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
