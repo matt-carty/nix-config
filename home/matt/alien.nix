@@ -3,7 +3,8 @@
   ...
 }: {
   imports = [
-    ./global/default.nix
-    ./global/features/editing.nix
-  ];
+    ./common/global/default.nix
+    ./common/features/editing.nix
+    ./common/features/obsidian.nix
+];
 }
