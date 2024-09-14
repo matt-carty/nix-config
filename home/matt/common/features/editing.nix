@@ -5,6 +5,6 @@
     inkscape
     gimp
     kdePackages.kdenlive
-
+    scribus
   ];
 }
