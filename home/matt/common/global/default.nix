@@ -15,7 +15,6 @@
     ./git.nix
 
     # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
   ];
 
   nixpkgs = {
@@ -50,9 +49,6 @@
   # programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
 
-  #  programs.home-manager.enable = true;
-
-  
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
