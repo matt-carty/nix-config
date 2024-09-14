@@ -9,6 +9,7 @@
   environment.systemPackages = with pkgs; [
     home-manager
     zoxide
+    kanata
     gh
   ];
 
