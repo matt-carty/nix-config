@@ -8,7 +8,8 @@
   home.packages = with pkgs; [ 
     lua-language-server
     stylua
-
+    luajitPackages.luarocks
+    lua
   ]; 
 
   programs.neovim = {
