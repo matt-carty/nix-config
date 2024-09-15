@@ -10,8 +10,12 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-  };
-  home.file."${config.xdg.configHome}/nvim" = {
+
+
+
+
+};
+  xdg.configFile."nvim" = {
    source = ./config;
    recursive = true;
   };
