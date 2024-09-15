@@ -1,8 +1,15 @@
 {
   config,
+  lib,
   pkgs,
   ...
   }: {
+
+  home.packages = with pkgs; [ 
+    lua-language-server
+    stylua
+
+  ]; 
 
   programs.neovim = {
     enable = true;
@@ -10,8 +17,10 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-
-
+    
+    plugins = with pkgs.vimPlugins; [
+      lazy-nvim
+    ];
 
 
 };
