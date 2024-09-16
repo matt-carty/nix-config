@@ -10,7 +10,7 @@
   programs.bash = {
     enable = true;
     shellAliases = {
-    hss = "home-manager switch --flake .#matt@alien";
+    hms = "home-manager switch --flake .#matt@alien";
     nrs = "sudo nixos-rebuild switch --flake .#alien";
     };
   };
