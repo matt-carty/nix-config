@@ -1,4 +1,5 @@
-require("lazy").setup({{
+return {
+
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function () 
@@ -11,4 +12,4 @@ require("lazy").setup({{
           indent = { enable = true },  
         })
     end
- }})
+ }
