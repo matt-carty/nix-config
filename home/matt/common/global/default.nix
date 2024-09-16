@@ -1,5 +1,3 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
   lib,
@@ -14,7 +12,6 @@
     # inputs.nix-colors.homeManagerModule
     ./nvim
     ./git.nix
-    # You can also split up your configuration and import pieces of it here:
   ];
 
   nixpkgs = {
@@ -47,16 +44,16 @@
 
   # Packages that will be on all systems for Matt only
   # home.packages = with pkgs; [ steam ];
-
   programs.kitty = {
     enable = true;
     settings = {
-      font_size = 12;
+      font_size = 13;
       font_family = "Fira Code Nerd Font Mono";
-
     };
    };
-  
+   
+   # TODO: Put bash config and aliases for hms and nrs here
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
