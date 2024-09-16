@@ -45,18 +45,18 @@
     homeDirectory = "/home/matt";
   };
 
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
+  # Packages that will be on all systems for Matt only
   # home.packages = with pkgs; [ steam ];
 
   programs.kitty = {
     enable = true;
     settings = {
-      font_size = 14;
+      font_size = 12;
       font_family = "Fira Code Nerd Font Mono";
 
     };
    };
+  
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 

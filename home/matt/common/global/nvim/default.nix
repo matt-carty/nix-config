@@ -21,7 +21,7 @@
 
     # Nixvim plugins here
     plugins.bufferline.enable = true;
-    plugins.dashboard.enable = true;
+    plugins.dashboard.enable = false; # Dont think I need dashboard
     plugins.dressing.enable = true;
     plugins.flash.enable = true;
     plugins.friendly-snippets.enable = true;
@@ -34,6 +34,10 @@
     plugins.web-devicons.enable = true;
     plugins.which-key.enable = true;
     plugins.neo-tree.enable = true;
+    plugins.cmp.enable = true;
+    plugins.cmp-buffer.enable = true;
+    plugins.cmp-nvim-lsp.enable = true;
+    plugins.lint.enable = true;
 
     # Language server
     plugins.lsp = {
