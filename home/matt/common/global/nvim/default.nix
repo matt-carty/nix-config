@@ -42,5 +42,5 @@
     
     # Keymaps here
     globals.mapleader = ","; # Sets the leader key to comma
-  }
+  };
 }
