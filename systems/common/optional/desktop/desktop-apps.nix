@@ -5,7 +5,6 @@
   firefox
   keepassxc
   alacritty
-  kitty
   ];
 
 }

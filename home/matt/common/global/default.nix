@@ -49,6 +49,14 @@
   # programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
 
+  programs.kitty = {
+    enable = true;
+    settings = {
+      font_size = 14;
+      font_family = "Fira Code Nerd Font Mono";
+
+    };
+   };
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
