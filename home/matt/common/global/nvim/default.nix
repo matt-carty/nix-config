@@ -2,9 +2,10 @@
   config,
   lib,
   pkgs,
-  nixvim,
+  inputs,
   ...
   }: {
+
 
   home.packages = with pkgs; [ 
     lua-language-server
@@ -15,16 +16,22 @@
   
   programs.nixvim = {
     
+    enable = true;
 
     # Nixvim plugins here
     plugins.bufferline.enable = true;
     plugins.dashboard.enable = true;
     plugins.dressing.enable = true;
     plugins.flash.enable = true;
-    plugins.frienly-snippets.enable = true;
+    plugins.friendly-snippets.enable = true;
     plugins.gitsigns.enable = true;
     plugins.harpoon.enable = true;
     plugins.indent-blankline.enable = true;
+    plugins.lualine.enable = true;
+    plugins.telescope.enable = true;
+    plugins.treesitter.enable = true;
+    plugins.web-devicons.enable = true;
+    plugins.which-key.enable = true;
 
     # Non-nixvim plugins here
 
@@ -41,6 +48,6 @@
     };
     
     # Keymaps here
-    globals.mapleader = ","; # Sets the leader key to comma
+    globals.mapleader = " "; # Sets the leader key to space
   };
 }
