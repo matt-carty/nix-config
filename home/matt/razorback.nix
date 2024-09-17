@@ -15,4 +15,11 @@
     nrs = "sudo nixos-rebuild switch --flake .#razorback";
     };
   };
+  
+  programs.kitty = {
+    settings = {
+      font_size = 12;
+    };
+   };
+
 }
