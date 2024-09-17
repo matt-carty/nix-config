@@ -46,6 +46,7 @@
   # home.packages = with pkgs; [ steam ];
   programs.kitty = {
     enable = true;
+    theme = "Rosé Pine";
     settings = {
       font_family = "Fira Code Nerd Font Mono";
     };
