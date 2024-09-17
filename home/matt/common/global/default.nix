@@ -47,7 +47,6 @@
   programs.kitty = {
     enable = true;
     settings = {
-      font_size = 13;
       font_family = "Fira Code Nerd Font Mono";
     };
    };
