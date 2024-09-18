@@ -1,10 +1,11 @@
 {
-  config,
-  lib,
   pkgs,
-  inputs,
   ...
   }: {
+  
+  imports = [
+    ./cmp.nix
+    ];
 
   # required packages for plugins etc..
   home.packages = with pkgs; [ 
@@ -34,10 +35,9 @@
     plugins.web-devicons.enable = true;
     plugins.which-key.enable = true;
     plugins.neo-tree.enable = true;
-    plugins.cmp.enable = true;
-    plugins.cmp-buffer.enable = true;
-    plugins.cmp-nvim-lsp.enable = true;
     plugins.lint.enable = true;
+    plugins.conform-nvim.enable = true;
+
 
     # Language server
     plugins.lsp = {
@@ -107,6 +107,8 @@
         action = "<cmd>Telescope live_grep<CR>";
         key = "<leader>fw";
       }
+      # Harpoon bindings?
+
     ];
   };
 
