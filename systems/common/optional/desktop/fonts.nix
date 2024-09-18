@@ -1,9 +1,9 @@
 { pkgs, ...}: {
   
-  environment.systemPackages = with pkgs; [
-    nerdfonts
+#  environment.systemPackages = with pkgs; [
+#    nerdfonts
 
-  ];
+ # ];
 
   # Enable fonts to use on your system.  You should make sure to add at least
   # one English font (like dejavu_fonts), as well as Japanese fonts like
@@ -15,6 +15,8 @@
     kochi-substitute
     source-code-pro
     ttf_bitstream_vera
+    (google-fonts.override { fonts = [ "MouseMemoirs" "Lobster"]; })
+    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
   ];
 
   # These settings enable default fonts for your system.  This setting is very
