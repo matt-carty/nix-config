@@ -43,7 +43,7 @@
   };
 
   # Packages that will be on all systems for Matt only
-  # home.packages = with pkgs; [ steam ];
+  home.packages = with pkgs; [ rustlings ];
   programs.kitty = {
     enable = true;
     theme = "Rosé Pine";
