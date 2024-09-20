@@ -15,7 +15,7 @@
     kochi-substitute
     source-code-pro
     ttf_bitstream_vera
-    (google-fonts.override { fonts = [ "MouseMemoirs" "Lobster"]; })
+    (google-fonts.override { fonts = [ "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSerifJP"]; })
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
   ];
 
@@ -29,25 +29,26 @@
   # pick the font you have selected.  This makes sure Japanese fonts look nice.
   fonts.fontconfig.defaultFonts = {
     monospace = [
-      "DejaVu Sans Mono"
+      "FiraCode Nerd Font Mono"
       "IPAGothic"
     ];
     sansSerif = [
       "DejaVu Sans"
-      "IPAPGothic"
+      "Zen Kaku Gothic New"
     ];
     serif = [
       "DejaVu Serif"
-      "IPAPMincho"
+      "Noto Serif Japanese"
     ];
   };
 
 
   # This enables "fcitx" as your IME.  This is an easy-to-use IME.  It supports many different input methods.
   i18n.inputMethod = {
-   enabled = true;
-   type = "ibus";
-   ibus.engines = with pkgs.ibus-engines; [ hangul mozc ];
+#   enabled = true;
+#   type = "ibus";
+    enabled = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [ hangul mozc ];
   };
 
 }
