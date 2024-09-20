@@ -68,17 +68,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-
-  # FIXME: Add the rest of your current configuration
-  environment.systemPackages = with pkgs; [
-  #  wget
-#  neovim
-#  git
-#  gh
-#  home-manager
-  ];
-
-
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary

@@ -67,16 +67,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # FIXME: Add the rest of your current configuration
-  environment.systemPackages = with pkgs; [
-  #  wget
-#  neovim
-#  git
-#  gh
-#  home-manager
-  ];
-
-
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -87,17 +77,17 @@
   networking.networkmanager.enable = true;
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+#  services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+ # services.xserver.displayManager.gdm.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
+  #services.xserver.xkb = {
+  #  layout = "us";
+  #  variant = "";
+  #};
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

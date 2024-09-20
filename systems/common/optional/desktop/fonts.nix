@@ -15,7 +15,7 @@
     kochi-substitute
     source-code-pro
     ttf_bitstream_vera
-    (google-fonts.override { fonts = [ "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSerifJP"]; })
+    (google-fonts.override { fonts = [ "MPLUS1Code" "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSerifJP"]; })
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
   ];
 
@@ -30,7 +30,7 @@
   fonts.fontconfig.defaultFonts = {
     monospace = [
       "FiraCode Nerd Font Mono"
-      "IPAGothic"
+      "M PLUS 1 Code"
     ];
     sansSerif = [
       "DejaVu Sans"
