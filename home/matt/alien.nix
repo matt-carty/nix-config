@@ -1,5 +1,4 @@
 {
-  pkgs,
   ...
 }: {
   imports = [
@@ -10,8 +9,8 @@
   programs.bash = {
     enable = true;
     shellAliases = {
-    hms = "home-manager switch --flake .#matt@alien";
-    nrs = "sudo nixos-rebuild switch --flake .#alien";
+    hms = "home-manager switch --flake .#matt@$(hostname)";
+    nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
     };
   };
   programs.kitty = {

@@ -105,10 +105,8 @@
       }
       {
         action = "<cmd>Telescope live_grep<CR>";
-        key = "<leader>fw";
+		   key = "<leader>fw";
       }
-      # Harpoon bindings?
-
     ];
   };
 
