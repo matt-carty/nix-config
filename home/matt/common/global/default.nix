@@ -54,6 +54,14 @@
    
    # TODO: Put bash config and aliases for hms and nrs here
 
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+    hms = "home-manager switch --flake .#$(whoami)@$(hostname)";
+    nrs = "sudo nixos-rebuild switch --flake .#(hostname)";
+    };
+    bashrcExtra = ''eval "$(zoxide init bash)"'';
+};
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 

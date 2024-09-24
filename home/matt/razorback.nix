@@ -7,15 +7,7 @@
     ./common/features/obsidian.nix
   ]; 
 
-  programs.bash = {
-    enable = true;
-    shellAliases = {
-    hms = "home-manager switch --flake .#matt@$(hostname)";
-    nrs = "sudo nixos-rebuild switch --flake .#(hostname)";
-    };
-    bashrcExtra = "eval ""$(zoxide init bash)""";
-};
-  
+  # Customisations for matt@razorback
   programs.kitty = {
     settings = {
       font_size = 11;
