@@ -59,6 +59,9 @@
     shellAliases = {
     hms = "home-manager switch --flake .#$(whoami)@$(hostname)";
     nrs = "sudo nixos-rebuild switch --flake .#(hostname)";
+    cd = "z";
+
+
     };
     bashrcExtra = ''eval "$(zoxide init bash)"'';
 };

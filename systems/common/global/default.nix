@@ -10,7 +10,7 @@
     home-manager
     zoxide
     kanata
-    gh
+    gh # need to see if I really need this...
   ];
 
 }
