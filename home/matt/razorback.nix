@@ -14,7 +14,8 @@
     hms = "home-manager switch --flake .#matt@razorback";
     nrs = "sudo nixos-rebuild switch --flake .#razorback";
     };
-  };
+    bashrcExtra = "eval ""$(zoxide init bash)""";
+};
   
   programs.kitty = {
     settings = {
