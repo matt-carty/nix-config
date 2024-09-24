@@ -1,5 +1,4 @@
 {
-  pkgs,
   ...
 }: {
   imports = [
@@ -11,15 +10,15 @@
   programs.bash = {
     enable = true;
     shellAliases = {
-    hms = "home-manager switch --flake .#matt@razorback";
-    nrs = "sudo nixos-rebuild switch --flake .#razorback";
+    hms = "home-manager switch --flake .#matt@$(hostname)";
+    nrs = "sudo nixos-rebuild switch --flake .#(hostname)";
     };
     bashrcExtra = "eval ""$(zoxide init bash)""";
 };
   
   programs.kitty = {
     settings = {
-      font_size = 12;
+      font_size = 11;
     };
    };
 
