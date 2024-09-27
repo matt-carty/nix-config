@@ -52,8 +52,7 @@
     };
    };
    
-   # TODO: Put bash config and aliases for hms and nrs here
-
+  # bash config here - aliases for all systems too
   programs.bash = {
     enable = true;
     shellAliases = {
@@ -61,10 +60,10 @@
     nrs = "sudo nixos-rebuild switch --flake .#(hostname)";
     cd = "z";
 
-
     };
     bashrcExtra = ''eval "$(zoxide init bash)"'';
-};
+  };
+ 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
