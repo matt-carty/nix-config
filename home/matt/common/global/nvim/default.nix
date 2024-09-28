@@ -38,8 +38,13 @@
     plugins.lint.enable = true;
     plugins.conform-nvim.enable = true;
     plugins.todo-comments.enable = true;
-    plugins.toggleterm.enable = true;
-
+    
+    plugins.toggleterm = {
+      enable = true;
+      settings = {
+	open_mapping = "[[<C-t>]]";
+      };
+    };
 
     # Language server
     plugins.lsp = {
