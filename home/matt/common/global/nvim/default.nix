@@ -37,7 +37,7 @@
     plugins.neo-tree.enable = true;
     plugins.lint.enable = true;
     plugins.conform-nvim.enable = true;
-
+    plugins.todo-comments.enable = true;
 
     # Language server
     plugins.lsp = {
