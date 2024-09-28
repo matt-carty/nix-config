@@ -5,6 +5,7 @@
   
   imports = [
     ./cmp.nix
+    ./keymaps.nix
     ];
 
   # required packages for plugins etc..
@@ -99,22 +100,6 @@
     # Keymaps here
     globals.mapleader = " "; # Sets the leader key to space
   
-    keymaps = [
-      # Neo-tree bindings
-      {
-        action = "<cmd>Neotree toggle<CR>";
-        key = "<leader>e";
-      }
-      # Telescope bindings
-      {
-        action = "<cmd>Telescope find_files<CR>";
-        key = "<leader>ff";
-      }
-      {
-        action = "<cmd>Telescope live_grep<CR>";
-		   key = "<leader>fw";
-      }
-    ];
   };
 
 }
