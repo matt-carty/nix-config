@@ -38,6 +38,8 @@
     plugins.lint.enable = true;
     plugins.conform-nvim.enable = true;
     plugins.todo-comments.enable = true;
+    plugins.toggleterm.enable = true;
+
 
     # Language server
     plugins.lsp = {
