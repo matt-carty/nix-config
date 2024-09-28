@@ -27,7 +27,10 @@
       {
 	key = "<C-k>";
 	action = "<C-w>k";
-	mode = "n";
+	mode = [
+		"n"
+		"t"
+		];
 	options = {
 	  remap = true;
 	  desc = "Move to upper window";
@@ -42,7 +45,14 @@
 	  desc = "Move to right window";
 	};
       }
-
+      {
+	key = "<leader>bb";
+	action = "<cmd>e #<cr>";
+	mode = "n";
+	options = {
+	  desc = "Move to next buffer";
+	};
+      }
 
       # Neo-tree maps 
       {

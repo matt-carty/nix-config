@@ -11,6 +11,7 @@
     zoxide
     kanata
     gh # need to see if I really need this...
+    fzf
   ];
 
 }
