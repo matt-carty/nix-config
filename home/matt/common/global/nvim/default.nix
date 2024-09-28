@@ -36,7 +36,6 @@
     plugins.web-devicons.enable = true;
     plugins.which-key.enable = true;
     plugins.neo-tree.enable = true;
-    plugins.lint.enable = true;
     plugins.conform-nvim.enable = true;
     plugins.todo-comments.enable = true;
     
