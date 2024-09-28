@@ -12,12 +12,16 @@
       {
         action = "<cmd>Telescope find_files<CR>";
         key = "<leader>ff";
-	desc = "Find file in project";
+	options = {
+	  desc = "Find file in project";
+	};
       }
       {
         action = "<cmd>Telescope live_grep<CR>";
 	key = "<leader>fw";
-	desc = "Find word in project";
+	options = {
+	  desc = "Grep find";
+	};
       }
     ];
   };
