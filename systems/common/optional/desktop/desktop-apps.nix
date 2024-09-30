@@ -5,6 +5,9 @@
   firefox
   keepassxc
   alacritty
+  libreoffice
+  hunspell
+  hunspellDicts.en-au
   ];
 
 }
