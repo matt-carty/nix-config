@@ -51,7 +51,15 @@
       font_family = "Fira Code Nerd Font Mono";
     };
    };
-   
+  # nix-direnv
+
+  programs.direnv = {
+    direnv = {
+      enable = true;
+      enableBashIntegration = true; #TODO: Change to zsh if I change shells (likely) 
+      nix-direnv.enable = true;
+    };
+  
   # bash config here - aliases for all systems too
   programs.bash = {
     enable = true;
