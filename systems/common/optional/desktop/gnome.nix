@@ -14,7 +14,8 @@
   };
   
   environment.systemPackages = with pkgs; [
-   gnome-tweaks 
+   gnome-tweaks
+   gnomeExtensions.smart-auto-move
 
   ];
 
