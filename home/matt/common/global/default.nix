@@ -51,11 +51,9 @@
   # nix-direnv
 
   programs.direnv = {
-    direnv = {
       enable = true;
       enableBashIntegration = true; #TODO: Change to zsh if I change shells (likely) 
       nix-direnv.enable = true;
-    };
   };
 
   # bash config here - aliases for all systems too
@@ -65,6 +63,7 @@
     hms = "home-manager switch --flake .#$(whoami)@$(hostname)";
     nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
     cd = "z";
+    ksh = "kitten ssh";
 
     };
     bashrcExtra = ''eval "$(zoxide init bash)"'';
