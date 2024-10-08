@@ -64,7 +64,7 @@
     nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
     cd = "z";
     ksh = "kitten ssh";
-    cdh = "cd ~";
+    h = "cd ~";
 
     };
     bashrcExtra = ''eval "$(zoxide init bash)"'';
