@@ -63,7 +63,7 @@
     hms = "home-manager switch --flake .#$(whoami)@$(hostname)";
     nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
     cd = "z";
-    ksh = "kitten ssh";
+    ssk = "kitten ssh";
     h = "cd ~";
 
     };
