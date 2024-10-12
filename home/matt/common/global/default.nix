@@ -71,15 +71,18 @@
   };
 
   # ssh config here
-  programs.ssh.matchBlocks = {
-    "medina" = {
-      user = "root";
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      "medina" = {
+	user = "root";
+	};
+      "draper" = {
+	user = "root";
       };
-    "draper" = {
-      user = "root";
     };
   };
- 
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
