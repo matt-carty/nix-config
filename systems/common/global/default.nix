@@ -1,4 +1,4 @@
-{ pkgs, ...}: {
+{ pkgs, inputs, ...}: {
   
   imports = [
     
@@ -14,6 +14,8 @@
     fzf
     nmap
     dig
+    nixd
   ];
-
+  # for nixd
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 }
