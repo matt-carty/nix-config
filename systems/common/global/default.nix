@@ -15,6 +15,7 @@
     nmap
     dig
     nixd
+    htop
   ];
   # for nixd
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
