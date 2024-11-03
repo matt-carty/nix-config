@@ -4,7 +4,6 @@
   inputs,
   lib,
   config,
-  pkgs,
   ...
 }: {
   # You can import other NixOS modules here
@@ -70,25 +69,8 @@
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Enable the X11 windowing system.
-#  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
- # services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  #services.xserver.xkb = {
-  #  layout = "us";
-  #  variant = "";
-  #};
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -110,7 +92,7 @@
   };
 
 
-  # TODO: Set your hostname
+  # Set your hostname
   networking.hostName = "razorback";
 
   # This setups a SSH server. Very important if you're setting up a headless system.
