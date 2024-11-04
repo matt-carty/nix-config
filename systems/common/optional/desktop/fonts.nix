@@ -45,9 +45,8 @@
 
   # This enables "fcitx" as your IME.  This is an easy-to-use IME.  It supports many different input methods.
   i18n.inputMethod = {
-#   enabled = true;
-#   type = "ibus";
-    enabled = "ibus";
+    type = "ibus";
+    enable = true;
     ibus.engines = with pkgs.ibus-engines; [ hangul mozc ];
   };
 
