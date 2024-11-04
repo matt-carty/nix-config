@@ -38,6 +38,7 @@
     plugins.neo-tree.enable = true;
     plugins.conform-nvim.enable = true;
     plugins.todo-comments.enable = true;
+    plugins.markdown-preview.enable = true;
     
     plugins.toggleterm = {
       enable = true;
@@ -67,8 +68,9 @@
         clangd.enable = true; # C/C++
         csharp-ls.enable = true; # C#
         yamlls.enable = true; # YAML
+	nixd.enable = true; # Nix
 
-        lua-ls = { # Lua
+	lua-ls = { # Lua
           enable = true;
           settings.telemetry.enable = false;
         };
