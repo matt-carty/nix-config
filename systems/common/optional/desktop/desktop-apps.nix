@@ -8,6 +8,7 @@
   libreoffice
   hunspell
   hunspellDicts.en-au
+  kdePackages.kdeconnect-kde
   ];
 
 }
