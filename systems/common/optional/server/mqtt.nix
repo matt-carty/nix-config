@@ -1,7 +1,7 @@
 { pkgs, ...}: {
   
   environment.systemPackages = with pkgs; [
-#    node-red
+    node-red
     mosquitto
     zigbee2mqtt
   ];
@@ -9,6 +9,7 @@
     enable = true;
     settings = {
       permit_join = true;
+      frontend = true;
       serial = {
         port = "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_3ea952a99031ef1198c04dcfdfbc56eb-if00-port0";
       };
@@ -26,12 +27,20 @@
       acl = [ "pattern readwrite #" ];
       omitPasswordAuth = true;
       settings.allow_anonymous = true;
-    }
-  ];
-};
+      }
+    ];
+  };
+  services.node-red = {
+    enable = true;
+    openFirewall = true;
+
+    };
 
 networking.firewall = {
   enable = true;
-  allowedTCPPorts = [ 1883 ];
+  allowedTCPPorts = [ 
+    1883
+    8080
+    ];
 };
 }
