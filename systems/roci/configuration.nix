@@ -20,6 +20,7 @@
     ../common/optional/desktop/printers.nix
 #    ../common/optional/desktop/autologin.nix    
     ../common/optional/server/docker.nix
+    ../common/optional/server/mqtt.nix
 #    ../common/optional/server/vmguest.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
