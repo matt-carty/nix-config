@@ -72,6 +72,13 @@
           # > Our main nixos configuration file <
           modules = [ ./systems/nocky/configuration.nix ];
         };
+        roci = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          # > Our main nixos configuration file <
+          modules = [ ./systems/roci/configuration.nix ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
@@ -109,6 +116,14 @@
           };
           # > Our main home-manager configuration file <
           modules = [ ./home/matt/nocky.nix ];
+        };
+        "matt@roci" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = {
+            inherit inputs outputs;
+          };
+          # > Our main home-manager configuration file <
+          modules = [ ./home/matt/roci.nix ];
         };
       };
     };
