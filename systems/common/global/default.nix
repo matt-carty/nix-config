@@ -8,9 +8,10 @@
 
   environment.systemPackages = with pkgs; [
     home-manager
+    git
     zoxide
     kanata
-    gh # need to see if I really need this...
+    gh # need to see if I really need this...don't if I use ssh for git
     fzf
     nmap
     dig
