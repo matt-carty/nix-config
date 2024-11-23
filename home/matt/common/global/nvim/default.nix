@@ -52,7 +52,7 @@
       enable = true;
       servers = {
         # Average webdev LSPs
-        tsserver.enable = false; # TS/JS - causing error with LSP so disabled
+        tsserver.enable = true; # TS/JS - causing error with LSP so disabled
         cssls.enable = true; # CSS
         tailwindcss.enable = true; # TailwindCSS
         html.enable = true; # HTML
