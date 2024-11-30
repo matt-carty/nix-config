@@ -6,5 +6,6 @@
     gimp
     kdePackages.kdenlive
     scribus
+    digikam
   ];
 }
