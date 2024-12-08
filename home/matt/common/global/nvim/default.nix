@@ -52,7 +52,7 @@
       enable = true;
       servers = {
         # Average webdev LSPs
-        tsserver.enable = true; # TS/JS - causing error with LSP so disabled
+        # tsserver.enable = true; # TS/JS - causing error with LSP so disabled
         cssls.enable = true; # CSS
         tailwindcss.enable = true; # TailwindCSS
         html.enable = true; # HTML
@@ -62,21 +62,21 @@
         vuels.enable = false; # Vue
         pyright.enable = true; # Python
         marksman.enable = true; # Markdown
-        nil-ls.enable = true; # Nix
+        # nil-ls.enable = true; # Nix
         dockerls.enable = true; # Docker
         bashls.enable = true; # Bash
         clangd.enable = true; # C/C++
-        csharp-ls.enable = true; # C#
+        csharp_ls.enable = true; # C#
         yamlls.enable = true; # YAML
 	nixd.enable = true; # Nix
 
-	lua-ls = { # Lua
+	lua_ls = { # Lua
           enable = true;
           settings.telemetry.enable = false;
         };
 
         # Rust
-        rust-analyzer = {
+        rust_analyzer = {
           enable = true;
           installRustc = true;
           installCargo = true;

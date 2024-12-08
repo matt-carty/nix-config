@@ -43,12 +43,12 @@
   #home.packages = with pkgs; [ rustlings ];
   programs.kitty = {
     enable = true;
-    theme = "Rosé Pine";
+    # theme = "Rosé Pine";
+    themeFile = "rose-pine";
     settings = {
       font_family = "Fira Code Nerd Font Mono";
     };
    };
-  # nix-direnv
 
   programs.direnv = {
       enable = true;

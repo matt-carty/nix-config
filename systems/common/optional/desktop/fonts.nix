@@ -16,7 +16,14 @@
     source-code-pro
     ttf_bitstream_vera
     (google-fonts.override { fonts = [ "MPLUS1Code" "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSans" "NotoSerifJP"]; })
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
+#    (nerd-fonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
+
+  ];
+
+  environment.systemPackages = with pkgs; [
+    nerd-fonts.fira-code
+    nerd-fonts.droid-sans-mono
+    nerd-fonts.jetbrains-mono
   ];
 
   # These settings enable default fonts for your system.  This setting is very
