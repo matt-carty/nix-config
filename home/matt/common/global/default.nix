@@ -46,7 +46,8 @@
     # theme = "Rosé Pine";
     themeFile = "rose-pine";
     settings = {
-      font_family = "Fira Code Nerd Font Mono";
+      # Workaround for nerd fonts being broken: font_family = "Fira Code Nerd Font Mono";
+      font_family = "monospace";
     };
    };
 

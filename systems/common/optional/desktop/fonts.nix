@@ -5,6 +5,13 @@
 
  # ];
 
+  environment.systemPackages = with pkgs; [
+    nerd-fonts.fira-code
+    nerd-fonts.droid-sans-mono
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.caskaydiacove-mono
+    ];
+
   # Enable fonts to use on your system.  You should make sure to add at least
   # one English font (like dejavu_fonts), as well as Japanese fonts like
   # "ipafont" and "kochi-substitute".
@@ -17,15 +24,15 @@
     ttf_bitstream_vera
     (google-fonts.override { fonts = [ "MPLUS1Code" "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSans" "NotoSerifJP"]; })
 #    (nerd-fonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
-
-  ];
-
-  environment.systemPackages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.droid-sans-mono
     nerd-fonts.jetbrains-mono
+    nerd-fonts.caskaydiacove-mono
+    fira-code
   ];
 
+  fonts.fontDir.enable = true;
+  fonts.fontconfig.enable = true;
   # These settings enable default fonts for your system.  This setting is very
   # important.  It lets fontconfig know that you want to fall back to a Japanese
   # font (for example "IPAGothic") if an application tries to show fonts with
@@ -36,7 +43,7 @@
   # pick the font you have selected.  This makes sure Japanese fonts look nice.
   fonts.fontconfig.defaultFonts = {
     monospace = [
-      "FiraCode Nerd Font Mono"
+      "FiraCode"
       "M PLUS 1 Code"
     ];
     sansSerif = [
