@@ -9,7 +9,7 @@
     nerd-fonts.fira-code
     nerd-fonts.droid-sans-mono
     nerd-fonts.jetbrains-mono
-    nerd-fonts.caskaydiacove-mono
+    nerd-fonts.caskaydia-cove-mono
     ];
 
   # Enable fonts to use on your system.  You should make sure to add at least
@@ -27,7 +27,7 @@
     nerd-fonts.fira-code
     nerd-fonts.droid-sans-mono
     nerd-fonts.jetbrains-mono
-    nerd-fonts.caskaydiacove-mono
+    nerd-fonts.caskaydia-cove-mono
     fira-code
   ];
 

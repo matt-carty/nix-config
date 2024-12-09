@@ -6,6 +6,7 @@
   enable = true;
   nssmdns4 = true;
   openFirewall = true;
+  ipv6 = false;
   };
 
 }
