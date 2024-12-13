@@ -67,6 +67,14 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # mount external hard drive at boot. Not sure what happens if it fails? <- didn't work, usb drive!
+#fileSystems."/home/matt/external" =
+#    { device = "/dev/disk/by-uuid/76b8d2b8-524d-4412-9f90-a9c91eb2d539";
+#      fsType = "ext4";
+#    };
+
+#  boot.initrd.luks.devices."luks-7afbe473-6a29-4ce1-8ef5-1a61f815e42e".device = "/dev/disk/by-uuid/7afbe473-6a29-4ce1-8ef5-1a61f815e42e";
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
