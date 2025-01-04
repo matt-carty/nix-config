@@ -4,6 +4,7 @@
   inputs,
   lib,
   config,
+  pkgs,
   ...
 }: {
   # You can import other NixOS modules here
@@ -80,6 +81,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.enableIPv6 = false;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -100,6 +102,12 @@
     #media-session.enable = true;
   };
 
+services.usbmuxd.enable = true;
+
+environment.systemPackages = with pkgs; [
+  libimobiledevice
+  ifuse # optional, to mount using 'ifuse'
+];
 
   # Set your hostname
   networking.hostName = "razorback";

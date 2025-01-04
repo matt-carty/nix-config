@@ -13,9 +13,11 @@
     variant = "";
   };
   
+  # Packages primarily related to using gnome
   environment.systemPackages = with pkgs; [
    gnome-tweaks
    gnomeExtensions.smart-auto-move
+   libheif
 
   ];
 
