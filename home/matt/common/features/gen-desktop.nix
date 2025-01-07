@@ -5,6 +5,7 @@
     
    calibre 
    remmina
+   pdfslicer
   ];
 programs.gnome-shell = {
   enable = true;
