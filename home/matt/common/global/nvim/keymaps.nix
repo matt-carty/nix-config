@@ -53,7 +53,14 @@
 	  desc = "Move to next buffer";
 	};
       }
-
+      {
+	key = "<leader>hc";
+	action = "<cmd>noh <cr>";
+	mode = "n";
+	options = {
+	  desc = "Clear search highlight";
+	};
+      }
       # Neo-tree maps 
       {
         action = "<cmd>Neotree toggle<CR>";
