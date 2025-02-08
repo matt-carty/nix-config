@@ -10,6 +10,7 @@
   hunspellDicts.en-au
   kdePackages.kdeconnect-kde
   google-chrome
+  brave
   ];
 networking.firewall = rec {
   allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
