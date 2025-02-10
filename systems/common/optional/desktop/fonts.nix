@@ -22,7 +22,7 @@
     kochi-substitute
     source-code-pro
     ttf_bitstream_vera
-    (google-fonts.override { fonts = [ "MPLUS1Code" "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSans" "NotoSerifJP"]; })
+    (google-fonts.override { fonts = [ "MPLUS1Code" "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSans" "NotoSerifJP" "WorkSans" "Inter" "Archivo" "Prompt"]; })
 #    (nerd-fonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
     nerd-fonts.fira-code
     nerd-fonts.droid-sans-mono
