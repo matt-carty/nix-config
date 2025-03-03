@@ -7,6 +7,7 @@
    vlc
    remmina
    pdfslicer
+   vial
   ];
 programs.gnome-shell = {
   enable = true;
