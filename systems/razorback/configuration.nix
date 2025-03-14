@@ -82,6 +82,7 @@
   # Enable networking
   networking.networkmanager.enable = true;
   networking.enableIPv6 = false;
+  networking.firewall.enable = false;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

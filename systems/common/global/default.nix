@@ -19,6 +19,11 @@
     htop
     usbutils # useful utility TODO separate useful utilities into their own file
   ];
+
+  services.udev.packages = with pkgs; [
+    vial
+    ];
+    
   # for nixd
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 }
