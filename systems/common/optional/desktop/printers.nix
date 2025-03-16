@@ -5,8 +5,8 @@
 
   services.avahi = {
   enable = true;
-  nssmdns4 = false;
-  nssmdns6 = true;
+  nssmdns4 = true;
+  nssmdns6 = false;
   openFirewall = true;
   ipv4 = false;
   ipv6 = true;
