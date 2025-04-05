@@ -15,13 +15,13 @@
     
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
-    ../common/optional/desktop/desktop-apps.nix
-    ../common/optional/desktop/fonts.nix
-    ../common/optional/desktop/gnome.nix
-    ../common/optional/desktop/printers.nix
-    ../common/optional/desktop/autologin.nix    
+   # ../common/optional/desktop/desktop-apps.nix
+#    ../common/optional/desktop/fonts.nix
+   # ../common/optional/desktop/gnome.nix
+   # ../common/optional/desktop/printers.nix
+   # ../common/optional/desktop/autologin.nix    
 #    ../common/optional/desktop/virtmachine.nix
-    ../common/optional/server/docker.nix
+#    ../common/optional/server/docker.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -66,9 +66,25 @@
   };
 
   # Bootloader. #TODO change this 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  
+#  boot.loader.systemd-boot.enable = true;
+ # boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
+    initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
+    loader = {
+      grub.enable = false;
+      generic-extlinux-compatible.enable = true;
+    };
+    kernelParams = [ "video=HDMI-A-1:1920x1080@60,margin_left=40,margin_right=40,margin_top=32,margin_bottom=32" ];
+  };
+
+#fileSystems = {
+ #   "/" = {
+  #    device = "/dev/disk/by-label/NIXOS_SD";
+   #   fsType = "ext4";
+   #   options = [ "noatime" ];
+   # };
+ # };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable networking
@@ -94,7 +110,6 @@
     #media-session.enable = true;
   };
 
-services.usbmuxd.enable = true;
 
 environment.systemPackages = with pkgs; [
   libimobiledevice
@@ -118,5 +133,5 @@ environment.systemPackages = with pkgs; [
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 }

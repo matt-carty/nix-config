@@ -69,6 +69,13 @@
           # > Our main nixos configuration file <
           modules = [ ./systems/razorback/configuration.nix ];
         };
+        bobbie = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          # > Our main nixos configuration file <
+          modules = [ ./systems/bobbie/configuration.nix ];
+	};
         nocky = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
@@ -129,6 +136,14 @@
           # > Our main home-manager configuration file <
           modules = [ ./home/matt/roci.nix ];
         };
-      };
+        "matt@bobbie" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = {
+            inherit inputs outputs;
+          };
+          # > Our main home-manager configuration file <
+          modules = [ ./home/matt/bobbie.nix ];
+        };
+	};
     };
 }
