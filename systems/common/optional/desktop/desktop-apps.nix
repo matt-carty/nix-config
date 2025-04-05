@@ -21,4 +21,8 @@ networking.firewall = rec {
     enable = true;
     openFirewall = true;
   };
+
+  services.udev.packages = with pkgs; [
+  vial
+  ];
 }
