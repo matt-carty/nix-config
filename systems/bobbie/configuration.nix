@@ -66,8 +66,6 @@
   };
 
   # Bootloader. #TODO change this 
-#  boot.loader.systemd-boot.enable = true;
- # boot.loader.efi.canTouchEfiVariables = true;
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
     initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
@@ -78,37 +76,9 @@
     kernelParams = [ "video=HDMI-A-1:1920x1080@60,margin_left=40,margin_right=40,margin_top=32,margin_bottom=32" ];
   };
 
-#fileSystems = {
- #   "/" = {
-  #    device = "/dev/disk/by-label/NIXOS_SD";
-   #   fsType = "ext4";
-   #   options = [ "noatime" ];
-   # };
- # };
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
   # Enable networking
   networking.networkmanager.enable = true;
   networking.enableIPv6 = false;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
 
 
 environment.systemPackages = with pkgs; [
