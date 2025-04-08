@@ -18,6 +18,7 @@
     nixd # for nix lsp in nvim
     htop
     usbutils # useful utility TODO separate useful utilities into their own file
+    tmux
   ];
 
 #need to move this to desktop
