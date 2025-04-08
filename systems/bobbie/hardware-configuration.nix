@@ -17,7 +17,18 @@
     { device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
       fsType = "ext4";
     };
-
+  fileSystems."/mnt/usb4tb" =  {
+    device = "/dev/disk/by-uuid/a6b7c512-c01b-4882-9351-6da0a79777e5";   
+    fsType = "ext4";
+  };
+  fileSystems."/mnt/usb8tb" =  {
+    device = "/dev/disk/by-uuid/60a06020-6fb4-47de-9225-e4ad5ceb632b";   
+    fsType = "ext4";
+  };
+  fileSystems."/mnt/usb6tb" =  {
+    device = "/dev/disk/by-uuid/863d97a4-a6bb-4650-bb0a-670acac0f042";   
+    fsType = "ext4";
+  };
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
