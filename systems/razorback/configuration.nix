@@ -68,7 +68,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  
+
+  # temporary fix for virtualbox
+  boot.kernelParams = [ "kvm.enable_virt_at_load=0" ]; 
   # mount external hard drive at boot. Not sure what happens if it fails? <- didn't work, usb drive!
 #fileSystems."/home/matt/external" =
 #    { device = "/dev/disk/by-uuid/76b8d2b8-524d-4412-9f90-a9c91eb2d539";
