@@ -19,12 +19,13 @@ fileSystems."/mnt/usb8tb" =  {
 
 fileSystems."/mnt/storage" = {
   fsType = "fuse.mergerfs";
-  device = [ "/mnt/usb8tb/" "/mnt/usb4tb/" ];
+  device = "/mnt/usb8tb/:/mnt/usb4tb/";
   options = [ "minfreespace=100G" "category.create=mfs" ];
   };
 
-#fileSystems."/export/nextcloud" = {
-#    device = "/mnt/storage/nextcloud";
-#    options = [ "bind" ];
-#  };
+fileSystems."/export/nextcloud" = {
+    depends = [ "/mnt/storage" "/export/nextcloud/" ]; 
+    device = "/mnt/storage/nextcloud";
+    options = [ "bind" ];
+  };
 }
