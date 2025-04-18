@@ -36,7 +36,7 @@ fileSystems."/export/stuff" = {
 
 services.nfs.server.enable = true;
 services.nfs.server.exports = ''
-    /export         10.89.24.0/24(rw,fsid=0,no_subtree_check) 10.89.42.0/24(rw,fsid=0,no_subtree_check)
+    /export         10.89.24.0/24(rw,fsid=0,no_subtree_check,crossmnt) 10.89.42.0/24(rw,fsid=0,no_subtree_check,crossmnt)
     /export/nextcloud	10.89.24.0/24(rw,no_subtree_check) 10.89.42.0/24(rw,no_subtree_check)
     /export/stuff 10.89.24.0/24(rw,no_subtree_check) 10.89.42.0/24(rw,no_subtree_check)
   '';

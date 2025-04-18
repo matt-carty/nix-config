@@ -1,11 +1,11 @@
 { ... }:{
 
 fileSystems."/mnt/nextcloud" = {
-    device = "bobbie:/export/nextcloud";
+    device = "bobbie:/nextcloud";
     fsType = "nfs";
 };
 fileSystems."/mnt/stuff" = {
-    device = "bobbie:/export/stuff";
+    device = "bobbie:/stuff";
     fsType = "nfs";
 };
 }
