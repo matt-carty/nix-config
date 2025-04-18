@@ -39,6 +39,7 @@
     plugins.conform-nvim.enable = true;
     plugins.todo-comments.enable = true;
     plugins.markdown-preview.enable = true;
+    plugins.trouble.enable = true;
     
     plugins.toggleterm = {
       enable = true;
