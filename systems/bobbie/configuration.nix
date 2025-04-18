@@ -66,12 +66,11 @@
   };
 
   # Bootloader.
+  boot.loader.grub.enable = false;
+  boot.loader.generic-extlinux-compatible.enable = true;
 
 # Enable networking
   networking.networkmanager.enable = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Set your hostname
   networking.hostName = "bobbie";
