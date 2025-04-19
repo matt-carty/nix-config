@@ -12,6 +12,7 @@
       # Be sure to change it (using passwd) after rebooting!
       initialPassword = "correcthorsebatterystaple";
       isNormalUser = true;
+      uid =  1000;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBteXQnAI6CZavJTsr/MgDMlIH5gJtAtJXySvaDAc00n matt@razorback"
 	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFf41ijLtS97CqgCgjyMgsNhZTZG/bgsmD29Sk9NbxRP matt@docky"
@@ -21,7 +22,7 @@
 
       ];
       # Need to work out if absent groups cause an error? Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel"];
+      extraGroups = ["wheel" "docker"];
     };
   };
 }
