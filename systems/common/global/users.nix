@@ -24,5 +24,11 @@
       # Need to work out if absent groups cause an error? Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
       extraGroups = ["wheel" "docker"];
     };
+    tryano = {
+      initialPassword = "changeme";
+      isNormalUser = true;
+      uid = 1004;
+      extraGroups = ["wheel"];
+    };
   };
 }
