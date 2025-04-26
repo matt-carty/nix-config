@@ -15,15 +15,16 @@
     
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
-    ../common/optional/desktop/desktop-apps.nix
-    ../common/optional/desktop/fonts.nix
-    ../common/optional/desktop/gnome.nix
-    ../common/optional/desktop/printers.nix
-    ../common/optional/desktop/autologin.nix    
-    ../common/optional/desktop/virtmachine.nix
+#    ../common/optional/desktop/desktop-apps.nix
+#    ../common/optional/desktop/fonts.nix
+#    ../common/optional/desktop/gnome.nix
+#    ../common/optional/desktop/printers.nix
+#    ../common/optional/desktop/autologin.nix    
+#    ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
     ./nfs-client.nix
     ./unlock-luks.nix
+    ./mount-ssd.nix
  # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -73,13 +74,6 @@
 
   # temporary fix for virtualbox
   boot.kernelParams = [ "kvm.enable_virt_at_load=0" ]; 
-  # mount external hard drive at boot. Not sure what happens if it fails? <- didn't work, usb drive!
-#fileSystems."/home/matt/external" =
-#    { device = "/dev/disk/by-uuid/76b8d2b8-524d-4412-9f90-a9c91eb2d539";
-#      fsType = "ext4";
-#    };
-
-#  boot.initrd.luks.devices."luks-7afbe473-6a29-4ce1-8ef5-1a61f815e42e".device = "/dev/disk/by-uuid/7afbe473-6a29-4ce1-8ef5-1a61f815e42e";
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
