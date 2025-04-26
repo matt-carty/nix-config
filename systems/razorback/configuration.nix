@@ -81,7 +81,6 @@
   networking.networkmanager.enable = true;
   networking.enableIPv6 = false;
   networking.firewall.enable = false;
-  networking.networkmanager.dhcp = true;
   networking.networkmanager.appendNameservers = [ "10.89.24.1" ];
   # Enable CUPS to print documents.
   services.printing.enable = true;
