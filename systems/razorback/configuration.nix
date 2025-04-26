@@ -16,7 +16,7 @@
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
 #    ../common/optional/desktop/desktop-apps.nix
-#    ../common/optional/desktop/fonts.nix
+    ../common/optional/desktop/fonts.nix
 #    ../common/optional/desktop/gnome.nix
 #    ../common/optional/desktop/printers.nix
 #    ../common/optional/desktop/autologin.nix    
@@ -81,7 +81,8 @@
   networking.networkmanager.enable = true;
   networking.enableIPv6 = false;
   networking.firewall.enable = false;
-
+  networking.networkmanager.dhcp = true;
+  networking.networkmanager.appendNameservers = "10.89.24.1";
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
