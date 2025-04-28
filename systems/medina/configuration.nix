@@ -22,7 +22,6 @@
     ../common/optional/desktop/autologin.nix    
     ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
-    ./nfs-client.nix
  # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -67,6 +66,8 @@
   };
 
   # Bootloader.
+boot.loader.systemd-boot.enable = true;
+boot.loader.efi.canTouchEfiVariables = true;
 
   # temporary fix for virtualbox
   boot.kernelParams = [ "kvm.enable_virt_at_load=0" ]; 
@@ -120,5 +121,5 @@ environment.systemPackages = with pkgs; [
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   # TODO update state version
-  system.stateVersion = "";
+  system.stateVersion = "24.11";
 }
