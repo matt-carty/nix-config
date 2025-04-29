@@ -90,6 +90,13 @@
           # > Our main nixos configuration file <
           modules = [ ./systems/roci/configuration.nix ];
         };
+        medina = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          # > Our main nixos configuration file <
+          modules = [ ./systems/medina/configuration.nix ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
@@ -135,6 +142,14 @@
           };
           # > Our main home-manager configuration file <
           modules = [ ./home/matt/roci.nix ];
+        };
+        "matt@medina" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = {
+            inherit inputs outputs;
+          };
+          # > Our main home-manager configuration file <
+          modules = [ ./home/matt/medina.nix ];
         };
         "matt@bobbie" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
