@@ -2,8 +2,6 @@
   description = "Your new nix config";
 
   inputs = {
-    # Nixpkgs
-    #nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Nix ecosystem
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -15,8 +13,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     
     # Nix hardware 
-
-
+    hardware.url = "github:nixos/nixos-hardware";
 
     # Sops - not yet implemented
     sops-nix = {
@@ -47,7 +44,7 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        # replace with your hostname
+      # Homevm not currently used
         homevm = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
@@ -55,6 +52,7 @@
           # > Our main nixos configuration file <
           modules = [ ./systems/homevm/configuration.nix ];
         };
+	# Laptop for home
         alien = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
@@ -62,6 +60,7 @@
           # > Our main nixos configuration file <
           modules = [ ./systems/alien/configuration.nix ];
         };
+	# NUC server for skippy
         razorback = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
@@ -69,6 +68,7 @@
           # > Our main nixos configuration file <
           modules = [ ./systems/razorback/configuration.nix ];
         };
+	# RPi 4 file server at skippy
         bobbie = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
@@ -76,6 +76,7 @@
           # > Our main nixos configuration file <
           modules = [ ./systems/bobbie/configuration.nix ];
 	};
+	# Virtual proxmos server not currently used
         nocky = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
@@ -90,6 +91,7 @@
           # > Our main nixos configuration file <
           modules = [ ./systems/roci/configuration.nix ];
         };
+	# HP Z400 workstation at skippy  (main pc)
         medina = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
@@ -102,7 +104,6 @@
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'
       homeConfigurations = {
-        # replace with your username@hostname
         "matt@homevm" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
