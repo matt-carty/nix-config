@@ -65,7 +65,7 @@
     nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
     cd = "z";
     ssk = "kitten ssh";
-    h = "cd ~";
+    raz = "ssk razorback";
 
     };
     bashrcExtra = ''eval "$(zoxide init bash)"'';
@@ -75,9 +75,6 @@
   programs.ssh = {
     enable = true;
     matchBlocks = {
-      "medina" = {
-	user = "root";
-	};
       "draper" = {
 	user = "root";
       };
