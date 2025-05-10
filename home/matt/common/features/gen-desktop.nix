@@ -13,6 +13,4 @@ programs.gnome-shell = {
   enable = true;
 #  extensions = [{ package = pkgs.gnomeExtensions.gsconnect; }];
 };
-{
-  security.pam.services.login.enableGnomeKeyring = true;
 }
