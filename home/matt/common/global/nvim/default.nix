@@ -75,11 +75,6 @@
 	  settings = {
 	    nixpkgs.expr = "import <nixpkgs>{}";
 	  };
-	  options = let 
-                getFlake = ''(builtins.getFlake "/home/matt/nix-config/")'';
-            in {
-                nixos.expr = ''${getFlake}.nixosConfigurations.<medina>.options'';
-            };
 	};
 	lua_ls = { # Lua
           enable = true;
