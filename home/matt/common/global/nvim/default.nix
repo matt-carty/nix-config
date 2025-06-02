@@ -15,6 +15,7 @@
     luajitPackages.luarocks
     lua
     ripgrep
+    claude-code
   ]; 
 
   programs.nixvim = {
@@ -40,6 +41,8 @@
     plugins.todo-comments.enable = true;
     plugins.markdown-preview.enable = true;
     plugins.trouble.enable = true;
+    plugins.plenary.enable = true;
+    plugins.claude-code.enable = true;
     
     plugins.toggleterm = {
       enable = true;
@@ -53,7 +56,7 @@
       enable = true;
       servers = {
         # Average webdev LSPs
-        # tsserver.enable = true; # TS/JS - causing error with LSP so disabled
+        tsserver.enable = true; # TS/JS - causing error with LSP so disabled
         cssls.enable = true; # CSS
         tailwindcss.enable = true; # TailwindCSS
         html.enable = true; # HTML
