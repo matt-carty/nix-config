@@ -41,7 +41,6 @@
     plugins.todo-comments.enable = true;
     plugins.markdown-preview.enable = true;
     plugins.trouble.enable = true;
-#    plugins.claude-code.enable = true;
     
     plugins.toggleterm = {
       enable = true;
@@ -71,8 +70,17 @@
         clangd.enable = true; # C/C++
         csharp_ls.enable = true; # C#
         yamlls.enable = true; # YAML
-	nixd.enable = true; # Nix
-
+	nixd = {
+	  enable = true;
+	  settings = {
+	    nixpkgs.expr = "import <nixpkgs>{}";
+	  };
+	  options = let 
+                getFlake = ''(builtins.getFlake "/home/matt/nix-config/")'';
+            in {
+                nixos.expr = ''${getFlake}.nixosConfigurations.<medina>.options'';
+            };
+	};
 	lua_ls = { # Lua
           enable = true;
           settings.telemetry.enable = false;
