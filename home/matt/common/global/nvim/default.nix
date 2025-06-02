@@ -41,8 +41,7 @@
     plugins.todo-comments.enable = true;
     plugins.markdown-preview.enable = true;
     plugins.trouble.enable = true;
-    plugins.plenary.enable = true;
-    plugins.claude-code.enable = true;
+#    plugins.claude-code.enable = true;
     
     plugins.toggleterm = {
       enable = true;
