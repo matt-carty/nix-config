@@ -27,6 +27,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+                # Optional, if you intend to follow nvf's obsidian-nvim input
+    # you must also add it as a flake input.
+    obsidian-nvim.url = "github:epwalsh/obsidian.nvim";
+
+    # Required, nvf works best and only directly supports flakes
+    nvf = {
+      url = "github:notashelf/nvf";
+      # You can override the input nixpkgs to follow your system's
+      # instance of nixpkgs. This is safe to do as nvf does not depend
+      # on a binary cache.
+      inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs =
@@ -35,6 +47,7 @@
       nixpkgs,
       home-manager,
       nixvim,
+                        nvf,
       ...
     }@inputs:
     let
@@ -90,7 +103,8 @@
             inherit inputs outputs;
           };
           # > Our main nixos configuration file <
-          modules = [ ./systems/medina/configuration.nix ];
+          modules = [ nvf.nixosModules.default
+                ./systems/medina/configuration.nix ];
         };
       };
 
@@ -119,7 +133,8 @@
             inherit inputs outputs;
           };
           # > Our main home-manager configuration file <
-          modules = [ ./home/matt/medina.nix ];
+          modules = [ nvf.homeManagerModules.default
+                ./home/matt/medina.nix ];
         };
         "matt@behemoth" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
