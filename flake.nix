@@ -38,7 +38,7 @@
       # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+  };
     outputs = {
       self,
       nixpkgs,
@@ -161,5 +161,4 @@
         };
       };
     };
-  };
 }
