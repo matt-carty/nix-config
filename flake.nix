@@ -28,7 +28,7 @@
 
     # Optional, if you intend to follow nvf's obsidian-nvim input
     # you must also add it as a flake input.
-    obsidian-nvim.url = "github:epwalsh/obsidian.nvim";
+    #    obsidian-nvim.url = "github:epwalsh/obsidian.nvim";
 
     # Required, nvf works best and only directly supports flakes
     nvf = {
@@ -39,7 +39,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       # Optionally, you can also override individual plugins
       # for example:
-      inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
+      #      inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
     };
   };
   outputs = {

@@ -14,5 +14,8 @@
       font_size = 11;
     };
    };
+  programs.nvf = {
+    enable = true;
+    };
 
 }
