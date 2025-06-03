@@ -32,12 +32,27 @@
 
          nix.enable = true; 
          markdown.enable = true;
-        }; 
+        };  
+
         theme = {
       enable = true;
       name = "rose-pine";
       style = "main";
       };
+                                autocomplete = {
+      blink-cmp.enable = true;
+    };
+                                statusline = {
+      lualine = {
+        enable = true;
+        theme = "rose-pine";
+      };
+    };
+                                filetree = {
+      neo-tree = {
+        enable = true;
+      };
+    };
         };
     };
 };
