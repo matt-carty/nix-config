@@ -20,6 +20,7 @@
           enable = true;
           formatOnSave = true;
           trouble.enable = true;
+          lspkind.enable = true;
         };
         languages = {
           enableFormat = true;
@@ -27,6 +28,12 @@
 
           nix.enable = true;
           markdown.enable = true;
+          ts.enable = true;
+          lua.enable = true;
+          tailwind.enable = true;
+          html.enable = true;
+          css.enable = true;
+          sql.enable = true;
         };
 
         theme = {
@@ -48,6 +55,11 @@
             enable = true;
           };
         };
+        tabline = {
+          nvimBufferline.enable = true;
+        };
+
+        treesitter.context.enable = true;
         visuals = {
           nvim-scrollbar.enable = true;
           nvim-web-devicons.enable = true;
@@ -61,7 +73,6 @@
           # Fun
           cellular-automaton.enable = false;
         };
-        treesitter.context.enable = true;
 
         binds = {
           whichKey.enable = true;
@@ -89,6 +100,27 @@
 
         notify = {
           nvim-notify.enable = true;
+        };
+
+        utility = {
+          ccc.enable = false;
+          vim-wakatime.enable = false;
+          diffview-nvim.enable = true;
+          yanky-nvim.enable = false;
+          icon-picker.enable = true;
+          surround.enable = true;
+          leetcode-nvim.enable = true;
+          multicursors.enable = true;
+
+          motion = {
+            hop.enable = true;
+            leap.enable = true;
+            precognition.enable = true;
+          };
+          images = {
+            image-nvim.enable = false;
+            img-clip.enable = true;
+          };
         };
         terminal = {
           toggleterm = {
