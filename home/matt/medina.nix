@@ -16,6 +16,29 @@
    };
   programs.nvf = {
     enable = true;
-    };
+        settings = {
+       
+        vim = {
 
+        lsp = { 
+          enable = true;
+
+          trouble.enable = true;
+        };
+       languages =  { 
+       
+         enableFormat = true;
+         enableTreesitter = true;
+
+         nix.enable = true; 
+         markdown.enable = true;
+        }; 
+        theme = {
+      enable = true;
+      name = "rose-pine";
+      style = "main";
+      };
+        };
+    };
+};
 }
