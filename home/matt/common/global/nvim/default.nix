@@ -1,25 +1,20 @@
-{
-  pkgs,
-  ...
-  }: {
-  
+{pkgs, ...}: {
   imports = [
     ./cmp.nix
     ./keymaps.nix
-    ];
+  ];
 
   # required packages for plugins etc..
-  home.packages = with pkgs; [ 
+  home.packages = with pkgs; [
     lua-language-server
     stylua
     luajitPackages.luarocks
     lua
     ripgrep
     claude-code
-  ]; 
+  ];
 
   programs.nixvim = {
-    
     enable = true;
 
     # Nixvim plugins here
@@ -41,11 +36,11 @@
     plugins.todo-comments.enable = false;
     plugins.markdown-preview.enable = false;
     plugins.trouble.enable = false;
-    
+
     plugins.toggleterm = {
       enable = true;
       settings = {
-	open_mapping = "[[<C-t>]]";
+        open_mapping = "[[<C-t>]]";
       };
     };
 
@@ -67,13 +62,14 @@
         clangd.enable = true; # C/C++
         csharp_ls.enable = true; # C#
         yamlls.enable = true; # YAML
-	nixd = {
-	  enable = true;
-	  settings = {
-	    nixpkgs.expr = "import <nixpkgs>{}";
-	  };
-	};
-	lua_ls = { # Lua
+        nixd = {
+          enable = true;
+          settings = {
+            nixpkgs.expr = "import <nixpkgs>{}";
+          };
+        };
+        lua_ls = {
+          # Lua
           enable = true;
           settings.telemetry.enable = false;
         };
@@ -82,21 +78,18 @@
 
     # Non-nixvim plugins here
 
-
     # Colour schemes here
     colorschemes.rose-pine.enable = true;
-    
+
     # Options here
     opts = {
-      number = true;         # Show line numbers
+      number = true; # Show line numbers
       relativenumber = true; # Show relative line numbers
 
-      shiftwidth = 2;        # Tab width should be 2
+      shiftwidth = 2; # Tab width should be 2
     };
-    
+
     # Keymaps here
     globals.mapleader = " "; # Sets the leader key to space
-  
   };
-
 }
