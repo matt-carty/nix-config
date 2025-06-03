@@ -23,13 +23,13 @@
     enable = true;
 
     # Nixvim plugins here
-    plugins.bufferline.enable = true;
+    plugins.bufferline.enable = false;
     plugins.dashboard.enable = false; # Dont think I need dashboard
-    plugins.dressing.enable = true;
-    plugins.flash.enable = true;
-    plugins.friendly-snippets.enable = true;
+    plugins.dressing.enable = false;
+    plugins.flash.enable = false;
+    plugins.friendly-snippets.enable = false;
     plugins.gitsigns.enable = true;
-    plugins.harpoon.enable = true;
+    plugins.harpoon.enable = false;
     plugins.indent-blankline.enable = true;
     plugins.lualine.enable = true;
     plugins.telescope.enable = true;
@@ -37,10 +37,10 @@
     plugins.web-devicons.enable = true;
     plugins.which-key.enable = true;
     plugins.neo-tree.enable = true;
-    plugins.conform-nvim.enable = true;
-    plugins.todo-comments.enable = true;
-    plugins.markdown-preview.enable = true;
-    plugins.trouble.enable = true;
+    plugins.conform-nvim.enable = false;
+    plugins.todo-comments.enable = false;
+    plugins.markdown-preview.enable = false;
+    plugins.trouble.enable = false;
     
     plugins.toggleterm = {
       enable = true;
@@ -58,13 +58,10 @@
         cssls.enable = true; # CSS
         tailwindcss.enable = true; # TailwindCSS
         html.enable = true; # HTML
-        astro.enable = true; # AstroJS
         phpactor.enable = true; # PHP
-        svelte.enable = false; # Svelte
         vuels.enable = false; # Vue
         pyright.enable = true; # Python
         marksman.enable = true; # Markdown
-        # nil-ls.enable = true; # Nix
         dockerls.enable = true; # Docker
         bashls.enable = true; # Bash
         clangd.enable = true; # C/C++
@@ -79,13 +76,6 @@
 	lua_ls = { # Lua
           enable = true;
           settings.telemetry.enable = false;
-        };
-
-        # Rust
-        rust_analyzer = {
-          enable = true;
-          installRustc = true;
-          installCargo = true;
         };
       };
     };
