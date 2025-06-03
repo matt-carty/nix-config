@@ -37,128 +37,131 @@
       # instance of nixpkgs. This is safe to do as nvf does not depend
       # on a binary cache.
       inputs.nixpkgs.follows = "nixpkgs";
+      # Optionally, you can also override individual plugins
+      # for example:
+      inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
     };
   };
-    outputs = {
-      self,
-      nixpkgs,
-      home-manager,
-      nixvim,
-      nvf,
-      ...
-    } @ inputs: let
-      inherit (self) outputs;
-    in {
-      # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild --flake .#your-hostname'
-      nixosConfigurations = {
-        # Laptop for home
-        alien = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main nixos configuration file <
-          modules = [./systems/alien/configuration.nix];
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    nixvim,
+    nvf,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+  in {
+    # NixOS configuration entrypoint
+    # Available through 'nixos-rebuild --flake .#your-hostname'
+    nixosConfigurations = {
+      # Laptop for home
+      alien = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
         };
-        # NUC server for skippy
-        razorback = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main nixos configuration file <
-          modules = [./systems/razorback/configuration.nix];
-        };
-        # RPi 4 file server at skippy
-        behemoth = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main nixos configuration file <
-          modules = [./systems/behemoth/configuration.nix];
-        };
-        # RPi 4 server at skippy - maybe wont use
-        bobbie = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main nixos configuration file <
-          modules = [./systems/bobbie/configuration.nix];
-        };
-        # RPi 3 server at skippy
-        holden = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main nixos configuration file <
-          modules = [./systems/holden/configuration.nix];
-        };
-        # HP Z400 workstation at skippy  (main pc)
-        medina = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main nixos configuration file <
-          modules = [
-            nvf.nixosModules.default
-            ./systems/medina/configuration.nix
-          ];
-        };
+        # > Our main nixos configuration file <
+        modules = [./systems/alien/configuration.nix];
       };
-
-      # Standalone home-manager configuration entrypoint
-      # Available through 'home-manager --flake .#your-username@your-hostname'
-      homeConfigurations = {
-        "matt@alien" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main home-manager configuration file <
-          modules = [./home/matt/alien.nix];
+      # NUC server for skippy
+      razorback = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
         };
-        "matt@razorback" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main home-manager configuration file <
-          modules = [./home/matt/razorback.nix];
+        # > Our main nixos configuration file <
+        modules = [./systems/razorback/configuration.nix];
+      };
+      # RPi 4 file server at skippy
+      behemoth = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
         };
-        "matt@medina" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main home-manager configuration file <
-          modules = [
-            nvf.homeManagerModules.default
-            ./home/matt/medina.nix
-          ];
+        # > Our main nixos configuration file <
+        modules = [./systems/behemoth/configuration.nix];
+      };
+      # RPi 4 server at skippy - maybe wont use
+      bobbie = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
         };
-        "matt@behemoth" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main home-manager configuration file <
-          modules = [./home/matt/behemoth.nix];
+        # > Our main nixos configuration file <
+        modules = [./systems/bobbie/configuration.nix];
+      };
+      # RPi 3 server at skippy
+      holden = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
         };
-        "matt@bobbie" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main home-manager configuration file <
-          modules = [./home/matt/bobbie.nix];
+        # > Our main nixos configuration file <
+        modules = [./systems/holden/configuration.nix];
+      };
+      # HP Z400 workstation at skippy  (main pc)
+      medina = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
         };
-        "matt@holden" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = {
-            inherit inputs outputs;
-          };
-          # > Our main home-manager configuration file <
-          modules = [./home/matt/holden.nix];
-        };
+        # > Our main nixos configuration file <
+        modules = [
+          nvf.nixosModules.default
+          ./systems/medina/configuration.nix
+        ];
       };
     };
+
+    # Standalone home-manager configuration entrypoint
+    # Available through 'home-manager --flake .#your-username@your-hostname'
+    homeConfigurations = {
+      "matt@alien" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        # > Our main home-manager configuration file <
+        modules = [./home/matt/alien.nix];
+      };
+      "matt@razorback" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        # > Our main home-manager configuration file <
+        modules = [./home/matt/razorback.nix];
+      };
+      "matt@medina" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        # > Our main home-manager configuration file <
+        modules = [
+          nvf.homeManagerModules.default
+          ./home/matt/medina.nix
+        ];
+      };
+      "matt@behemoth" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        # > Our main home-manager configuration file <
+        modules = [./home/matt/behemoth.nix];
+      };
+      "matt@bobbie" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        # > Our main home-manager configuration file <
+        modules = [./home/matt/bobbie.nix];
+      };
+      "matt@holden" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        # > Our main home-manager configuration file <
+        modules = [./home/matt/holden.nix];
+      };
+    };
+  };
 }
