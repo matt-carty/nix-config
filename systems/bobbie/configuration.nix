@@ -4,6 +4,7 @@
   inputs,
   lib,
   config,
+  pkgs,
   ...
 }: {
   # You can import other NixOS modules here
@@ -14,16 +15,11 @@
     
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
-    ./bobbie-nfs.nix
-#    ../common/optional/desktop/desktop-apps.nix
-#    ../common/optional/desktop/fonts.nix
-#    ../common/optional/desktop/gnome.nix
-#    ../common/optional/desktop/printers.nix
-#    ../common/optional/desktop/autologin.nix    
-#    ../common/optional/server/docker.nix
-#    ../common/optional/server/mqtt.nix
-#    ../common/optional/server/vmguest.nix
-    # Import your generated (nixos-generate-config) hardware configuration
+    ../common/optional/desktop/desktop-apps.nix
+    ../common/optional/desktop/fonts.nix
+    ../common/optional/desktop/gnome.nix
+    ../common/optional/desktop/autologin.nix    
+ # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
@@ -67,11 +63,45 @@
   };
 
   # Bootloader.
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
 
-# Enable networking
+  # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
+  boot.loader.grub.enable = false;
+  # Enables the generation of /boot/extlinux/extlinux.conf
+  boot.loader.generic-extlinux-compatible.enable = true;
+  
+  # Enable networking
   networking.networkmanager.enable = true;
+  networking.enableIPv6 = false;
+  networking.firewall.enable = false;
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
+  # Enable sound with pipewire.
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
+nixpkgs.config.allowUnsupportedSystem = true; 
+
+environment.systemPackages = with pkgs; [
+  libimobiledevice
+  ifuse # optional, to mount using 'ifuse'
+git
+gh
+neovim
+
+];
 
   # Set your hostname
   networking.hostName = "bobbie";
@@ -90,5 +120,6 @@
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "25.05";
+  # TODO update state version
+  system.stateVersion = "25.11";
 }
