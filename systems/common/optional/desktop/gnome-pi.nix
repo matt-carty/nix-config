@@ -6,7 +6,7 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.videoDriver = [ "fbdev" ];
+  services.xserver.videoDriver = "fbdev"; 
 
   # Configure keymap in X11
   services.xserver.xkb = {
