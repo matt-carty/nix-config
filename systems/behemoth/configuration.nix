@@ -11,18 +11,18 @@
     # If you want to use modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
-    
+
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
     ./bobbie-nfs.nix
-#    ../common/optional/desktop/desktop-apps.nix
-#    ../common/optional/desktop/fonts.nix
-#    ../common/optional/desktop/gnome.nix
-#    ../common/optional/desktop/printers.nix
-#    ../common/optional/desktop/autologin.nix    
-#    ../common/optional/server/docker.nix
-#    ../common/optional/server/mqtt.nix
-#    ../common/optional/server/vmguest.nix
+    #    ../common/optional/desktop/desktop-apps.nix
+    #    ../common/optional/desktop/fonts.nix
+    #    ../common/optional/desktop/gnome.nix
+    #    ../common/optional/desktop/printers.nix
+    #    ../common/optional/desktop/autologin.nix
+    #    ../common/optional/server/docker.nix
+    #    ../common/optional/server/mqtt.nix
+    #    ../common/optional/server/vmguest.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -70,11 +70,11 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-# Enable networking
+  # Enable networking
   networking.networkmanager.enable = true;
 
   # Set your hostname
-  networking.hostName = "bobbie";
+  networking.hostName = "behemoth";
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
