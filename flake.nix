@@ -85,7 +85,10 @@
           inherit inputs outputs;
         };
         # > Our main nixos configuration file <
-        modules = [./systems/bobbie/configuration.nix];
+        modules = [
+          nvf.nixosModules.default
+          ./systems/bobbie/configuration.nix
+        ];
       };
       # RPi 3 server at skippy
       holden = nixpkgs.lib.nixosSystem {
