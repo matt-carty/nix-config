@@ -155,7 +155,9 @@
           inherit inputs outputs;
         };
         # > Our main home-manager configuration file <
-        modules = [./home/matt/bobbie.nix];
+        modules = [./home/matt/bobbie.nix
+          nvf.homeManagerModules.default
+	];
       };
       "matt@holden" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
