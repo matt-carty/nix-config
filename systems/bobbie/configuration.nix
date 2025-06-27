@@ -12,14 +12,14 @@
     # If you want to use modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
-    
+    inputs.hardware.nixosModules.raspberry-pi-4
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
     ../common/optional/desktop/desktop-apps.nix
     ../common/optional/desktop/fonts.nix
     ../common/optional/desktop/gnome-pi.nix
-    ../common/optional/desktop/autologin.nix    
- # Import your generated (nixos-generate-config) hardware configuration
+    ../common/optional/desktop/autologin.nix
+    # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
@@ -68,7 +68,7 @@
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf
   boot.loader.generic-extlinux-compatible.enable = true;
-  
+  hardware.raspberry-pi."4".fkms-3d.enable = true;
   # Enable networking
   networking.networkmanager.enable = true;
   networking.enableIPv6 = false;
@@ -92,16 +92,16 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-nixpkgs.config.allowUnsupportedSystem = true; 
+  nixpkgs.config.allowUnsupportedSystem = true;
 
-environment.systemPackages = with pkgs; [
-  libimobiledevice
-  ifuse # optional, to mount using 'ifuse'
-git
-gh
-neovim
-
-];
+  environment.systemPackages = with pkgs; [
+    libimobiledevice
+    ifuse # optional, to mount using 'ifuse'
+    git
+    gh
+    libraspberrypi
+    raspberrypi-eeprom
+  ];
 
   # Set your hostname
   networking.hostName = "bobbie";
