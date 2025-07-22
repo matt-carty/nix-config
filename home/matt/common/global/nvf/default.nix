@@ -1,17 +1,8 @@
-{...}: {
+{lib, ...}: {
   imports = [
-    ./common/global/default.nix
-    ./common/features/editing.nix
-    ./common/features/obsidian.nix
-    ./common/features/gen-desktop.nix
   ];
 
   # Customisations for matt@medina
-  programs.kitty = {
-    settings = {
-      font_size = 11;
-    };
-  };
   programs.nvf = {
     enable = true;
     settings = {
@@ -35,7 +26,19 @@
           css.enable = true;
           sql.enable = true;
         };
-
+        assistant = {
+          codecompanion-nvim = {
+            enable = true;
+            setupOpts.adapters = lib.generators.mkLuaInline ''
+              {
+               openrouter_claude = function()
+                 return require("codecompanion.adapters").extend("openai_compatible", { env = { url = "https://openrouter.ai/api", api_key = "OPENROUTER_API_KEY", chat_url = "/v1/chat/completions", }, schema = { model = { default = "anthropic/claude-sonnet-4", }, }, })
+               end
+              }
+            '';
+            setupOpts.strategies.chat.adapter = "openrouter_claude";
+          };
+        };
         theme = {
           enable = true;
           name = "rose-pine";

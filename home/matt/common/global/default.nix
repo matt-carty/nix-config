@@ -1,13 +1,10 @@
-{
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
-    inputs.nixvim.homeManagerModules.nixvim
+    #    inputs.nixvim.homeManagerModules.nixvim
     # inputs.nix-colors.homeManagerModule
-    ./nvim
+    #    ./nvim
     ./git.nix
   ];
 
@@ -49,24 +46,23 @@
       # Workaround for nerd fonts being broken: font_family = "Fira Code Nerd Font Mono";
       font_family = "monospace";
     };
-   };
+  };
 
   programs.direnv = {
-      enable = true;
-      enableBashIntegration = true; #TODO: Change to zsh if I change shells (likely) 
-      nix-direnv.enable = true;
+    enable = true;
+    enableBashIntegration = true; #TODO: Change to zsh if I change shells (likely)
+    nix-direnv.enable = true;
   };
 
   # bash config here - aliases for all systems too
   programs.bash = {
     enable = true;
     shellAliases = {
-    hms = "home-manager switch --flake .#$(whoami)@$(hostname)";
-    nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
-    cd = "z";
-    ssk = "kitten ssh";
-    h = "cd ~";
-
+      hms = "home-manager switch --flake .#$(whoami)@$(hostname)";
+      nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
+      cd = "z";
+      ssk = "kitten ssh";
+      raz = "ssk razorback";
     };
     bashrcExtra = ''eval "$(zoxide init bash)"'';
   };
@@ -75,11 +71,8 @@
   programs.ssh = {
     enable = true;
     matchBlocks = {
-      "medina" = {
-	user = "root";
-	};
       "draper" = {
-	user = "root";
+        user = "root";
       };
     };
   };

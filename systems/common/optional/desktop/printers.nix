@@ -8,8 +8,8 @@
   nssmdns4 = true;
   nssmdns6 = false;
   openFirewall = true;
-  ipv4 = false;
-  ipv6 = true;
+  ipv4 = true;
+  ipv6 = false;
   browseDomains = [ "skippy.crty.io" "home.crty.io" ];
   };
 

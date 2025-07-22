@@ -9,7 +9,7 @@
   hunspell
   hunspellDicts.en-au
   kdePackages.kdeconnect-kde
-  google-chrome
+#  google-chrome
   brave
   ];
 networking.firewall = rec {

@@ -22,6 +22,7 @@
     ../common/optional/desktop/autologin.nix    
     ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
+    ./mount-home.nix
  # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -81,7 +82,7 @@ boot.loader.efi.canTouchEfiVariables = true;
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -101,6 +102,8 @@ boot.loader.efi.canTouchEfiVariables = true;
 environment.systemPackages = with pkgs; [
   libimobiledevice
   ifuse # optional, to mount using 'ifuse'
+  solaar
+  gnomeExtensions.solaar-extension
 ];
 
   # Set your hostname

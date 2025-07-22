@@ -7,5 +7,6 @@
     kdePackages.kdenlive
     scribus
     digikam
+    texliveMedium
   ];
 }

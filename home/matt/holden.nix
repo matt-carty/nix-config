@@ -7,6 +7,6 @@
 #    ./common/features/obsidian.nix
   ]; 
 
-  # Customisations for matt@roci
+  # Customisations for matt@nocky
 
 }
