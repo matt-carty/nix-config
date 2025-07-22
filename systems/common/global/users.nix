@@ -23,7 +23,7 @@
 
       ];
       # Need to work out if absent groups cause an error? Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel" "docker"];
+      extraGroups = ["wheel" "docker" "video" "render" "audio"];
     };
     tryano = {
       initialPassword = "changeme";

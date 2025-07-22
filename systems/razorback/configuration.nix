@@ -22,7 +22,6 @@
 #    ../common/optional/desktop/autologin.nix    
 #    ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
-    ./nfs-client.nix
     ./unlock-luks.nix
     ./mount-ssd.nix
  # Import your generated (nixos-generate-config) hardware configuration
