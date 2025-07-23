@@ -12,19 +12,14 @@
     # If you want to use modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
-    
+
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
-#    ../common/optional/desktop/desktop-apps.nix
     ../common/optional/desktop/fonts.nix
-#    ../common/optional/desktop/gnome.nix
-#    ../common/optional/desktop/printers.nix
-#    ../common/optional/desktop/autologin.nix    
-#    ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
     ./unlock-luks.nix
     ./mount-ssd.nix
- # Import your generated (nixos-generate-config) hardware configuration
+    # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
@@ -72,15 +67,31 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # temporary fix for virtualbox
-  boot.kernelParams = [ "kvm.enable_virt_at_load=0" ]; 
+  boot.kernelParams = ["kvm.enable_virt_at_load=0"];
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # This is what you need for N97/Alder Lake-N
+      intel-compute-runtime # OpenCL support
+      vaapiVdpau
+      libvdpau-va-gl
+      # Don't include vaapiIntel - it's for older GPUs and conflicts
+    ];
+  };
 
+  # Force the newer driver
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD"; # Force intel-media-driver instead of i965
+  };
   # Enable networking
   networking.networkmanager.enable = true;
   networking.enableIPv6 = false;
   networking.firewall.enable = false;
-  networking.networkmanager.appendNameservers = [ "10.89.24.1" ];
+  networking.networkmanager.appendNameservers = ["10.89.24.1"];
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -102,10 +113,10 @@
 
   services.usbmuxd.enable = true;
 
-environment.systemPackages = with pkgs; [
-  libimobiledevice
-  ifuse # optional, to mount using 'ifuse'
-];
+  environment.systemPackages = with pkgs; [
+    libimobiledevice
+    ifuse # optional, to mount using 'ifuse'
+  ];
 
   # Set your hostname
   networking.hostName = "razorback";
