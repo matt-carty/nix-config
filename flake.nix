@@ -69,7 +69,10 @@
           inherit inputs outputs;
         };
         # > Our main nixos configuration file <
-        modules = [./systems/razorback/configuration.nix];
+        modules = [
+          ./systems/razorback/configuration.nix
+          nvf.nixosModules.default
+        ];
       };
       # RPi 4 file server at skippy
       behemoth = nixpkgs.lib.nixosSystem {
@@ -128,7 +131,10 @@
           inherit inputs outputs;
         };
         # > Our main home-manager configuration file <
-        modules = [./home/matt/razorback.nix];
+        modules = [
+          nvf.homeManagerModules.default
+          ./home/matt/razorback.nix
+        ];
       };
       "matt@medina" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
@@ -155,9 +161,10 @@
           inherit inputs outputs;
         };
         # > Our main home-manager configuration file <
-        modules = [./home/matt/bobbie.nix
+        modules = [
+          ./home/matt/bobbie.nix
           nvf.homeManagerModules.default
-	];
+        ];
       };
       "matt@holden" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
