@@ -72,7 +72,6 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   hardware.opengl = {
     enable = true;
-    driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [
       intel-media-driver # This is what you need for N97/Alder Lake-N
