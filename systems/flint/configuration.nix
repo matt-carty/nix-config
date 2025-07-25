@@ -1,60 +1,89 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
+# This is your system's configuration file.
+# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  # You can import other NixOS modules here
+  imports = [
+    # If you want to use modules from other flakes (such as nixos-hardware):
+    # inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.common-ssd
+
+    # You can also split up your configuration and import pieces of it here:
+    ../common/global/default.nix
+    ../common/optional/server/docker.nix
+    # Import your generated (nixos-generate-config) hardware configuration
+    ./hardware-configuration.nix
+  ];
+
+  nixpkgs = {
+    # You can add overlays here
+    overlays = [
+      # If you want to use overlays exported from other flakes:
+      # neovim-nightly-overlay.overlays.default
+
+      # Or define it inline, for example:
+      # (final: prev: {
+      #   hi = final.hello.overrideAttrs (oldAttrs: {
+      #     patches = [ ./change-hello-to-hi.patch ];
+      #   });
+      # })
     ];
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
+  };
+
+  nix = let
+    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+  in {
+    settings = {
+      # Enable flakes and new 'nix' command
+      experimental-features = "nix-command flakes";
+      # Opinionated: disable global registry
+      flake-registry = "";
+      # Workaround for https://github.com/NixOS/nix/issues/9574
+      nix-path = config.nix.nixPath;
+    };
+    # Opinionated: disable channels
+    channel.enable = false;
+
+    # Opinionated: make flake registry and nix path match flake inputs
+    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
+    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  hardware.opengl = {
+    enable = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # This is what you need for N97/Alder Lake-N
+      intel-compute-runtime # OpenCL support
+      vaapiVdpau
+      libvdpau-va-gl
+      # Don't include vaapiIntel - it's for older GPUs and conflicts
+    ];
+  };
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
+  # Force the newer driver
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD"; # Force intel-media-driver instead of i965
+  };
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Asia/Tokyo";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "ja_JP.UTF-8";
-    LC_IDENTIFICATION = "ja_JP.UTF-8";
-    LC_MEASUREMENT = "ja_JP.UTF-8";
-    LC_MONETARY = "ja_JP.UTF-8";
-    LC_NAME = "ja_JP.UTF-8";
-    LC_NUMERIC = "ja_JP.UTF-8";
-    LC_PAPER = "ja_JP.UTF-8";
-    LC_TELEPHONE = "ja_JP.UTF-8";
-    LC_TIME = "ja_JP.UTF-8";
-  };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
+  networking.enableIPv6 = false;
+  networking.firewall.enable = false;
+  networking.networkmanager.appendNameservers = ["10.89.24.1"];
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -74,54 +103,29 @@
     #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.usbmuxd.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.matt = {
-    isNormalUser = true;
-    description = "matt";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
-  };
-
-  # Install firefox.
-  programs.firefox.enable = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    libimobiledevice
+    ifuse # optional, to mount using 'ifuse'
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  # Set your hostname
+  networking.hostName = "flint";
 
-  # List services that you want to enable:
+  # This setups a SSH server. Very important if you're setting up a headless system.
+  # Feel free to remove if you don't need it.
+  services.openssh = {
+    enable = true;
+    settings = {
+      # Opinionated: forbid root login through SSH.
+      PermitRootLogin = "no";
+      # Opinionated: use keys only.
+      # Remove if you want to SSH using passwords
+      PasswordAuthentication = false;
+    };
+  };
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
-
+  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  system.stateVersion = "25.05";
 }
