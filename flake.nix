@@ -91,7 +91,10 @@
           inherit inputs outputs;
         };
         # > Our main nixos configuration file <
-        modules = [./systems/behemoth/configuration.nix];
+        modules = [
+          nvf.nixosModules.default
+          ./systems/behemoth/configuration.nix
+        ];
       };
       # RPi 4 server at skippy - maybe wont use
       bobbie = nixpkgs.lib.nixosSystem {
@@ -175,7 +178,10 @@
           inherit inputs outputs;
         };
         # > Our main home-manager configuration file <
-        modules = [./home/matt/behemoth.nix];
+        modules = [
+          nvf.homeManagerModules.default
+          ./home/matt/behemoth.nix
+        ];
       };
       "matt@bobbie" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-linux; # Home-manager requires 'pkgs' instance
