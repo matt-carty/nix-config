@@ -16,6 +16,7 @@
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
     ../common/optional/server/docker.nix
+    ./nfs-client.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
