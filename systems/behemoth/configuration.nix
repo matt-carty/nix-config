@@ -14,7 +14,7 @@
 
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
-    ./bobbie-nfs.nix
+    ./behemoth-nfs.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
