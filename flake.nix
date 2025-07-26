@@ -63,6 +63,17 @@
         # > Our main nixos configuration file <
         modules = [./systems/alien/configuration.nix];
       };
+      # NUC server for Jellyfin
+      flint = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        # > Our main nixos configuration file <
+        modules = [
+          ./systems/flint/configuration.nix
+          nvf.nixosModules.default
+        ];
+      };
       # NUC server for skippy
       razorback = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -124,6 +135,17 @@
         };
         # > Our main home-manager configuration file <
         modules = [./home/matt/alien.nix];
+      };
+      "matt@flint" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        # > Our main home-manager configuration file <
+        modules = [
+          nvf.homeManagerModules.default
+          ./home/matt/flint.nix
+        ];
       };
       "matt@razorback" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
