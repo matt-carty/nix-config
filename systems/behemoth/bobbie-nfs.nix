@@ -21,5 +21,21 @@
     options = ["minfreespace=100G" "category.create=mfs"];
   };
 
+  fileSystems."/export/flint" = {
+    depends = ["/mnt/storage" "/export/flint"];
+    device = "/mnt/storage/flint";
+    options = ["bind"];
+  };
+  fileSystems."/export/stuff" = {
+    depends = ["/mnt/storage" "/export/stuff"];
+    device = "/mnt/storage/stuff";
+    options = ["bind"];
+  };
+  services.nfs.server.enable = true;
+  services.nfs.server.exports = ''
+    /export         10.89.24.0/24(rw,fsid=0,no_subtree_check) 10.89.42.0/24(rw,fsid=0,no_subtree_check)
+    /export/flint	10.89.24.0/24(rw,fsid=0,no_subtree_check) 10.89.42.0/24(rw,fsid=0,no_subtree_check)
+    /export/stuff 10.89.24.0/24(rw,fsid=0,no_subtree_check) 10.89.42.0/24(rw,fsid=0,no_subtree_check)
+  '';
   networking.firewall.enable = false;
 }
