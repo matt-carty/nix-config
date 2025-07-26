@@ -1,10 +1,10 @@
 {...}: {
   fileSystems."/mnt/flint" = {
-    device = "bobbie:/flint";
+    device = "behemoth:/flint";
     fsType = "nfs";
   };
   fileSystems."/mnt/stuff" = {
-    device = "bobbie:/stuff";
+    device = "behemoth:/stuff";
     fsType = "nfs";
   };
 }
