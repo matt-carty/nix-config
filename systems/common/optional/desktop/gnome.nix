@@ -1,5 +1,4 @@
-{ pkgs, ...}: {
-  
+{pkgs, ...}: {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -12,13 +11,16 @@
     layout = "us";
     variant = "";
   };
-  
+
   # Packages primarily related to using gnome
   environment.systemPackages = with pkgs; [
-   gnome-tweaks
-   gnomeExtensions.smart-auto-move
-   libheif
-
+    gnome-tweaks
+    gnomeExtensions.smart-auto-move
+    libheif
+    pciutils
+    usbutils
+    alsa-utils
+    pavucontrol
+    nvtopPackages.nvidia
   ];
-
 }

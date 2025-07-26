@@ -12,18 +12,18 @@
     # If you want to use modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
-    
+
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
     ../common/optional/desktop/desktop-apps.nix
     ../common/optional/desktop/fonts.nix
     ../common/optional/desktop/gnome.nix
     ../common/optional/desktop/printers.nix
-    ../common/optional/desktop/autologin.nix    
+    ../common/optional/desktop/autologin.nix
     ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
     ./mount-home.nix
- # Import your generated (nixos-generate-config) hardware configuration
+    # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
@@ -67,11 +67,11 @@
   };
 
   # Bootloader.
-boot.loader.systemd-boot.enable = true;
-boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # temporary fix for virtualbox
-  boot.kernelParams = [ "kvm.enable_virt_at_load=0" ]; 
+  boot.kernelParams = ["kvm.enable_virt_at_load=0"];
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -80,6 +80,26 @@ boot.loader.efi.canTouchEfiVariables = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware.nvidia = {
+    modesetting.enable = true;
+
+    open = false;
+
+    nvidiaSettings = true;
+
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+
+    extraPackages = with pkgs; [
+      nvidia-vaapi-driver
+    ];
+  };
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -99,12 +119,12 @@ boot.loader.efi.canTouchEfiVariables = true;
 
   services.usbmuxd.enable = true;
 
-environment.systemPackages = with pkgs; [
-  libimobiledevice
-  ifuse # optional, to mount using 'ifuse'
-  solaar
-  gnomeExtensions.solaar-extension
-];
+  environment.systemPackages = with pkgs; [
+    libimobiledevice
+    ifuse # optional, to mount using 'ifuse'
+    solaar
+    gnomeExtensions.solaar-extension
+  ];
 
   # Set your hostname
   networking.hostName = "medina";
