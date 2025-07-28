@@ -1,5 +1,5 @@
 {...}: {
-  users.groups.media = {gid = 113000;};
+  users.groups.media = {gid = 13000;};
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
