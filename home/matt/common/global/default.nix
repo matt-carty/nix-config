@@ -63,6 +63,12 @@
       cd = "z";
       ssk = "kitten ssh";
       raz = "ssk razorback";
+      flint = "ssk flint";
+      behemoth = "ssk behemoth";
+      dcup = "docker compose up -d";
+      dclog = "docker compose log";
+      dcdown = "docker compose down";
+      dcpull = "docker compose pull";
     };
     bashrcExtra = ''eval "$(zoxide init bash)"'';
   };
