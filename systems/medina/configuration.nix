@@ -98,7 +98,6 @@
 
     extraPackages = with pkgs; [
       nvidia-vaapi-driver
-      code-cursor-fhs
     ];
   };
 
