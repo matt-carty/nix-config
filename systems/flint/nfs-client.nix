@@ -7,4 +7,8 @@
     device = "behemoth:/stuff";
     fsType = "nfs";
   };
+  fileSystems."/mnt/flint-test" = {
+    device = "ceres:/mnt/main/flint";
+    fsType = "nfs";
+  };
 }

@@ -64,22 +64,18 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.opengl = {
+  hardware.graphics = {
+    # Note: hardware.graphics is correct for NixOS 25.11
     enable = true;
-    driSupport32Bit = true;
     extraPackages = with pkgs; [
-      intel-media-driver # This is what you need for N97/Alder Lake-N
-      intel-compute-runtime # OpenCL support
-      vaapiVdpau
-      libvdpau-va-gl
-      # Don't include vaapiIntel - it's for older GPUs and conflicts
+      # Remove intel-media-driver - it's for Broadwell (5th gen) and newer only
+      vaapiIntel # ✅ Essential for your 4th gen Haswell
+      vaapiVdpau # ✅ Keep for additional codec support
+      libvdpau-va-gl # ✅ Keep for VA-API/VDPAU bridge
+      # Remove intel-compute-runtime - not needed for basic VA-API on 4th gen
     ];
   };
 
-  # Force the newer driver
-  environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "iHD"; # Force intel-media-driver instead of i965
-  };
   # Enable networking
   networking.networkmanager.enable = true;
   networking.enableIPv6 = false;
