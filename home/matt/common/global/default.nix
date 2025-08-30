@@ -66,7 +66,7 @@
       flint = "ssk flint";
       behemoth = "ssk behemoth";
       dcup = "docker compose up -d";
-      dclog = "docker compose log";
+      dclog = "docker compose logs";
       dcdown = "docker compose down";
       dcpull = "docker compose pull";
     };
