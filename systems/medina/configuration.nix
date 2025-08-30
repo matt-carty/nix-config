@@ -22,6 +22,7 @@
     ../common/optional/desktop/autologin.nix
     ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
+    ./nfs-client.nix
     ./mount-home.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
