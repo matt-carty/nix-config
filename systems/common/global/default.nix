@@ -1,17 +1,20 @@
-{ pkgs, inputs, ...}: {
-  
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
-    
     ./locale.nix
     ./users.nix
+    ./backup-nfs.nix
   ];
 
   environment.systemPackages = with pkgs; [
     home-manager
     git
     zoxide # super awesome
-#    kanata # haven't set up yet TODO
-    gh # for authenticating mainly 
+    #    kanata # haven't set up yet TODO
+    gh # for authenticating mainly
     fzf
     nmap
     dig
@@ -21,11 +24,11 @@
     tmux
   ];
 
-#need to move this to desktop
-#  services.udev.packages = with pkgs; [
-#    vial
-#    ];
-    
+  #need to move this to desktop
+  #  services.udev.packages = with pkgs; [
+  #    vial
+  #    ];
+
   # for nixd
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+  nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
 }

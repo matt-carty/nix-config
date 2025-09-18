@@ -22,5 +22,6 @@
     alsa-utils
     pavucontrol
     nvtopPackages.nvidia
+    tigervnc
   ];
 }
