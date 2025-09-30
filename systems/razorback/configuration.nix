@@ -20,6 +20,7 @@
     ./unlock-luks.nix
     ./mount-ssd.nix
     ./nfs-client.nix
+    ./docker-backup.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
