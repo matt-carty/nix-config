@@ -5,6 +5,7 @@
     ./common/features/obsidian.nix
     ./common/features/gen-desktop.nix
     ./common/global/nvf/default.nix
+    ./common/features/cursor-wrapper.nix
   ];
 
   # Customisations for matt@medina
