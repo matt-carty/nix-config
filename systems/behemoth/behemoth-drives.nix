@@ -5,27 +5,20 @@
     snapraid
   ];
 
-  # Mount the 6TB parity drive
-  fileSystems."/mnt/parity6tb" = {
-    device = "/dev/disk/by-uuid/YOUR-6TB-UUID-HERE";
-    fsType = "ext4";
-    options = ["nofail"];
-  };
-
   fileSystems."/mnt/usb4tb" = {
-    device = "/dev/disk/by-uuid/a6b7c512-c01b-4882-9351-6da0a79777e5";
+    device = "/dev/disk/by-uuid/24e3679b-db25-4edf-92b5-e973eaad6e2f";
     fsType = "ext4";
     options = ["nofail"];
   };
 
-  fileSystems."/mnt/usb6tb" = {
-    device = "/dev/disk/by-uuid/863d97a4-a6bb-4650-bb0a-670acac0f042";
+  fileSystems."/mnt/parity6tb" = {
+    device = "/dev/disk/by-uuid/a5ed2ec4-a635-47b4-bece-310d1876ad23";
     fsType = "ext4";
     options = ["nofail"];
   };
 
   fileSystems."/mnt/usb8tb" = {
-    device = "/dev/disk/by-uuid/60a06020-6fb4-47de-9225-e4ad5ceb632b";
+    device = "/dev/disk/by-uuid/93e4f79c-9370-41ca-acad-1b1aad29e7aa";
     fsType = "ext4";
     options = ["nofail"];
   };
