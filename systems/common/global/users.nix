@@ -26,8 +26,9 @@
       initialPassword = "calibrateoutbidgrimeprewar";
       isNormalUser = true;
       uid = 1007;
-                        openssh.authorizedKeys.keys = [
-                                "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDbwv7Nd7QoWGyxZj9eX8SKxHa2VOUQ67PcHQElUFkfBvsZFGKLGj4mAjCw9j2W2D6d0jGxAyk84qgI0XVtCGsECWwpJOO34y/iI7sPKUP2elv+aBwsk/7kcz/PaZAjxLn0IhypLr8fEsiVB1P2qz73bW2230NLN3WSXx85efjUYmRiubsMJikOfNOVBD3XSylmLLXg0q002e02KC4auO9CTOTqjW4nNmdlMypooyPTXIGAWFkHjr5ospfmMoDNS2tADFhoR5yZkcN06mDL36tK+2/m+K/Txrs+0+Gd4GPqJy4LXCSJCf9xWGGmRIu5Na+42StqCJUmQzpWvKf78VUu7ZpHVV9Tq+h/Rrunqn+QVXyPAPa5Sym9SwFYDrU9pitru3F8ohD6YKsWeHNdbGLD122QZb08ARolsPVso7E0/9/JaEt82rku7Z88GsuyouENarwwt6OCEfj1w2dAqSsBjSxfWso4xfXvoATTrZ5/m6U/4iFDD9lsjVTZCUqhYAE= root@ceres"
+      openssh.authorizedKeys.keys = [
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDbwv7Nd7QoWGyxZj9eX8SKxHa2VOUQ67PcHQElUFkfBvsZFGKLGj4mAjCw9j2W2D6d0jGxAyk84qgI0XVtCGsECWwpJOO34y/iI7sPKUP2elv+aBwsk/7kcz/PaZAjxLn0IhypLr8fEsiVB1P2qz73bW2230NLN3WSXx85efjUYmRiubsMJikOfNOVBD3XSylmLLXg0q002e02KC4auO9CTOTqjW4nNmdlMypooyPTXIGAWFkHjr5ospfmMoDNS2tADFhoR5yZkcN06mDL36tK+2/m+K/Txrs+0+Gd4GPqJy4LXCSJCf9xWGGmRIu5Na+42StqCJUmQzpWvKf78VUu7ZpHVV9Tq+h/Rrunqn+QVXyPAPa5Sym9SwFYDrU9pitru3F8ohD6YKsWeHNdbGLD122QZb08ARolsPVso7E0/9/JaEt82rku7Z88GsuyouENarwwt6OCEfj1w2dAqSsBjSxfWso4xfXvoATTrZ5/m6U/4iFDD9lsjVTZCUqhYAE= root@ceres"
+      ];
 
       extraGroups = ["wheel" "backup"];
     };
