@@ -3,6 +3,7 @@
     mergerfs
     mergerfs-tools
     snapraid
+    hd-idle
   ];
 
   fileSystems."/mnt/usb4tb" = {
@@ -70,6 +71,7 @@
   # Create directory for content file
   systemd.tmpfiles.rules = [
     "d /var/snapraid 0755 root root -"
+    "f /var/log/hd-idle.log 0644 root root -"
   ];
 
   # Systemd service for SnapRAID sync
@@ -121,4 +123,17 @@
   '';
 
   networking.firewall.enable = false;
+
+  # Create systemd service for hd-idle
+  systemd.services.hd-idle = {
+    description = "External HDD spin down daemon";
+    wantedBy = ["multi-user.target"];
+    after = ["local-fs.target"];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.hd-idle}/bin/hd-idle -i 0 -a sda -i 600 -a sdb -i 600 -a sdc -i 600 -l /var/log/hd-idle.log";
+      Restart = "on-failure";
+      RestartSec = "10s";
+    };
+  };
 }
