@@ -6,3 +6,4 @@ fileSystems."/home" =
     };
 
   boot.initrd.luks.devices."luks-e15f276f-164f-4619-b3df-dd5593629fb4".device = "/dev/disk/by-uuid/e15f276f-164f-4619-b3df-dd5593629fb4";
+}
