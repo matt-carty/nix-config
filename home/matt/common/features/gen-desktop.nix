@@ -33,10 +33,6 @@
     };
   };
 
-  programs.bash.shellAliases = {
-    cursor = "appimage-run /home/matt/appimage/Cursor-1.4.2-x86_64.AppImage";
-  };
-
   xdg.configFile."mozc/ibus_config.textproto".text = ''
                     # `ibus write-cache; ibus restart` might be necessary to apply changes.
     engines {

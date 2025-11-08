@@ -120,11 +120,14 @@
 
   services.usbmuxd.enable = true;
 
+  # Packages that only go on this machine
+
   environment.systemPackages = with pkgs; [
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
     solaar
     gnomeExtensions.solaar-extension
+    input-leap
   ];
 
   # Set your hostname
