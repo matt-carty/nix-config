@@ -24,6 +24,7 @@
     ../common/optional/server/docker.nix
     ./nfs-client.nix
     ./mount-home.nix
+    ./input-leap.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -39,7 +40,7 @@
       #   hi = final.hello.overrideAttrs (oldAttrs: {
       #     patches = [ ./change-hello-to-hi.patch ];
       #   });
-      # })
+      # })nixpkgs.overlays = [
     ];
     # Configure your nixpkgs instance
     config = {
@@ -127,9 +128,8 @@
     ifuse # optional, to mount using 'ifuse'
     solaar
     gnomeExtensions.solaar-extension
-    input-leap
+    libportal
   ];
-
   # Set your hostname
   networking.hostName = "medina";
 
