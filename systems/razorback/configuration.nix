@@ -78,7 +78,7 @@
     extraPackages = with pkgs; [
       intel-media-driver # This is what you need for N97/Alder Lake-N
       intel-compute-runtime # OpenCL support
-      vaapiVdpau
+      libva-vdpau-driver
       libvdpau-va-gl
       # Don't include vaapiIntel - it's for older GPUs and conflicts
     ];
