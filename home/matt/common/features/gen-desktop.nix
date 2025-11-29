@@ -6,6 +6,7 @@
     pdfslicer
     vial
     appimage-run
+    geary
   ];
   programs.gnome-shell = {
     enable = true;

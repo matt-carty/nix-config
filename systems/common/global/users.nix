@@ -1,5 +1,6 @@
 {...}: {
   users.groups.media = {gid = 13000;};
+  users.groups.www-data = {gid = 33;};
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
@@ -20,7 +21,7 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ1mNtM0aqZqCRFBjkpdROq1EQh+Ulr068vuK2hPjzel"
       ];
       # Need to work out if absent groups cause an error? Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel" "docker" "video" "render" "audio" "media" "backup"];
+      extraGroups = ["wheel" "docker" "video" "render" "audio" "media" "backup" "www-data"];
     };
     backup = {
       initialPassword = "calibrateoutbidgrimeprewar";
