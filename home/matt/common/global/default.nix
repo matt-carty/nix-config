@@ -76,6 +76,7 @@
   # ssh config here
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     matchBlocks = {
       "draper" = {
         user = "root";

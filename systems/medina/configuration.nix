@@ -25,6 +25,7 @@
     ./nfs-client.nix
     ./mount-home.nix
     ./input-leap.nix
+    ../common/optional/desktop/open-webui.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
