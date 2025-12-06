@@ -73,9 +73,9 @@
   boot.kernelParams = ["kvm.enable_virt_at_load=0"];
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
       intel-media-driver # This is what you need for N97/Alder Lake-N
       intel-compute-runtime # OpenCL support
