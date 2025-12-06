@@ -123,7 +123,7 @@
           };
           images = {
             image-nvim.enable = false;
-            img-clip.enable = true;
+            img-clip.enable = false;
           };
         };
         terminal = {
