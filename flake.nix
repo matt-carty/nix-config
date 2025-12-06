@@ -46,7 +46,6 @@
     self,
     nixpkgs,
     home-manager,
-    nixvim,
     nvf,
     nixpkgs-stable,
     ...
