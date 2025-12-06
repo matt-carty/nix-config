@@ -4,7 +4,7 @@
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     #    inputs.nixvim.homeManagerModules.nixvim
     # inputs.nix-colors.homeManagerModule
-    #    ./nvim
+    ./nvf/default.nix
     ./git.nix
   ];
 

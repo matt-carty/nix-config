@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   imports = [
     ./common/global/default.nix
     ./common/features/editing.nix
@@ -13,5 +11,5 @@
     settings = {
       font_size = 13;
     };
-   };
+  };
 }

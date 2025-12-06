@@ -21,10 +21,10 @@
     };
 
     # Nixvim to set up neovim
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #    nixvim = {
+    #      url = "github:nix-community/nixvim";
+    #      inputs.nixpkgs.follows = "nixpkgs";
+    #    };
 
     # Optional, if you intend to follow nvf's obsidian-nvim input
     # you must also add it as a flake input.
