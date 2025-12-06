@@ -21,6 +21,7 @@
     ./mount-ssd.nix
     ./nfs-client.nix
     ./docker-backup.nix
+    ../common/optional/server/open-webui.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
