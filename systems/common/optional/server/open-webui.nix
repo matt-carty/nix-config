@@ -7,7 +7,7 @@
     port = 4000; # Change this to whatever port you want (not 3000)
 
     # Optional: Set host (default is 127.0.0.1)
-    host = "127.0.0.1";
+    host = "0.0.0.0";
 
     # Optional: Open firewall for this port if you need external access
     openFirewall = true;
