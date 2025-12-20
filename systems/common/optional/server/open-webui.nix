@@ -10,7 +10,7 @@
     host = "127.0.0.1";
 
     # Optional: Open firewall for this port if you need external access
-    # openFirewall = true;
+    openFirewall = true;
 
     # Set environment variables for Open WebUI
     environment = {
