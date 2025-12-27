@@ -13,7 +13,7 @@
     home-manager
     git
     zoxide # super awesome
-    #    kanata # haven't set up yet TODO
+    #    kanata # move this to alien
     gh # for authenticating mainly
     fzf
     nmap
@@ -23,11 +23,6 @@
     usbutils # useful utility TODO separate useful utilities into their own file
     tmux
   ];
-
-  #need to move this to desktop
-  #  services.udev.packages = with pkgs; [
-  #    vial
-  #    ];
 
   # for nixd
   nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
