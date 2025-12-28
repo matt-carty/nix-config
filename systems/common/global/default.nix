@@ -6,7 +6,7 @@
   imports = [
     ./locale.nix
     ./users.nix
-    ./backup-nfs.nix
+    #    ./backup-nfs.nix
   ];
 
   environment.systemPackages = with pkgs; [

@@ -12,7 +12,7 @@
     # If you want to use modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
-    
+
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
     ../common/optional/desktop/desktop-apps.nix
@@ -20,7 +20,7 @@
     ../common/optional/desktop/gnome.nix
     ../common/optional/desktop/printers.nix
     ../common/optional/desktop/autologin.nix
-    ./mount-home.nix    
+    ./mount-home.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -67,7 +67,40 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelParams = [
+    "radeon.si_support=0"
+    "radeon.cik_support=0"
+    "amdgpu.si_support=1"
+    "amdgpu.cik_support=1"
+    "amdgpu.dc=1"
+    "amdgpu.gpu_recovery=1"
+    "amdgpu.ppfeaturemask=0xffffffff"
+    "amdgpu.dpm=1"
+  ];
 
+  boot.initrd.kernelModules = ["amdgpu"];
+  boot.blacklistedKernelModules = ["radeon"];
+
+  hardware.amdgpu = {
+    initrd.enable = true;
+    opencl.enable = true;
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+
+    extraPackages = with pkgs; [
+      amdvlk
+      rocmPackages.clr.icd
+      mesa.drivers
+    ];
+
+    extraPackages32 = with pkgs.driversi686Linux; [
+      amdvlk
+      mesa.drivers
+    ];
+  };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -108,7 +141,6 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
 
   # TODO: Set your hostname
   networking.hostName = "alien";

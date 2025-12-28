@@ -48,6 +48,7 @@
     home-manager,
     nvf,
     nixpkgs-stable,
+    sops-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -61,7 +62,11 @@
           inherit inputs outputs;
         };
         # > Our main nixos configuration file <
-        modules = [./systems/alien/configuration.nix];
+        modules = [
+          ./systems/alien/configuration.nix
+          nvf.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
       };
       # NUC server for Jellyfin
       flint = nixpkgs.lib.nixosSystem {
@@ -94,6 +99,7 @@
         modules = [
           nvf.nixosModules.default
           ./systems/behemoth/configuration.nix
+          sops-nix.nixosModules.sops
         ];
       };
       # RPi 4 server at skippy - maybe wont use
@@ -137,7 +143,11 @@
           inherit inputs outputs;
         };
         # > Our main home-manager configuration file <
-        modules = [./home/matt/alien.nix];
+
+        modules = [
+          ./home/matt/alien.nix
+          nvf.homeManagerModules.default
+        ];
       };
       "matt@flint" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
