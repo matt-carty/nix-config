@@ -12,7 +12,7 @@
     # If you want to use modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
-
+    inputs.sops-nix.nixosModules.sops
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
     ../common/optional/desktop/desktop-apps.nix
@@ -67,45 +67,34 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  #Graphics config
   boot.kernelParams = [
-    "radeon.si_support=0"
-    "radeon.cik_support=0"
-    "amdgpu.si_support=1"
-    "amdgpu.cik_support=1"
-    "amdgpu.dc=1"
-    "amdgpu.gpu_recovery=1"
-    "amdgpu.ppfeaturemask=0xffffffff"
-    "amdgpu.dpm=1"
+    #    "radeon.si_support=0"
+    #    "radeon.cik_support=0"
+    #    "amdgpu.si_support=1"
+    #    "amdgpu.cik_support=1"
+    #    "amdgpu.dc=1"
+    #    "amdgpu.gpu_recovery=1"
+    #    "amdgpu.ppfeaturemask=0xffffffff"
+    #    "amdgpu.dpm=1"
   ];
 
-  boot.initrd.kernelModules = ["amdgpu"];
+  #  boot.initrd.kernelModules = ["amdgpu"];
   boot.blacklistedKernelModules = ["radeon"];
-
-  hardware.amdgpu = {
-    initrd.enable = true;
-    opencl.enable = true;
-  };
 
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-
-    extraPackages = with pkgs; [
-      amdvlk
-      rocmPackages.clr.icd
-      mesa.drivers
-    ];
-
-    extraPackages32 = with pkgs.driversi686Linux; [
-      amdvlk
-      mesa.drivers
-    ];
   };
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  environment.variables = {
+    AMD_VULKAN_ICD = "RADV";
+    RADV_PERFTEST = "gpl";
+    MESA_LOADER_DRIVER_OVERRIDE = "radeonsi";
+  };
+  hardware.firmware = [pkgs.linux-firmware];
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -114,14 +103,20 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
+
+  # SOPS Config
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+
+  sops.age.keyFile = "/home/matt/.config/sops/age/keys.txt";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
