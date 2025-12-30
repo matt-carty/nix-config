@@ -113,12 +113,13 @@
   };
 
   # SOPS Config
-  sops.defaultSopsFile = "../secrets/secrets.yaml";
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
 
   sops.age.keyFile = "/home/matt/.config/sops/age/keys.txt";
 
-  sops.secrets."ipsec/keyfiles/server_keyfile" = {};
+  sops.secrets.ipsec_username = {};
+  sops.secrets.ipsec_password = {};
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

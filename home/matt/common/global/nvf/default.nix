@@ -1,7 +1,7 @@
 {lib, ...}: {
   imports = [
   ];
-
+  programs.neovim.defaultEditor = true;
   # Customisations for matt@medina
   programs.nvf = {
     enable = true;
