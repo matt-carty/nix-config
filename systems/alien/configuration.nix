@@ -21,6 +21,7 @@
     ../common/optional/desktop/printers.nix
     ../common/optional/desktop/autologin.nix
     ./mount-home.nix
+    ../common/optional/network/ipsec.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -112,14 +113,22 @@
     variant = "";
   };
 
+  # IPSEC config
+  # Manual control on laptop
+  services.strongswan.connections.pfsense-mobile.auto = "add";
+
+  # Convenient aliases
+  environment.shellAliases = {
+    vpn-up = "sudo swanctl --initiate --child pfsense-tunnel";
+    vpn-down = "sudo swanctl --terminate --ike pfsense-mobile";
+    vpn-status = "sudo swanctl --list-sas";
+  };
+
   # SOPS Config
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
 
   sops.age.keyFile = "/home/matt/.config/sops/age/keys.txt";
-
-  sops.secrets.ipsec_username = {};
-  sops.secrets.ipsec_password = {};
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
