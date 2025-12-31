@@ -112,10 +112,9 @@
     layout = "us";
     variant = "";
   };
-
   # IPSEC config
-  # Manual control on laptop
-  services.strongswan.connections.pfsense-mobile.auto = "add";
+  # Manual control on laptop - don't auto-start
+  services.strongswan-swanctl.swanctl.connections.pfsense-mobile.children.pfsense-tunnel.start_action = lib.mkForce null;
 
   # Convenient aliases
   environment.shellAliases = {
@@ -123,7 +122,6 @@
     vpn-down = "sudo swanctl --terminate --ike pfsense-mobile";
     vpn-status = "sudo swanctl --list-sas";
   };
-
   # SOPS Config
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";

@@ -1,58 +1,80 @@
-{config, ...}: {
-  services.strongswan = {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
+  services.strongswan-swanctl = {
     enable = true;
-
-    secrets = [
-      "eap-dukebk44.duckdns.org : EAP \"$(cat ${config.sops.secrets.ipsec_username.path}):$(cat ${config.sops.secrets.ipsec_password.path})\""
-    ];
-
-    ca.skippy-ca = {
-      auto = "add";
-      cacert = ./public_ipsec_certs/skippy_ipsec_ca.crt;
-    };
-
-    connections.pfsense-mobile = {
-      keyexchange = "ikev2";
-      remote_addrs = ["dukebk44.duckdns.org"];
-
-      remote = {
-        auth = "pubkey";
-        id = "dukebk44.duckdns.org";
-      };
-
-      local = {
-        auth = "eap";
-        eap_id = "matt";
-      };
-
-      children.pfsense-tunnel = {
-        # FULL TUNNEL: Route all traffic through VPN
-        remote_ts = ["0.0.0.0/0"];
-
-        esp_proposals = ["aes128-sha256-modp2048"];
-        dpd_action = "restart";
-        rekey_time = "60m";
-        life_time = "66m";
-      };
-
-      ike_proposals = ["aes256gcm16-sha256-modp4096"];
-
-      rekey_time = "480m";
-      reauth_time = "0s";
-      dpd_delay = "30s";
-      dpd_timeout = "150s";
-    };
   };
 
-  sops.secrets.ipsec_username = {
-    sopsFile = ../../../../secrets/secrets.yaml;
+  # Create templated swanctl.conf with the secret injected
+  sops.templates."swanctl.conf" = {
+    content = ''
+      authorities {
+        skippy-ca {
+          cacert = ${toString ./public_ipsec_certs/skippy_ipsec_ca.crt}
+        }
+      }
+
+      connections {
+        pfsense-mobile {
+          remote_addrs = dukebk44.duckdns.org
+          version = 2
+          vips = 0.0.0.0
+
+          local-main {
+            auth = eap
+            eap_id = alien
+          }
+
+          remote-main {
+            auth = pubkey
+            id = dukebk44.duckdns.org
+          }
+
+          children {
+            pfsense-tunnel {
+              local_ts = dynamic
+              remote_ts = 0.0.0.0/0
+              esp_proposals = aes128-sha256-modp2048
+              dpd_action = restart
+              rekey_time = 60m
+              life_time = 66m
+            }
+          }
+
+          proposals = aes256gcm16-sha256-modp4096
+          rekey_time = 480m
+          dpd_delay = 30s
+          dpd_timeout = 150s
+        }
+      }
+
+      secrets {
+        eap-alien {
+          id-main = alien
+          secret = ${config.sops.placeholder.ipsec_password}
+        }
+      }
+    '';
     owner = "root";
     mode = "0400";
   };
 
-  sops.secrets."ipsec/password" = {
-    sopsFile = ../../../../secrets/secrets.yaml;
+  # Override the swanctl config location
+  environment.etc."swanctl/swanctl.conf".source = lib.mkForce config.sops.templates."swanctl.conf".path;
+
+  environment.systemPackages = [pkgs.strongswan];
+
+  services.resolved = {
+    enable = true;
+    domains = ["skippy.crty.io" "home.crty.io"];
+  };
+
+  sops.secrets.ipsec_password = {
     owner = "root";
     mode = "0400";
+    restartUnits = ["strongswan-swanctl.service"];
   };
 }
