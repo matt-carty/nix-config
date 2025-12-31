@@ -99,7 +99,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
+  networking.search = ["skippy.crty.io" "home.crty.io"];
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 

@@ -67,11 +67,6 @@
 
   environment.systemPackages = [pkgs.strongswan];
 
-  services.resolved = {
-    enable = true;
-    domains = ["skippy.crty.io" "home.crty.io"];
-  };
-
   sops.secrets.ipsec_password = {
     owner = "root";
     mode = "0400";
