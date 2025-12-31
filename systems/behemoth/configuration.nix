@@ -63,10 +63,36 @@
   boot.loader.generic-extlinux-compatible.enable = true;
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  # Wifi config
+  networking = {
+    hostName = "behemoth";
+    networkmanager = {
+      enable = true;
+      ensureProfiles = {
+        environmentFiles = [
+          config.sops.secrets."parents_wifi.env".path
+        ];
+        profiles = {
+          "parents-wifi" = {
+            connection.id = "parents-wifi";
+            connection.type = "wifi";
+            wifi.ssid = "$parents_ssid";
+            wifi-security = {
+              auth-alg = "open";
+              key-mgmt = "wpa-psk";
+              psk = "$parents_psk";
+            };
+          };
+        };
+      };
+    };
+  };
 
-  # Set your hostname
-  networking.hostName = "behemoth";
+  # SOPS config
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  sops.secrets."parents_wifi.env" = {};
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
