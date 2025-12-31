@@ -4,6 +4,7 @@
   inputs,
   lib,
   config,
+  pkgs,
   ...
 }: {
   # You can import other NixOS modules here
@@ -15,6 +16,8 @@
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
     ./behemoth-drives.nix
+    ../common/optional/network/ipsec.nix
+
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -66,6 +69,7 @@
   # Wifi config
   networking = {
     hostName = "behemoth";
+    search = ["skippy.crty.io" "home.crty.io"];
     networkmanager = {
       enable = true;
       ensureProfiles = {
@@ -87,6 +91,26 @@
       };
     };
   };
+
+  # Create a separate service to initiate the connection
+  systemd.services.strongswan-initiate = {
+    description = "Initiate strongSwan VPN connection";
+    after = ["strongswan-swanctl.service"];
+    wants = ["strongswan-swanctl.service"];
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 5 && ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel'";
+    };
+  };
+
+  # Strongswan config
+  #  systemd.services.strongswan-swanctl.postStart = lib.mkAfter ''
+  #    sleep 2
+  #    ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel
+  #  '';
 
   # SOPS config
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
