@@ -4,7 +4,7 @@
     mergerfs-tools
     snapraid
     hd-idle
-    cryptesetup
+    cryptsetup
   ];
 
   # LUKS encrypted filesystems with key files
