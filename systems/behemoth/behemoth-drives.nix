@@ -4,22 +4,45 @@
     mergerfs-tools
     snapraid
     hd-idle
+    cryptesetup
   ];
 
+  # LUKS encrypted filesystems with key files
+  boot.initrd.luks.devices = {
+    "usb4tb-encrypted" = {
+      device = "/dev/disk/by-uuid/39f49560-a8ba-473b-a235-5a8af4993a11";
+      keyFile = "/root/luks-keys/usb4tb.key";
+      preLVM = true;
+      allowDiscards = true;
+    };
+    "parity6tb-encrypted" = {
+      device = "/dev/disk/by-uuid/f02f46c4-a3dc-462c-9f0c-5f4b3fb14db7";
+      keyFile = "/root/luks-keys/parity6tb.key";
+      preLVM = true;
+      allowDiscards = true;
+    };
+    "usb8tb-encrypted" = {
+      device = "/dev/disk/by-uuid/1d063486-a9dc-4b11-996a-786da4e3331b";
+      keyFile = "/root/luks-keys/usb8tb.key";
+      preLVM = true;
+      allowDiscards = true;
+    };
+  };
+
   fileSystems."/mnt/usb4tb" = {
-    device = "/dev/disk/by-uuid/24e3679b-db25-4edf-92b5-e973eaad6e2f";
+    device = "/dev/mapper/usb4tb-encrypted";
     fsType = "ext4";
     options = ["nofail"];
   };
 
   fileSystems."/mnt/parity6tb" = {
-    device = "/dev/disk/by-uuid/a5ed2ec4-a635-47b4-bece-310d1876ad23";
+    device = "/dev/mapper/parity6tb-encrypted";
     fsType = "ext4";
     options = ["nofail"];
   };
 
   fileSystems."/mnt/usb8tb" = {
-    device = "/dev/disk/by-uuid/93e4f79c-9370-41ca-acad-1b1aad29e7aa";
+    device = "/dev/mapper/usb8tb-encrypted";
     fsType = "ext4";
     options = ["nofail"];
   };

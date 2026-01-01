@@ -23,18 +23,6 @@
   ];
 
   nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
     # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages
@@ -65,8 +53,7 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  # Enable networking
-  # Wifi config
+  # Enable networking and set up wifi
   networking = {
     hostName = "behemoth";
     search = ["skippy.crty.io" "home.crty.io"];
@@ -105,12 +92,6 @@
       ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 5 && ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel'";
     };
   };
-
-  # Strongswan config
-  #  systemd.services.strongswan-swanctl.postStart = lib.mkAfter ''
-  #    sleep 2
-  #    ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel
-  #  '';
 
   # SOPS config
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
