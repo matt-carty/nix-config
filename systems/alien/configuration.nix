@@ -112,9 +112,24 @@
     layout = "us";
     variant = "";
   };
+
   # IPSEC config
   # Manual control on laptop - don't auto-start
-  services.strongswan-swanctl.swanctl.connections.pfsense-mobile.children.pfsense-tunnel.start_action = lib.mkForce null;
+  #  services.strongswan-swanctl.swanctl.connections.pfsense-mobile.children.pfsense-tunnel.start_action = lib.mkForce null;
+
+  # Create a separate service to initiate the connection
+  systemd.services.strongswan-initiate = {
+    description = "Initiate strongSwan VPN connection";
+    after = ["strongswan-swanctl.service"];
+    wants = ["strongswan-swanctl.service"];
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 5 && ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel'";
+    };
+  };
 
   # Convenient aliases
   environment.shellAliases = {
@@ -122,6 +137,7 @@
     vpn-down = "sudo swanctl --terminate --ike pfsense-mobile";
     vpn-status = "sudo swanctl --list-sas";
   };
+
   # SOPS Config
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";

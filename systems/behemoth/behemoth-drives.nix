@@ -7,6 +7,12 @@
     cryptesetup
   ];
 
+  boot.initrd.secrets = {
+    "/keyfile-usb4tb" = "/root/luks-keys/usb4tb.key";
+    "/keyfile-parity6tb" = "/root/luks-keys/parity6tb.key";
+    "/keyfile-usb8tb" = "/root/luks-keys/usb8tb.key";
+  };
+
   # LUKS encrypted filesystems with key files
   boot.initrd.luks.devices = {
     "usb4tb-encrypted" = {
