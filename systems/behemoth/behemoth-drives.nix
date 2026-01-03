@@ -17,19 +17,19 @@
   boot.initrd.luks.devices = {
     "usb4tb-encrypted" = {
       device = "/dev/disk/by-uuid/39f49560-a8ba-473b-a235-5a8af4993a11";
-      keyFile = "/root/luks-keys/usb4tb.key";
+      keyFile = "/keyfile-usb4tb";
       preLVM = true;
       allowDiscards = true;
     };
     "parity6tb-encrypted" = {
       device = "/dev/disk/by-uuid/f02f46c4-a3dc-462c-9f0c-5f4b3fb14db7";
-      keyFile = "/root/luks-keys/parity6tb.key";
+      keyFile = "/keyfile-parity6tb";
       preLVM = true;
       allowDiscards = true;
     };
     "usb8tb-encrypted" = {
       device = "/dev/disk/by-uuid/1d063486-a9dc-4b11-996a-786da4e3331b";
-      keyFile = "/root/luks-keys/usb8tb.key";
+      keyFile = "/keyfile-usb8tb";
       preLVM = true;
       allowDiscards = true;
     };
