@@ -2,7 +2,7 @@
 
 keys:
   - &primary age1q75fpaup2fff4sad4e9shqhkp4cd6zdfdqdu6vm4p4mwe8gwq4wqmt9ede
-  - &server_behemoth age10mwfapcjk0fly5hdz5s22ezsrflpx69kmvgcxapwk4qrl2xhcflq3efw3x
+  - &server_behemoth age1c8cckyj7f8rraxmufpjnf6a4yslhgsycyf2lwcj9g3jx09q0e4xsy6mh0p
 creation_rules:
   - path_regex: secrets/secrets.yaml$
     key_groups:
