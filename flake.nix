@@ -102,6 +102,19 @@
           sops-nix.nixosModules.sops
         ];
       };
+
+      # Add this bootstrap configuration
+      behemoth-bootstrap = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+          ./systems/behemoth/bootstrap-configuration.nix
+        ];
+      };
+
       # RPi 4 server at skippy - maybe wont use
       bobbie = nixpkgs.lib.nixosSystem {
         specialArgs = {
