@@ -1,7 +1,7 @@
 {lib, ...}: {
   imports = [
   ];
-
+  programs.neovim.defaultEditor = true;
   # Customisations for matt@medina
   programs.nvf = {
     enable = true;
@@ -123,7 +123,7 @@
           };
           images = {
             image-nvim.enable = false;
-            img-clip.enable = true;
+            img-clip.enable = false;
           };
         };
         terminal = {

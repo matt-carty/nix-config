@@ -22,7 +22,10 @@
     ../common/optional/desktop/autologin.nix
     ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
+    ./nfs-client.nix
     ./mount-home.nix
+    ./input-leap.nix
+    ../common/optional/desktop/open-webui.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -38,7 +41,7 @@
       #   hi = final.hello.overrideAttrs (oldAttrs: {
       #     patches = [ ./change-hello-to-hi.patch ];
       #   });
-      # })
+      # })nixpkgs.overlays = [
     ];
     # Configure your nixpkgs instance
     config = {
@@ -119,13 +122,15 @@
 
   services.usbmuxd.enable = true;
 
+  # Packages that only go on this machine
+
   environment.systemPackages = with pkgs; [
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
     solaar
     gnomeExtensions.solaar-extension
+    libportal
   ];
-
   # Set your hostname
   networking.hostName = "medina";
 

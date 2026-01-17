@@ -4,7 +4,7 @@
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     #    inputs.nixvim.homeManagerModules.nixvim
     # inputs.nix-colors.homeManagerModule
-    #    ./nvim
+    ./nvf/default.nix
     ./git.nix
   ];
 
@@ -66,7 +66,7 @@
       flint = "ssk flint";
       behemoth = "ssk behemoth";
       dcup = "docker compose up -d";
-      dclog = "docker compose log";
+      dclog = "docker compose logs";
       dcdown = "docker compose down";
       dcpull = "docker compose pull";
     };
@@ -76,6 +76,7 @@
   # ssh config here
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     matchBlocks = {
       "draper" = {
         user = "root";

@@ -4,7 +4,7 @@
   inputs = {
     # Nix ecosystem
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     systems.url = "github:nix-systems/default-linux";
 
     # Home manager
@@ -21,10 +21,10 @@
     };
 
     # Nixvim to set up neovim
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #    nixvim = {
+    #      url = "github:nix-community/nixvim";
+    #      inputs.nixpkgs.follows = "nixpkgs";
+    #    };
 
     # Optional, if you intend to follow nvf's obsidian-nvim input
     # you must also add it as a flake input.
@@ -46,8 +46,9 @@
     self,
     nixpkgs,
     home-manager,
-    nixvim,
     nvf,
+    nixpkgs-stable,
+    sops-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -61,7 +62,11 @@
           inherit inputs outputs;
         };
         # > Our main nixos configuration file <
-        modules = [./systems/alien/configuration.nix];
+        modules = [
+          ./systems/alien/configuration.nix
+          nvf.nixosModules.default
+          sops-nix.nixosModules.sops
+        ];
       };
       # NUC server for Jellyfin
       flint = nixpkgs.lib.nixosSystem {
@@ -94,8 +99,22 @@
         modules = [
           nvf.nixosModules.default
           ./systems/behemoth/configuration.nix
+          sops-nix.nixosModules.sops
         ];
       };
+
+      # Add this bootstrap configuration
+      behemoth-bootstrap = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+          ./systems/behemoth/bootstrap-configuration.nix
+        ];
+      };
+
       # RPi 4 server at skippy - maybe wont use
       bobbie = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -137,7 +156,11 @@
           inherit inputs outputs;
         };
         # > Our main home-manager configuration file <
-        modules = [./home/matt/alien.nix];
+
+        modules = [
+          ./home/matt/alien.nix
+          nvf.homeManagerModules.default
+        ];
       };
       "matt@flint" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance

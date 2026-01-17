@@ -1,7 +1,6 @@
-{ ... }:{
-
-fileSystems."/mnt/stuff" = {
-    device = "bobbie:/stuff";
+{...}: {
+  fileSystems."/home/matt/stuff" = {
+    device = "ceres:/mnt/main/stuff";
     fsType = "nfs";
-};
+  };
 }

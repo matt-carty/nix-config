@@ -15,11 +15,9 @@
 
     # You can also split up your configuration and import pieces of it here:
     ../common/global/default.nix
-    #    ./behemoth-drives.nix
-    ../common/optional/network/ipsec.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
+    #    ./hardware-configuration.nix
   ];
 
   nixpkgs = {
@@ -60,44 +58,21 @@
     networkmanager = {
       enable = true;
       ensureProfiles = {
-        environmentFiles = [
-          config.sops.secrets."parents_wifi.env".path
-        ];
         profiles = {
           "parents-wifi" = {
             connection.id = "parents-wifi";
             connection.type = "wifi";
-            wifi.ssid = "$parents_ssid";
+            wifi.ssid = "PUTSSIDHERE";
             wifi-security = {
               auth-alg = "open";
               key-mgmt = "wpa-psk";
-              psk = "$parents_psk";
+              psk = "PUTPASSWORDHERE";
             };
           };
         };
       };
     };
   };
-
-  # Create a separate service to initiate the connection
-  systemd.services.strongswan-initiate = {
-    description = "Initiate strongSwan VPN connection";
-    after = ["strongswan-swanctl.service"];
-    wants = ["strongswan-swanctl.service"];
-    wantedBy = ["multi-user.target"];
-
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 5 && ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel'";
-    };
-  };
-
-  # SOPS config
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-  sops.secrets."parents_wifi.env" = {};
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -111,7 +86,19 @@
       PasswordAuthentication = false;
     };
   };
+  # This is for making the sd:
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    wget
+    curl
+  ];
+
+  # Resize root partition on first boot
+  boot.growPartition = true;
+  # This is required for SD card images
+  sdImage.compressImage = false; # Set to true to save space, but takes longer
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "26.05";
+  system.stateVersion = "25.11";
 }

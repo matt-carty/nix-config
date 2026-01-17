@@ -1,0 +1,11 @@
+# .sops.yaml
+
+keys:
+  - &primary age1q75fpaup2fff4sad4e9shqhkp4cd6zdfdqdu6vm4p4mwe8gwq4wqmt9ede
+  - &server_behemoth age1q7zh76nm5jvkk8ty5zh6llc5899d68g3equc7yjv0jvhczg9mvvs9jqarf
+creation_rules:
+  - path_regex: secrets/secrets.yaml$
+    key_groups:
+    - age:
+      - *primary
+      - *server_behemoth

@@ -1,16 +1,15 @@
-{ pkgs, ...}: {
-  
-#  environment.systemPackages = with pkgs; [
-#    nerdfonts
+{pkgs, ...}: {
+  #  environment.systemPackages = with pkgs; [
+  #    nerdfonts
 
- # ];
+  # ];
 
   environment.systemPackages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.droid-sans-mono
     nerd-fonts.jetbrains-mono
     nerd-fonts.caskaydia-cove
-    ];
+  ];
 
   # Enable fonts to use on your system.  You should make sure to add at least
   # one English font (like dejavu_fonts), as well as Japanese fonts like
@@ -22,8 +21,8 @@
     kochi-substitute
     source-code-pro
     ttf_bitstream_vera
-    (google-fonts.override { fonts = [ "MochiyPopOne" "MPLUS1Code" "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSans" "NotoSerifJP" "WorkSans" "Inter" "Archivo" "Prompt"]; })
-#    (nerd-fonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
+    (google-fonts.override {fonts = ["MochiyPopOne" "MPLUS1Code" "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSans" "NotoSerifJP" "WorkSans" "Inter" "Archivo" "Prompt"];})
+    #    (nerd-fonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
     nerd-fonts.fira-code
     nerd-fonts.droid-sans-mono
     nerd-fonts.jetbrains-mono
@@ -56,12 +55,10 @@
     ];
   };
 
-
   # This enables "fcitx" as your IME.  This is an easy-to-use IME.  It supports many different input methods.
   i18n.inputMethod = {
     type = "ibus";
     enable = true;
-    ibus.engines = with pkgs.ibus-engines; [ hangul mozc ];
+    ibus.engines = with pkgs.ibus-engines; [hangul mozc];
   };
-
 }

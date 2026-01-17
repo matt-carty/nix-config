@@ -13,12 +13,18 @@
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
 
-    # You can also split up your configuration and import pieces of it here:
+    # Common for all systems
     ../common/global/default.nix
+    # Optional common components
     ../common/optional/desktop/fonts.nix
     ../common/optional/server/docker.nix
+    ../common/optional/server/open-webui.nix
+    # Custom for razorback
     ./unlock-luks.nix
     ./mount-ssd.nix
+    ./nfs-client.nix
+    ./docker-backup.nix
+    ./mount-scooter.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -70,13 +76,13 @@
   boot.kernelParams = ["kvm.enable_virt_at_load=0"];
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
       intel-media-driver # This is what you need for N97/Alder Lake-N
       intel-compute-runtime # OpenCL support
-      vaapiVdpau
+      libva-vdpau-driver
       libvdpau-va-gl
       # Don't include vaapiIntel - it's for older GPUs and conflicts
     ];
