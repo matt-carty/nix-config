@@ -6,7 +6,10 @@
       user = "root";
       repository = "/mnt/backups/razorback-docker";
 
-      paths = ["/home/matt/docker"];
+      paths = [
+        "/home/matt/docker"
+        "/var/lib/open-webui"
+      ];
 
       # Just check the mount exists
       backupPrepareCommand = ''
