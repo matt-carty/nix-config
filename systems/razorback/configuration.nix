@@ -13,15 +13,17 @@
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
 
-    # You can also split up your configuration and import pieces of it here:
+    # Common for all systems
     ../common/global/default.nix
+    # Optional common components
     ../common/optional/desktop/fonts.nix
     ../common/optional/server/docker.nix
+    ../common/optional/server/open-webui.nix
+    # Custom for razorback
     ./unlock-luks.nix
     ./mount-ssd.nix
     ./nfs-client.nix
     ./docker-backup.nix
-    ../common/optional/server/open-webui.nix
     ./mount-scooter.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
