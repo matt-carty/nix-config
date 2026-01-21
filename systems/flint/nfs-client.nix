@@ -1,6 +1,6 @@
 {...}: {
   fileSystems."/mnt/stuff" = {
-    device = "behemoth:/stuff";
+    device = "ceres:/mnt/main/stuff";
     fsType = "nfs";
   };
   fileSystems."/mnt/flint" = {

@@ -69,8 +69,8 @@
     enable = true;
     extraPackages = with pkgs; [
       # Remove intel-media-driver - it's for Broadwell (5th gen) and newer only
-      vaapiIntel # ✅ Essential for your 4th gen Haswell
-      vaapiVdpau # ✅ Keep for additional codec support
+      intel-vaapi-driver # ✅ Essential for your 4th gen Haswell
+      libva-vdpau-driver # ✅ Keep for additional codec support
       libvdpau-va-gl # ✅ Keep for VA-API/VDPAU bridge
       # Remove intel-compute-runtime - not needed for basic VA-API on 4th gen
     ];
