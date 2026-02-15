@@ -146,11 +146,6 @@
     };
   };
 
-  services.nfs.server.enable = true;
-  services.nfs.server.exports = ''
-    /export         10.89.24.0/24(rw,fsid=0,no_subtree_check,no_root_squash) 10.89.42.0/24(rw,fsid=0,no_subtree_check,no_root_squash)
-  '';
-
   networking.firewall.enable = false;
 
   # Create systemd service for hd-idle

@@ -92,6 +92,14 @@
       ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 5 && ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel'";
     };
   };
+  systemd.timers.strongswan-initiate = {
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnBootSec = "5min";
+      OnUnitActiveSec = "30min";
+      Unit = "strongswan-initiate.service";
+    };
+  };
 
   # SOPS config
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
