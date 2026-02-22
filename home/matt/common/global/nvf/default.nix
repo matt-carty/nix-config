@@ -137,7 +137,7 @@
             key = "<leader>e";
             mode = "n";
             silent = true;
-            action = ":Neotree toggle";
+            action = ":Neotree toggle<CR>";
           }
         ];
       };
