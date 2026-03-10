@@ -89,7 +89,7 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = false;
-      ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 5 && ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel'";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 5 && (${pkgs.strongswan}/bin/swanctl --list-sas | grep -q pfsense-tunnel || ${pkgs.strongswan}/bin/swanctl --initiate --child pfsense-tunnel)'";
     };
   };
   systemd.timers.strongswan-initiate = {
