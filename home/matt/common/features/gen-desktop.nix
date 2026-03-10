@@ -7,6 +7,7 @@
     vial
     appimage-run
     geary
+    telegram-desktop
   ];
   programs.gnome-shell = {
     enable = true;
