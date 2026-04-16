@@ -8,6 +8,8 @@
     appimage-run
     geary
     telegram-desktop
+    picard
+    cursor-agent
   ];
   programs.gnome-shell = {
     enable = true;
