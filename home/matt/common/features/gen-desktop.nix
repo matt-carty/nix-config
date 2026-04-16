@@ -9,7 +9,7 @@
     geary
     telegram-desktop
     picard
-    cursor-agent
+    cursor-cli
   ];
   programs.gnome-shell = {
     enable = true;
