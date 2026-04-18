@@ -130,6 +130,7 @@
     solaar
     gnomeExtensions.solaar-extension
     libportal
+    deskflow
   ];
   # Set your hostname
   networking.hostName = "medina";
