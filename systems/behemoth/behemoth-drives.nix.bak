@@ -144,7 +144,6 @@
     parity /mnt/parity6tb/snapraid.parity
 
     # Content file locations (should be on multiple drives for redundancy)
-    content /var/snapraid/snapraid.content
     content /mnt/usb8tb/snapraid.content
     content /mnt/usb4tb/snapraid.content
 
