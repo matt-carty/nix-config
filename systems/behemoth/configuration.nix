@@ -78,7 +78,12 @@
       };
     };
   };
-
+  # configuration.nix
+  services.journald.extraConfig = ''
+    Storage=volatile
+    RuntimeMaxUse=64M
+  '';
+  boot.tmp.useTmpfs = true;
   # Create a separate service to initiate the connection
   systemd.services.strongswan-initiate = {
     description = "Initiate strongSwan VPN connection";
