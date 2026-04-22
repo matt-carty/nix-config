@@ -77,6 +77,10 @@
         };
       };
     };
+    localCommands = ''
+      iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+      iptables -t mangle -A OUTPUT -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+    '';
   };
   # configuration.nix
   services.journald.extraConfig = ''
