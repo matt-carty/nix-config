@@ -122,6 +122,11 @@
       # Opinionated: use keys only.
       # Remove if you want to SSH using passwords
       PasswordAuthentication = false;
+      KexAlgorithms = [
+        "curve25519-sha256"
+        "curve25519-sha256@libssh.org"
+        "diffie-hellman-group-exchange-sha256"
+      ];
     };
   };
 
