@@ -45,70 +45,71 @@
       RemainAfterExit = true;
       TimeoutStartSec = "120s";
       ExecStart = pkgs.writeShellScript "storage-mount" ''
-        CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
-        MOUNT="${pkgs.util-linux}/bin/mount"
-        MOUNTPOINT="${pkgs.util-linux}/bin/mountpoint"
+                CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
+                MOUNT="${pkgs.util-linux}/bin/mount"
+                MOUNTPOINT="${pkgs.util-linux}/bin/mountpoint"
+                MERGERFS="${pkgs.mergerfs}/bin/mergerfs"
 
-        open_luks() {
-          local name="$1"
-          local uuid="$2"
-          local keyfile="$3"
-          local device="/dev/disk/by-uuid/$uuid"
+                open_luks() {
+                  local name="$1"
+                  local uuid="$2"
+                  local keyfile="$3"
+                  local device="/dev/disk/by-uuid/$uuid"
 
-          if [ ! -e "$device" ]; then
-            echo "WARNING: Device $uuid not found, skipping $name"
-            return 1
-          fi
+                  if [ ! -e "$device" ]; then
+                    echo "WARNING: Device $uuid not found, skipping $name"
+                    return 1
+                  fi
 
-          if [ -e "/dev/mapper/$name" ]; then
-            echo "$name already open"
-            return 0
-          fi
+                  if [ -e "/dev/mapper/$name" ]; then
+                    echo "$name already open"
+                    return 0
+                  fi
 
-          timeout 30 "$CRYPTSETUP" luksOpen "$device" "$name" --key-file "$keyfile" || {
-            echo "WARNING: Failed to open $name"
-            return 1
-          }
-        }
+                  timeout 30 "$CRYPTSETUP" luksOpen "$device" "$name" --key-file "$keyfile" || {
+                    echo "WARNING: Failed to open $name"
+                    return 1
+                  }
+                }
 
-        mount_fs() {
-          local $MOUNTPOINT="$1"
-          local device="$2"
-          local fstype="$3"
-          local opts="$4"
+                mount_fs() {
+                  local mountpoint ="$1"
+                  local device="$2"
+                  local fstype="$3"
+                  local opts="$4"
 
-          if [ "$fstype" != "fuse.mergerfs" ] && [ ! -e "$device" ]; then
-            echo "WARNING: $device not available, skipping $mountpoint"
-            return 1
-          fi
+                  if [ "$fstype" != "fuse.mergerfs" ] && [ ! -e "$device" ]; then
+                    echo "WARNING: $device not available, skipping $mountpoint"
+                    return 1
+                  fi
 
-          if $MOUNTPOINT -q "$mountpoint"; then
-            echo "$mountpoint already mounted"
-            return 0
-          fi
+                  if $MOUNTPOINT -q "$mountpoint"; then
+                    echo "$mountpoint already mounted"
+                    return 0
+                  fi
 
-          timeout 30 "$MOUNT" -t "$fstype" -o "$opts" "$device" "$mountpoint" || {
-            echo "WARNING: Failed to mount $mountpoint"
-            return 1
-          }
-        }
+                  timeout 30 "$MOUNT" -t "$fstype" -o "$opts" "$device" "$mountpoint" || {
+                    echo "WARNING: Failed to mount $mountpoint"
+                    return 1
+                  }
+                }
 
-        open_luks "usb8tb-encrypted"    "1d063486-a9dc-4b11-996a-786da4e3331b" "/root/luks-keys/usb8tb.key"    || true
-        open_luks "usb4tb-encrypted"    "39f49560-a8ba-473b-a235-5a8af4993a11" "/root/luks-keys/usb4tb.key"    || true
-        open_luks "parity6tb-encrypted" "f02f46c4-a3dc-462c-9f0c-5f4b3fb14db7" "/root/luks-keys/parity6tb.key" || true
+                open_luks "usb8tb-encrypted"    "1d063486-a9dc-4b11-996a-786da4e3331b" "/root/luks-keys/usb8tb.key"    || true
+                open_luks "usb4tb-encrypted"    "39f49560-a8ba-473b-a235-5a8af4993a11" "/root/luks-keys/usb4tb.key"    || true
+                open_luks "parity6tb-encrypted" "f02f46c4-a3dc-462c-9f0c-5f4b3fb14db7" "/root/luks-keys/parity6tb.key" || true
 
-        mount_fs "/mnt/usb8tb"    "/dev/mapper/usb8tb-encrypted"    "ext4" "nofail" || true
-        mount_fs "/mnt/usb4tb"    "/dev/mapper/usb4tb-encrypted"    "ext4" "nofail" || true
-        mount_fs "/mnt/parity6tb" "/dev/mapper/parity6tb-encrypted" "ext4" "nofail" || true
+                mount_fs "/mnt/usb8tb"    "/dev/mapper/usb8tb-encrypted"    "ext4" "nofail" || true
+                mount_fs "/mnt/usb4tb"    "/dev/mapper/usb4tb-encrypted"    "ext4" "nofail" || true
+                mount_fs "/mnt/parity6tb" "/dev/mapper/parity6tb-encrypted" "ext4" "nofail" || true
 
         if $MOUNTPOINT -q /mnt/usb8tb || $MOUNTPOINT -q /mnt/usb4tb; then
-          mount_fs "/mnt/storage" "/mnt/usb8tb/:/mnt/usb4tb/" "fuse.mergerfs" \
-            "minfreespace=100G,category.create=mfs" || true
+          timeout 30 "$MERGERFS" "/mnt/usb8tb:/mnt/usb4tb" "/mnt/storage" \
+            -o "minfreespace=100G,category.create=mfs" || \
+            echo "WARNING: Failed to mount mergerfs"
         else
           echo "WARNING: No data drives mounted, skipping mergerfs"
         fi
-
-        echo "Storage mount complete"
+                echo "Storage mount complete"
       '';
       ExecStop = pkgs.writeShellScript "storage-umount" ''
         UMOUNT="${pkgs.util-linux}/bin/umount"
