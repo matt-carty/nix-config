@@ -72,7 +72,7 @@
         }
 
         mount_fs() {
-          local mountpoint="$1"
+          local $MOUNTPOINT="$1"
           local device="$2"
           local fstype="$3"
           local opts="$4"
@@ -82,7 +82,7 @@
             return 1
           fi
 
-          if mountpoint -q "$mountpoint"; then
+          if $MOUNTPOINT -q "$mountpoint"; then
             echo "$mountpoint already mounted"
             return 0
           fi
@@ -101,7 +101,7 @@
         mount_fs "/mnt/usb4tb"    "/dev/mapper/usb4tb-encrypted"    "ext4" "nofail" || true
         mount_fs "/mnt/parity6tb" "/dev/mapper/parity6tb-encrypted" "ext4" "nofail" || true
 
-        if mountpoint -q /mnt/usb8tb || mountpoint -q /mnt/usb4tb; then
+        if $MOUNTPOINT -q /mnt/usb8tb || $MOUNTPOINT -q /mnt/usb4tb; then
           mount_fs "/mnt/storage" "/mnt/usb8tb/:/mnt/usb4tb/" "fuse.mergerfs" \
             "minfreespace=100G,category.create=mfs" || true
         else
@@ -114,10 +114,10 @@
         UMOUNT="${pkgs.util-linux}/bin/umount"
         CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
 
-        mountpoint -q /mnt/storage   && timeout 30 "$UMOUNT" /mnt/storage   || true
-        mountpoint -q /mnt/usb8tb    && timeout 30 "$UMOUNT" /mnt/usb8tb    || true
-        mountpoint -q /mnt/usb4tb    && timeout 30 "$UMOUNT" /mnt/usb4tb    || true
-        mountpoint -q /mnt/parity6tb && timeout 30 "$UMOUNT" /mnt/parity6tb || true
+        $MOUNTPOINT -q /mnt/storage   && timeout 30 "$UMOUNT" /mnt/storage   || true
+        $MOUNTPOINT -q /mnt/usb8tb    && timeout 30 "$UMOUNT" /mnt/usb8tb    || true
+        $MOUNTPOINT -q /mnt/usb4tb    && timeout 30 "$UMOUNT" /mnt/usb4tb    || true
+        $MOUNTPOINT -q /mnt/parity6tb && timeout 30 "$UMOUNT" /mnt/parity6tb || true
 
         [ -e /dev/mapper/usb8tb-encrypted ]    && timeout 30 "$CRYPTSETUP" luksClose usb8tb-encrypted    || true
         [ -e /dev/mapper/usb4tb-encrypted ]    && timeout 30 "$CRYPTSETUP" luksClose usb4tb-encrypted    || true
