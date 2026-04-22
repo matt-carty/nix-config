@@ -47,6 +47,7 @@
       ExecStart = pkgs.writeShellScript "storage-mount" ''
         CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
         MOUNT="${pkgs.util-linux}/bin/mount"
+        MOUNTPOINT="${pkgs.util-linux}/bin/mountpoint"
 
         open_luks() {
           local name="$1"
