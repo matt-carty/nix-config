@@ -73,7 +73,7 @@
                 }
 
                 mount_fs() {
-                  local mountpoint ="$1"
+                  local mountpoint="$1"
                   local device="$2"
                   local fstype="$3"
                   local opts="$4"
@@ -114,6 +114,7 @@
       ExecStop = pkgs.writeShellScript "storage-umount" ''
         UMOUNT="${pkgs.util-linux}/bin/umount"
         CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
+        MOUNTPOINT="${pkgs.util-linux}/bin/mountpoint"
 
         $MOUNTPOINT -q /mnt/storage   && timeout 30 "$UMOUNT" /mnt/storage   || true
         $MOUNTPOINT -q /mnt/usb8tb    && timeout 30 "$UMOUNT" /mnt/usb8tb    || true
@@ -130,7 +131,6 @@
   environment.etc."snapraid.conf".text = ''
     parity /mnt/parity6tb/snapraid.parity
 
-    content /var/snapraid/snapraid.content
     content /mnt/usb8tb/snapraid.content
     content /mnt/usb4tb/snapraid.content
 
@@ -160,9 +160,9 @@
   systemd.tmpfiles.rules = [
     "d /var/snapraid 0755 root root -"
     "d /mnt/usb4tb 2775 root storage -"
-    "d /mnt/usb8tb 2755 root storage -"
-    "d /mnt/parity6tb 2755 root storage -"
-    "d /mnt/storage 2755 root storage -"
+    "d /mnt/usb8tb 2775 root storage -"
+    "d /mnt/parity6tb 2775 root storage -"
+    "d /mnt/storage 2775 root storage -"
     "f /var/log/hd-idle.log 0644 root root -"
   ];
 
