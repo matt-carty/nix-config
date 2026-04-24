@@ -38,7 +38,9 @@
 
   systemd.services.storage-mount = {
     description = "Open LUKS devices and mount external storage";
-    wantedBy = [];
+    wantedBy = ["multi-user.target"]; # start on boot
+    after = ["systemd-tmpfiles-setup.service"]; # wait for mountpoints
+    requires = ["systemd-tmpfiles-setup.service"];
     before = ["external-storage.target"];
     serviceConfig = {
       Type = "oneshot";
