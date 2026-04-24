@@ -39,6 +39,7 @@
   systemd.services.storage-mount = {
     description = "Open LUKS devices and mount external storage";
     wantedBy = ["multi-user.target"]; # start on boot
+    wants = ["systemd-udev-settle.service"];
     after = [
       "systemd-tmpfiles-setup.service"
       "systemd-udev-settle.service"
@@ -50,11 +51,17 @@
       RemainAfterExit = true;
       TimeoutStartSec = "120s";
       ExecStart = pkgs.writeShellScript "storage-mount" ''
-                CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
-                MOUNT="${pkgs.util-linux}/bin/mount"
-                MOUNTPOINT="${pkgs.util-linux}/bin/mountpoint"
-                MERGERFS="${pkgs.mergerfs}/bin/mergerfs"
+         CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
+         MOUNT="${pkgs.util-linux}/bin/mount"
+         MOUNTPOINT="${pkgs.util-linux}/bin/mountpoint"
+         MERGERFS="${pkgs.mergerfs}/bin/mergerfs"
+         UDEVADM="${pkgs.systemd}/bin/udevadm"
 
+        # FIX 2: Wait for udev to finish processing devices before we try
+        # to open LUKS. Without this, the by-uuid symlinks may not exist
+        # yet when the service starts during boot.
+        echo "Waiting for udev to settle..."
+        "$UDEVADM" settle --timeout=30 || true
                 open_luks() {
                   local name="$1"
                   local uuid="$2"
