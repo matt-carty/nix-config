@@ -18,7 +18,7 @@
     # Optional common components
     ../common/optional/desktop/fonts.nix
     ../common/optional/server/docker.nix
-    ../common/optional/server/open-webui.nix
+    #    ../common/optional/server/open-webui.nix
     # Custom for razorback
     ./unlock-luks.nix
     ./mount-ssd.nix

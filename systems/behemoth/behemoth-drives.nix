@@ -159,10 +159,10 @@
 
   systemd.tmpfiles.rules = [
     "d /var/snapraid 0755 root root -"
-    "d /mnt/usb4tb 0755 root root -"
-    "d /mnt/usb8tb 0755 root root -"
-    "d /mnt/parity6tb 0755 root root -"
-    "d /mnt/storage 0755 root root -"
+    "d /mnt/usb4tb 2775 root storage -"
+    "d /mnt/usb8tb 2755 root storage -"
+    "d /mnt/parity6tb 2755 root storage -"
+    "d /mnt/storage 2755 root storage -"
     "f /var/log/hd-idle.log 0644 root root -"
   ];
 
