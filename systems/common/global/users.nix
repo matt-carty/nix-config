@@ -1,7 +1,7 @@
 {...}: {
   users.groups.media = {gid = 13000;};
   users.groups.www-data = {gid = 33;};
-  user.groups.storage = {gid = 1400;};
+  users.groups.storage = {gid = 1400;};
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
