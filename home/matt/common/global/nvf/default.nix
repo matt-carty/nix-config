@@ -12,6 +12,7 @@
           formatOnSave = true;
           trouble.enable = true;
           lspkind.enable = true;
+          presets.tailwindcss-language-server.enable = true;
         };
         languages = {
           enableFormat = true;
@@ -19,9 +20,8 @@
 
           nix.enable = true;
           markdown.enable = true;
-          ts.enable = true;
+          typescript.enable = true;
           lua.enable = true;
-          tailwind.enable = true;
           html.enable = true;
           css.enable = true;
           sql.enable = true;
@@ -62,7 +62,9 @@
           nvimBufferline.enable = true;
         };
 
-        treesitter.context.enable = true;
+        # Temporarily disable until nvf/tree-sitter-context catches up
+        # with nvim-treesitter API changes in newer flake revisions.
+        treesitter.context.enable = false;
 
         visuals = {
           nvim-scrollbar.enable = true;
@@ -94,7 +96,8 @@
 
         minimap = {
           minimap-vim.enable = false;
-          codewindow.enable = true; # lighter, faster, and uses lua for configuration
+          # Currently incompatible with latest nvim-treesitter (ts_utils removal).
+          codewindow.enable = false;
         };
 
         dashboard = {
