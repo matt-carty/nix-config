@@ -3,7 +3,6 @@
     calibre
     vlc
     remmina
-    pdfslicer
     vial
     appimage-run
     geary
