@@ -22,6 +22,7 @@
     ../common/optional/desktop/autologin.nix
     ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
+    ../common/optional/server/paperclip-docker.nix
     ./nfs-client.nix
     ./mount-home.nix
     ../common/optional/desktop/open-webui.nix
@@ -32,6 +33,7 @@
   nixpkgs = {
     # You can add overlays here
     overlays = [
+      inputs.nix-openclaw.overlays.default
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
@@ -121,9 +123,19 @@
 
   services.usbmuxd.enable = true;
 
+  services.openclaw-gateway = {
+    enable = true;
+    # Put API keys in a root-owned file and reference it, e.g.:
+    # environmentFiles = [ "-/run/secrets/openclaw.env" ];
+  };
+
+  services.paperclip-docker.enable = true;
+  # Optional: pin image — services.paperclip-docker.image = "ghcr.io/paperclipai/paperclip:<tag-or-digest>";
+
   # Packages that only go on this machine
 
   environment.systemPackages = with pkgs; [
+    openclaw
     libimobiledevice
     ifuse # optional, to mount using 'ifuse'
     solaar
