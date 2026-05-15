@@ -25,6 +25,7 @@
     ../common/optional/server/paperclip-docker.nix
     ./nfs-client.nix
     ./mount-home.nix
+    ./openclaw-gateway.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -122,14 +123,19 @@
 
   services.usbmuxd.enable = true;
 
-  services.openclaw-gateway = {
-    enable = true;
-    # Put API keys in a root-owned file and reference it, e.g.:
-    # environmentFiles = [ "-/run/secrets/openclaw.env" ];
-  };
+  # SOPS Config
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
 
-  services.paperclip-docker.enable = true;
-  # Optional: pin image — services.paperclip-docker.image = "ghcr.io/paperclipai/paperclip:<tag-or-digest>";
+  sops.age.keyFile = "/home/matt/.config/sops/age/keys.txt";
+
+  sops.secrets."paperclip-env" = {};
+
+  services.paperclip-docker = {
+    enable = true;
+    environmentFiles = [config.sops.secrets."paperclip-env".path];
+    # Optional: pin image — image = "ghcr.io/paperclipai/paperclip:<tag-or-digest>";
+  };
 
   # Packages that only go on this machine
 
