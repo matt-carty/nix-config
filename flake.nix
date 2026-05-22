@@ -31,6 +31,11 @@
     #    obsidian-nvim.url = "github:epwalsh/obsidian.nvim";
 
     # Required, nvf works best and only directly supports flakes
+    nix-openclaw = {
+      url = "github:openclaw/nix-openclaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nvf = {
       url = "github:notashelf/nvf";
       # You can override the input nixpkgs to follow your system's
@@ -141,7 +146,9 @@
         };
         # > Our main nixos configuration file <
         modules = [
+          sops-nix.nixosModules.sops
           nvf.nixosModules.default
+          inputs.nix-openclaw.nixosModules.openclaw-gateway
           ./systems/medina/configuration.nix
         ];
       };

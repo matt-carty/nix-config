@@ -6,6 +6,7 @@
     # inputs.nix-colors.homeManagerModule
     ./nvf/default.nix
     ./git.nix
+    ./sops.nix
   ];
 
   nixpkgs = {

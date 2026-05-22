@@ -39,30 +39,57 @@
   systemd.services.storage-mount = {
     description = "Open LUKS devices and mount external storage";
     wantedBy = ["multi-user.target"]; # start on boot
-    wants = ["systemd-udev-settle.service"];
-    after = [
-      "systemd-tmpfiles-setup.service"
-      "systemd-udev-settle.service"
-    ]; # wait for mountpoints
+    after = ["systemd-tmpfiles-setup.service"];
     requires = ["systemd-tmpfiles-setup.service"];
     before = ["external-storage.target"];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      TimeoutStartSec = "120s";
+      TimeoutStartSec = "180s";
       ExecStart = pkgs.writeShellScript "storage-mount" ''
-         CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
-         MOUNT="${pkgs.util-linux}/bin/mount"
-         MOUNTPOINT="${pkgs.util-linux}/bin/mountpoint"
-         MERGERFS="${pkgs.mergerfs}/bin/mergerfs"
-         UDEVADM="${pkgs.systemd}/bin/udevadm"
+        CRYPTSETUP="${pkgs.cryptsetup}/bin/cryptsetup"
+        MOUNT="${pkgs.util-linux}/bin/mount"
+        MOUNTPOINT="${pkgs.util-linux}/bin/mountpoint"
+        MERGERFS="${pkgs.mergerfs}/bin/mergerfs"
+        UDEVADM="${pkgs.systemd}/bin/udevadm"
 
-        # FIX 2: Wait for udev to finish processing devices before we try
-        # to open LUKS. Without this, the by-uuid symlinks may not exist
-        # yet when the service starts during boot.
-        echo "Waiting for udev to settle..."
-        "$UDEVADM" settle --timeout=30 || true
-                open_luks() {
+        # USB enclosures can take 10s+ after xhci probe before partitions exist.
+        wait_for_storage_devices() {
+          local uuids=(
+            1d063486-a9dc-4b11-996a-786da4e3331b
+            39f49560-a8ba-473b-a235-5a8af4993a11
+            f02f46c4-a3dc-462c-9f0c-5f4b3fb14db7
+          )
+          local max_wait=180 elapsed=0 uuid missing
+
+          echo "Waiting for USB storage devices (up to ''${max_wait}s)..."
+          while [ "$elapsed" -lt "$max_wait" ]; do
+            missing=0
+            for uuid in "''${uuids[@]}"; do
+              if [ ! -e "/dev/disk/by-uuid/$uuid" ]; then
+                missing=1
+                break
+              fi
+            done
+            if [ "$missing" -eq 0 ]; then
+              echo "All storage devices present after ''${elapsed}s"
+              return 0
+            fi
+            sleep 2
+            elapsed=$((elapsed + 2))
+            "$UDEVADM" settle --timeout=5 2>/dev/null || true
+          done
+          echo "WARNING: Timed out after ''${max_wait}s waiting for storage devices"
+          for uuid in "''${uuids[@]}"; do
+            [ -e "/dev/disk/by-uuid/$uuid" ] || \
+              echo "WARNING: Still missing /dev/disk/by-uuid/$uuid"
+          done
+          return 1
+        }
+
+        wait_for_storage_devices || true
+
+        open_luks() {
                   local name="$1"
                   local uuid="$2"
                   local keyfile="$3"
@@ -106,13 +133,13 @@
                   }
                 }
 
-                open_luks "usb8tb-encrypted"    "1d063486-a9dc-4b11-996a-786da4e3331b" "/root/luks-keys/usb8tb.key"    || true
-                open_luks "usb4tb-encrypted"    "39f49560-a8ba-473b-a235-5a8af4993a11" "/root/luks-keys/usb4tb.key"    || true
-                open_luks "parity6tb-encrypted" "f02f46c4-a3dc-462c-9f0c-5f4b3fb14db7" "/root/luks-keys/parity6tb.key" || true
+        open_luks "usb8tb-encrypted"    "1d063486-a9dc-4b11-996a-786da4e3331b" "/root/luks-keys/usb8tb.key"    || true
+        open_luks "usb4tb-encrypted"    "39f49560-a8ba-473b-a235-5a8af4993a11" "/root/luks-keys/usb4tb.key"    || true
+        open_luks "parity6tb-encrypted" "f02f46c4-a3dc-462c-9f0c-5f4b3fb14db7" "/root/luks-keys/parity6tb.key" || true
 
-                mount_fs "/mnt/usb8tb"    "/dev/mapper/usb8tb-encrypted"    "ext4" "nofail" || true
-                mount_fs "/mnt/usb4tb"    "/dev/mapper/usb4tb-encrypted"    "ext4" "nofail" || true
-                mount_fs "/mnt/parity6tb" "/dev/mapper/parity6tb-encrypted" "ext4" "nofail" || true
+        mount_fs "/mnt/usb8tb"    "/dev/mapper/usb8tb-encrypted"    "ext4" "nofail" || true
+        mount_fs "/mnt/usb4tb"    "/dev/mapper/usb4tb-encrypted"    "ext4" "nofail" || true
+        mount_fs "/mnt/parity6tb" "/dev/mapper/parity6tb-encrypted" "ext4" "nofail" || true
 
         if $MOUNTPOINT -q /mnt/usb8tb || $MOUNTPOINT -q /mnt/usb4tb; then
           timeout 30 "$MERGERFS" "/mnt/usb8tb:/mnt/usb4tb" "/mnt/storage" \
@@ -121,7 +148,7 @@
         else
           echo "WARNING: No data drives mounted, skipping mergerfs"
         fi
-                echo "Storage mount complete"
+        echo "Storage mount complete"
       '';
       ExecStop = pkgs.writeShellScript "storage-umount" ''
         UMOUNT="${pkgs.util-linux}/bin/umount"
@@ -171,10 +198,14 @@
 
   systemd.tmpfiles.rules = [
     "d /var/snapraid 0755 root root -"
-    "d /mnt/usb4tb 2775 root storage -"
-    "d /mnt/usb8tb 2775 root storage -"
-    "d /mnt/parity6tb 2775 root storage -"
-    "d /mnt/storage 2775 root storage -"
+    # Bare mountpoints are read-only so writes (e.g. TrueNAS rsync push) fail
+    # when the LUKS volumes / mergerfs aren't mounted, instead of silently
+    # filling the SD card. When mounted, the filesystem root's own perms
+    # (2775 root:storage on each drive) take over and writes work normally.
+    "d /mnt/usb4tb 0555 root root -"
+    "d /mnt/usb8tb 0555 root root -"
+    "d /mnt/parity6tb 0555 root root -"
+    "d /mnt/storage 0555 root root -"
     "f /var/log/hd-idle.log 0644 root root -"
   ];
 

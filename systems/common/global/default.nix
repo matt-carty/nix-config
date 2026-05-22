@@ -22,7 +22,6 @@
     htop
     usbutils # useful utility TODO separate useful utilities into their own file
     tmux
-    sops
   ];
 
   # for nixd
