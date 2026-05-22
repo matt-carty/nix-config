@@ -133,6 +133,7 @@
 
   services.paperclip-docker = {
     enable = true;
+    host = "0.0.0.0";
     environmentFiles = [config.sops.secrets."paperclip-env".path];
     # Optional: pin image — image = "ghcr.io/paperclipai/paperclip:<tag-or-digest>";
   };

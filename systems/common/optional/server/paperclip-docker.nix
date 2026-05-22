@@ -69,6 +69,7 @@ in {
           # CLAUDE_CONFIG_DIR — it can write credentials to a literal ~/ subdir in cwd).
           HOME = "/paperclip";
           PAPERCLIP_HOME = "/paperclip";
+          HOST = "0.0.0.0";
         };
         ports = ["${cfg.host}:${toString cfg.port}:3100"];
         volumes = ["${cfg.dataDir}:/paperclip"];
