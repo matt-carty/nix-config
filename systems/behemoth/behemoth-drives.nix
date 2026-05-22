@@ -198,10 +198,14 @@
 
   systemd.tmpfiles.rules = [
     "d /var/snapraid 0755 root root -"
-    "d /mnt/usb4tb 2775 root storage -"
-    "d /mnt/usb8tb 2775 root storage -"
-    "d /mnt/parity6tb 2775 root storage -"
-    "d /mnt/storage 2775 root storage -"
+    # Bare mountpoints are read-only so writes (e.g. TrueNAS rsync push) fail
+    # when the LUKS volumes / mergerfs aren't mounted, instead of silently
+    # filling the SD card. When mounted, the filesystem root's own perms
+    # (2775 root:storage on each drive) take over and writes work normally.
+    "d /mnt/usb4tb 0555 root root -"
+    "d /mnt/usb8tb 0555 root root -"
+    "d /mnt/parity6tb 0555 root root -"
+    "d /mnt/storage 0555 root root -"
     "f /var/log/hd-idle.log 0644 root root -"
   ];
 
