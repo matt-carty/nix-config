@@ -148,7 +148,6 @@
         modules = [
           sops-nix.nixosModules.sops
           nvf.nixosModules.default
-          inputs.nix-openclaw.nixosModules.openclaw-gateway
           ./systems/medina/configuration.nix
         ];
       };

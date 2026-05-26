@@ -20,12 +20,11 @@
     ../common/optional/desktop/gnome.nix
     ../common/optional/desktop/printers.nix
     ../common/optional/desktop/autologin.nix
-    ../common/optional/desktop/virtmachine.nix
     ../common/optional/server/docker.nix
     ../common/optional/server/paperclip-docker.nix
     ./nfs-client.nix
     ./mount-home.nix
-    ./openclaw-gateway.nix
+    ./libvirt-bridge-vm-host.nix
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -74,8 +73,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # temporary fix for virtualbox
-  boot.kernelParams = ["kvm.enable_virt_at_load=0"];
+  # QEMU/KVM bridged VMs (Ubuntu server guest, …)
+  medinaLibvirtBridge.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
