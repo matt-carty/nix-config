@@ -38,7 +38,7 @@
   };
 
   # Packages that will be on all systems for Matt only
-  #home.packages = with pkgs; [ rustlings ];
+  #home.packages = with pkgs; [ put-things-here ];
   programs.kitty = {
     enable = true;
     # theme = "Rosé Pine";
@@ -46,6 +46,8 @@
     settings = {
       # Workaround for nerd fonts being broken: font_family = "Fira Code Nerd Font Mono";
       font_family = "monospace";
+      # Allow OSC 52 clipboard reads without prompting (needed for nvim)
+      clipboard_control = "write-clipboard write-primary read-clipboard read-primary";
     };
   };
 
@@ -65,7 +67,7 @@
       ssk = "kitten ssh";
       raz = "ssk razorback";
       flint = "ssk flint";
-      behemoth = "ssk behemoth";
+      behe = "ssk behemoth.jiba";
       dcup = "docker compose up -d";
       dclog = "docker compose logs";
       dcdown = "docker compose down";

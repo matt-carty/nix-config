@@ -151,6 +151,14 @@
   # Set your hostname
   networking.hostName = "medina";
 
+  # Read-only NFS export for ubuntu-openclaw VM (and any other host on the LAN subnet).
+  services.nfs.server = {
+    enable = true;
+    exports = ''
+      /home/matt/supreme_invention  10.89.24.0/24(ro,no_subtree_check)
+    '';
+  };
+
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
   services.openssh = {
