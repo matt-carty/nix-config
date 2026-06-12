@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -38,7 +42,7 @@
   };
 
   # Packages that will be on all systems for Matt only
-  #home.packages = with pkgs; [ put-things-here ];
+  home.packages = with pkgs; [claude-code];
   programs.kitty = {
     enable = true;
     # theme = "Rosé Pine";
