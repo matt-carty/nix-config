@@ -92,7 +92,8 @@
 
     nvidiaSettings = true;
 
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # Quadro K2200 (Maxwell) is unsupported by 590+; needs legacy 580.
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
   };
 
   hardware.graphics = {
