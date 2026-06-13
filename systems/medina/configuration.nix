@@ -1,20 +1,17 @@
 # This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
-  lib,
   config,
   pkgs,
   ...
 }: {
-  # You can import other NixOS modules here
   imports = [
-    # If you want to use modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
-
-    # You can also split up your configuration and import pieces of it here:
+    inputs.sops-nix.nixosModules.sops
     ../common/global/default.nix
+    ../common/optional/nfs-shares.nix
+    ../common/optional/desktop/audio.nix
     ../common/optional/desktop/desktop-apps.nix
     ../common/optional/desktop/fonts.nix
     ../common/optional/desktop/gnome.nix
@@ -22,135 +19,55 @@
     ../common/optional/desktop/autologin.nix
     ../common/optional/server/docker.nix
     ../common/optional/server/paperclip-docker.nix
-    ./nfs-client.nix
     ./mount-home.nix
     ./libvirt-bridge-vm-host.nix
-    # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      inputs.nix-openclaw.overlays.default
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
+  networking.hostName = "medina";
 
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })nixpkgs.overlays = [
-    ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
+  nixpkgs.overlays = [
+    inputs.nix-openclaw.overlays.default
+    # neovim-nightly-overlay.overlays.default
+    # (final: prev: {
+    #   hi = final.hello.overrideAttrs (oldAttrs: {
+    #     patches = [ ./change-hello-to-hi.patch ];
+    #   });
+    # })
+  ];
+
+  nfsMounts = {
+    backup = true;
+    stuff = {
+      enable = true;
+      mountPoint = "/home/matt/stuff";
     };
+    flint = true;
   };
 
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  in {
-    settings = {
-      # Enable flakes and new 'nix' command
-      experimental-features = "nix-command flakes";
-      # Opinionated: disable global registry
-      flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
-      nix-path = config.nix.nixPath;
-    };
-    # Opinionated: disable channels
-    channel.enable = false;
-
-    # Opinionated: make flake registry and nix path match flake inputs
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-  };
-
-  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # QEMU/KVM bridged VMs (Ubuntu server guest, …)
-  medinaLibvirtBridge.enable = true;
+  # Quadro K2200 (Maxwell) is unsupported by 590+; needs legacy 580.
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
+  };
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [nvidia-vaapi-driver];
+  };
 
-  # Enable networking
   networking.networkmanager.enable = true;
   networking.enableIPv6 = false;
   networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia = {
-    modesetting.enable = true;
-
-    open = false;
-
-    nvidiaSettings = true;
-
-    # Quadro K2200 (Maxwell) is unsupported by 590+; needs legacy 580.
-    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
-  };
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-
-    extraPackages = with pkgs; [
-      nvidia-vaapi-driver
-    ];
-  };
-
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
+  medinaLibvirtBridge.enable = true;
   services.usbmuxd.enable = true;
-
-  # SOPS Config
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-
-  sops.age.keyFile = "/home/matt/.config/sops/age/keys.txt";
-
-  sops.secrets."paperclip-env" = {};
-
-  services.paperclip-docker = {
-    enable = true;
-    host = "0.0.0.0";
-    environmentFiles = [config.sops.secrets."paperclip-env".path];
-    # Optional: pin image — image = "ghcr.io/paperclipai/paperclip:<tag-or-digest>";
-  };
-
-  # Packages that only go on this machine
-
-  environment.systemPackages = with pkgs; [
-    openclaw
-    libimobiledevice
-    ifuse # optional, to mount using 'ifuse'
-    solaar
-    gnomeExtensions.solaar-extension
-    libportal
-    deskflow
-  ];
-  # Set your hostname
-  networking.hostName = "medina";
 
   # Read-only NFS export for ubuntu-openclaw VM (and any other host on the LAN subnet).
   services.nfs.server = {
@@ -160,20 +77,35 @@
     '';
   };
 
-  # This setups a SSH server. Very important if you're setting up a headless system.
-  # Feel free to remove if you don't need it.
+  services.paperclip-docker = {
+    enable = true;
+    host = "0.0.0.0";
+    environmentFiles = [config.sops.secrets."paperclip-env".path];
+    # Optional: pin image — image = "ghcr.io/paperclipai/paperclip:<tag-or-digest>";
+  };
+
   services.openssh = {
     enable = true;
     settings = {
-      # Opinionated: forbid root login through SSH.
       PermitRootLogin = "no";
-      # Opinionated: use keys only.
-      # Remove if you want to SSH using passwords
       PasswordAuthentication = false;
     };
   };
 
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  # TODO update state version
+  environment.systemPackages = with pkgs; [
+    openclaw
+    libimobiledevice
+    ifuse
+    solaar
+    gnomeExtensions.solaar-extension
+    libportal
+    deskflow
+  ];
+
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/matt/.config/sops/age/keys.txt";
+  sops.secrets."paperclip-env" = {};
+
   system.stateVersion = "24.11";
 }

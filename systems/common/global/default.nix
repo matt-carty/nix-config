@@ -1,12 +1,11 @@
 {
   pkgs,
-  inputs,
   ...
 }: {
   imports = [
+    ./nix-settings.nix
     ./locale.nix
     ./users.nix
-    ./backup-nfs.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -23,7 +22,4 @@
     usbutils # useful utility TODO separate useful utilities into their own file
     tmux
   ];
-
-  # for nixd
-  nix.nixPath = ["nixpkgs=${inputs.nixpkgs}"];
 }
