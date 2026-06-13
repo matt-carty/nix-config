@@ -10,6 +10,7 @@
         "rw"
         "nosuid"
         "uhelper=udisks2"
+        "x-systemd.device-timeout=infinity"
       ];
     };
   };
