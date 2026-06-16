@@ -18,7 +18,6 @@
     ../common/optional/desktop/printers.nix
     ../common/optional/desktop/autologin.nix
     ../common/optional/server/docker.nix
-    ../common/optional/server/paperclip-docker.nix
     ./mount-home.nix
     ./libvirt-bridge-vm-host.nix
     ./hardware-configuration.nix
@@ -27,7 +26,6 @@
   networking.hostName = "medina";
 
   nixpkgs.overlays = [
-    inputs.nix-openclaw.overlays.default
     # neovim-nightly-overlay.overlays.default
     # (final: prev: {
     #   hi = final.hello.overrideAttrs (oldAttrs: {
@@ -62,7 +60,7 @@
   };
 
   networking.networkmanager.enable = true;
-  networking.enableIPv6 = false;
+  networking.enableIPv6 = true;
   networking.firewall.enable = false;
 
   services.xserver.videoDrivers = ["nvidia"];
@@ -75,13 +73,6 @@
     exports = ''
       /home/matt/supreme_invention  10.89.24.0/24(ro,no_subtree_check)
     '';
-  };
-
-  services.paperclip-docker = {
-    enable = true;
-    host = "0.0.0.0";
-    environmentFiles = [config.sops.secrets."paperclip-env".path];
-    # Optional: pin image — image = "ghcr.io/paperclipai/paperclip:<tag-or-digest>";
   };
 
   services.openssh = {
@@ -105,7 +96,6 @@
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
   sops.age.keyFile = "/home/matt/.config/sops/age/keys.txt";
-  sops.secrets."paperclip-env" = {};
 
   system.stateVersion = "24.11";
 }
