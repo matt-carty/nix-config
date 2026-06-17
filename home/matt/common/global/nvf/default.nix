@@ -36,19 +36,43 @@
           trouble.enable = true;
           lspkind.enable = true;
           presets.tailwindcss-language-server.enable = true;
+          servers.nixd.settings = lib.generators.mkLuaInline ''
+            (function()
+              local hostname = vim.fn.hostname()
+              return {
+                nixd = {
+                  nixpkgs = {
+                    expr = 'import (builtins.getFlake "/home/matt/nix-config").inputs.nixpkgs { }',
+                  },
+                  options = {
+                    nixos = {
+                      expr = '(builtins.getFlake "/home/matt/nix-config").nixosConfigurations.' .. hostname .. '.options',
+                    },
+                    home_manager = {
+                      expr = '(builtins.getFlake "/home/matt/nix-config").homeConfigurations."matt@' .. hostname .. '".options',
+                    },
+                  },
+                },
+              }
+            end)()
+          '';
         };
 
         languages = {
           enableFormat = true;
           enableTreesitter = true;
 
-          nix.enable = true;
+          nix = {
+            enable = true;
+            lsp.servers = ["nixd"];
+          };
           markdown.enable = true;
           typescript.enable = true;
           lua.enable = true;
           html.enable = true;
           css.enable = true;
           sql.enable = true;
+          rust.enable = true;
         };
 
         assistant = {
