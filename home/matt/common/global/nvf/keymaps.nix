@@ -425,8 +425,8 @@
       key = "<leader>fe";
       mode = "n";
       lua = true;
-      action = ''function() require("snacks").explorer() end'';
-      desc = "Explorer Snacks (root dir)";
+      action = ''function() require("snacks").explorer.reveal() end'';
+      desc = "Reveal Current File in Explorer";
     }
     {
       key = "<leader>fE";

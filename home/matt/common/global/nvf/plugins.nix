@@ -79,8 +79,8 @@
 
     binds = {
       whichKey.enable = true;
-      cheatsheet.enable = true;
-      hardtime-nvim.enable = false;
+      cheatsheet.enable = false;
+      hardtime-nvim.enable = true;
     };
 
     # --- Mapping overrides (null nvf defaults; LazyVim binds in keymaps.nix) ---
