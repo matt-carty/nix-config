@@ -7,5 +7,6 @@
     digikam
     texliveMedium
     losslesscut-bin
+    darktable
   ];
 }
