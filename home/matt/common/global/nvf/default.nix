@@ -1,6 +1,7 @@
 {lib, pkgs, config, ...}: {
-  # snacks.lazygit() invokes `lazygit` from PATH and writes a theme to stdpath("cache")
-  home.packages = [pkgs.lazygit];
+  # snacks.lazygit() invokes `lazygit` from PATH and writes a theme to stdpath("cache");
+  # snacks.picker.grep() invokes `rg`
+  home.packages = [pkgs.lazygit pkgs.ripgrep];
 
   home.activation.nvimCache = lib.hm.dag.entryAfter ["writeBoundary"] ''
     mkdir -p "${config.xdg.cacheHome}/nvim"

@@ -5,7 +5,6 @@
     ./common/features/obsidian.nix
     ./common/features/gen-desktop.nix
     ./common/features/cursor-wrapper.nix
-    ./features/openclaw-cli.nix
   ];
 
   # Customisations for matt@medina

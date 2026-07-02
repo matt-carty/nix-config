@@ -84,7 +84,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    openclaw
     libimobiledevice
     ifuse
     solaar
