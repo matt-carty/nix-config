@@ -6,6 +6,7 @@
   programs.git = {
     enable = true;
     #    package = pkgs.gitAndTools.gitFull;
+    signing.format = "openpgp";
     settings = {
       aliases = {
         #      p = "pull --ff-only";
