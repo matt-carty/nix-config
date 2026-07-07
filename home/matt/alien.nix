@@ -4,6 +4,7 @@
     ./common/features/editing.nix
     ./common/features/obsidian.nix
     ./common/features/gen-desktop.nix
+    ./common/features/claude-desktop.nix
   ];
 
   # Customisations for matt@alien

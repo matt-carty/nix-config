@@ -9,6 +9,7 @@
     telegram-desktop
     picard
     cursor-cli
+    gnomeExtensions.claude-code-usage
   ];
   programs.gnome-shell = {
     enable = true;
