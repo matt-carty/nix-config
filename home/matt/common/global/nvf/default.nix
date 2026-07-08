@@ -74,6 +74,7 @@
           css.enable = true;
           sql.enable = true;
           rust.enable = true;
+          astro.enable = true;
         };
 
         assistant = {
