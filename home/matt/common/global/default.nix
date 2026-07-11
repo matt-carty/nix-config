@@ -11,6 +11,7 @@
     ./nvf/default.nix
     ./git.nix
     ./sops.nix
+    ./tmux.nix
   ];
 
   nixpkgs = {
