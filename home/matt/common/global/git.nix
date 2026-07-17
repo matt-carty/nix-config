@@ -9,11 +9,21 @@
     signing.format = "openpgp";
     settings = {
       aliases = {
-        #      p = "pull --ff-only";
-        #      ff = "merge --ff-only";
-        #      graph = "log --decorate --oneline --graph";
-        #      pushall = "!git remote | xargs -L1 git push --all";
-        #      add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
+        st = "status";
+        co = "checkout";
+        sw = "switch";
+        br = "branch";
+        ci = "commit";
+        cm = "commit -m";
+        aa = "add --all";
+        df = "diff";
+        dfs = "diff --staged";
+        lg = "log --oneline --graph --decorate -20";
+        lga = "log --oneline --graph --decorate --all";
+        last = "log -1 HEAD --stat";
+        unstage = "reset HEAD --";
+        p = "pull --ff-only";
+        ff = "merge --ff-only";
       };
       user.name = "Matt Cartwright";
       user.email = lib.mkDefault "matt@cartycodes.com";

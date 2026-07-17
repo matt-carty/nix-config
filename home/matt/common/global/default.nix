@@ -69,6 +69,25 @@
       hms = "home-manager switch --flake .#$(whoami)@$(hostname)";
       nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
       cd = "z";
+      # git
+      gs = "git status";
+      ga = "git add";
+      gaa = "git add --all";
+      gc = "git commit";
+      gcm = "git commit -m";
+      gca = "git commit --amend";
+      gco = "git checkout";
+      gsw = "git switch";
+      gb = "git branch";
+      gd = "git diff";
+      gds = "git diff --staged";
+      gl = "git log --oneline --graph --decorate -20";
+      gla = "git log --oneline --graph --decorate --all";
+      gp = "git push";
+      gpl = "git pull";
+      gf = "git fetch --all --prune";
+      gst = "git stash";
+      gstp = "git stash pop";
       ssk = "kitten ssh";
       raz = "ssk razorback";
       flint = "ssk flint";
