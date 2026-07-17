@@ -18,7 +18,7 @@
     ../common/optional/desktop/printers.nix
     ../common/optional/desktop/autologin.nix
     ../common/optional/network/ipsec.nix
-    ./mount-home.nix
+    ./ssd.nix
     ./hardware-configuration.nix
   ];
 
