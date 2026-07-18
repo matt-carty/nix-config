@@ -844,7 +844,7 @@
 
     # --- Terminal ---
     {
-      key = "<C-\\>";
+      key = "<C-_>";
       mode = ["n" "t"];
       lua = true;
       action = ''function() require("snacks").terminal.focus() end'';

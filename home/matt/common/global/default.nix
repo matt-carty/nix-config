@@ -104,9 +104,9 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "draper" = {
-        user = "root";
+        User = "root";
       };
     };
   };
