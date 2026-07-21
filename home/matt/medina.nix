@@ -81,7 +81,14 @@
   # at runtime via site.addsitedir rather than exposing a dedicated
   # per-app interpreter). Give the skill a real python3 with graphify
   # importable so that fallback actually resolves.
-  graphifyPython = pkgs.python3.withPackages (ps: [(ps.toPythonModule graphifyPinned)]);
+  #
+  # toPythonModule keeps the app's own bin/graphify entry point, which would
+  # collide with graphifyWrapped's bin/graphify once both land in
+  # home.packages; strip it since only the importable module is needed here.
+  graphifyModule = (pkgs.python3.pkgs.toPythonModule graphifyPinned).overrideAttrs (old: {
+    postFixup = (old.postFixup or "") + "\nrm -rf $out/bin";
+  });
+  graphifyPython = pkgs.python3.withPackages (ps: [graphifyModule]);
 in {
   imports = [
     ./common/global/default.nix
