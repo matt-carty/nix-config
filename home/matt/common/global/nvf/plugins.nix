@@ -78,7 +78,22 @@
     visuals.cinnamon-nvim.enable = false;
 
     binds = {
-      whichKey.enable = true;
+      whichKey = {
+        enable = true;
+        # Group labels so which-key shows names instead of "+N keymaps".
+        register = {
+          "<leader>b" = "Buffer";
+          "<leader>c" = "Code";
+          "<leader>f" = "Find/File";
+          "<leader>g" = "Git";
+          "<leader>q" = "Quit/Session";
+          "<leader>s" = "Search";
+          "<leader>u" = "UI/Toggle";
+          "<leader>w" = "Windows";
+          "<leader>x" = "Diagnostics/Quickfix";
+          "<leader><tab>" = "Tabs";
+        };
+      };
       cheatsheet.enable = false;
       hardtime-nvim.enable = true;
     };
