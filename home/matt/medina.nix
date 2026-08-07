@@ -3,32 +3,67 @@
   pkgs,
   ...
 }: let
+  # flake.lock bump broke packages on the graphify dependency path:
+  # 1. datamodel-code-generator 0.71.0 — ruff snapshot tests fail (extra
+  #    blank line after `from __future__ import annotations`). Build-time
+  #    only (tree-sitter-config codegen).
+  # 2. tree-sitter-grammars — nix pname is `python-tree-sitter-*` but
+  #    pyproject name is `tree_sitter_*`, so pythonMetadataCheckPhase can't
+  #    find the installed metadata.
+  # 3. graphify itself — upstream project name is `graphifyy`, nix pname
+  #    is `graphify` (same metadata-check mismatch; set on graphifyPinned).
+  # Keep (1)/(2) in a python set local to graphify.
+  python3 = pkgs.python3.override {
+    packageOverrides = _pyFinal: pyPrev: {
+      datamodel-code-generator = pyPrev.datamodel-code-generator.overridePythonAttrs (_: {
+        doCheck = false;
+      });
+      tree-sitter-grammars = lib.mapAttrs (
+        _: pkg:
+          if lib.isDerivation pkg
+          then
+            pkg.overridePythonAttrs (_: {
+              dontCheckPythonMetadata = true;
+            })
+          else pkg
+      )
+      pyPrev.tree-sitter-grammars;
+    };
+  };
+
   # nixpkgs' `graphify` lags upstream by ~3 months / 90 releases, including
   # several real security fixes (stored XSS in graph.html, SSRF guard race,
   # prompt-injection hardening, hook path validation). Pin to latest upstream
   # release instead: https://github.com/safishamsi/graphify/blob/v0.9.17/CHANGELOG.md
-  graphifyPinned = pkgs.graphify.overridePythonAttrs (old: rec {
-    version = "0.9.17";
-    src = pkgs.fetchFromGitHub {
-      owner = "safishamsi";
-      repo = "graphify";
-      tag = "v${version}";
-      hash = "sha256-APs6YPABAgf2DTGzUPTbMOkEC7O5JjmR4/HtBXA/ECI=";
-    };
-    dependencies =
-      old.dependencies
-      ++ (with pkgs.python3.pkgs; [numpy rapidfuzz])
-      ++ (with pkgs.python3.pkgs.tree-sitter-grammars; [
-        tree-sitter-groovy
-        tree-sitter-fortran
-        tree-sitter-bash
-        tree-sitter-json
-      ]);
-    # nixpkgs' tree-sitter grammar packages float on their own versioning
-    # and routinely fall outside graphify's declared bounds; the bounds
-    # exist for upstream's PyPI wheels, not relevant to nix-built grammars.
-    pythonRelaxDeps = true;
-  });
+  graphifyPinned =
+    (pkgs.graphify.override {
+      inherit python3;
+      python3Packages = python3.pkgs;
+    }).overridePythonAttrs (old: rec {
+      version = "0.9.17";
+      src = pkgs.fetchFromGitHub {
+        owner = "safishamsi";
+        repo = "graphify";
+        tag = "v${version}";
+        hash = "sha256-APs6YPABAgf2DTGzUPTbMOkEC7O5JjmR4/HtBXA/ECI=";
+      };
+      dependencies =
+        old.dependencies
+        ++ (with python3.pkgs; [numpy rapidfuzz])
+        ++ (with python3.pkgs.tree-sitter-grammars; [
+          tree-sitter-groovy
+          tree-sitter-fortran
+          tree-sitter-bash
+          tree-sitter-json
+        ]);
+      # Upstream PyPI/project name is `graphifyy`; nixpkgs pname is `graphify`.
+      # New pythonMetadataCheckPhase looks up by pname and fails.
+      dontCheckPythonMetadata = true;
+      # nixpkgs' tree-sitter grammar packages float on their own versioning
+      # and routinely fall outside graphify's declared bounds; the bounds
+      # exist for upstream's PyPI wheels, not relevant to nix-built grammars.
+      pythonRelaxDeps = true;
+    });
 
   # graphify's installer (install.py: _install_skill_references) stages the
   # packaged references/ sidecar by shutil.copytree()-ing it out of the Nix
@@ -85,10 +120,10 @@
   # toPythonModule keeps the app's own bin/graphify entry point, which would
   # collide with graphifyWrapped's bin/graphify once both land in
   # home.packages; strip it since only the importable module is needed here.
-  graphifyModule = (pkgs.python3.pkgs.toPythonModule graphifyPinned).overrideAttrs (old: {
+  graphifyModule = (python3.pkgs.toPythonModule graphifyPinned).overrideAttrs (old: {
     postFixup = (old.postFixup or "") + "\nrm -rf $out/bin";
   });
-  graphifyPython = pkgs.python3.withPackages (ps: [graphifyModule]);
+  graphifyPython = python3.withPackages (ps: [graphifyModule]);
 in {
   imports = [
     ./common/global/default.nix

@@ -34,6 +34,34 @@
       desc = "Up";
     }
 
+    # --- Clipboard ---
+    # Explicit "+ maps rather than clipboard=unnamedplus, so plain d/c/x
+    # don't clobber the system clipboard.
+    {
+      key = "<leader>y";
+      mode = ["n" "x"];
+      action = "\"+y";
+      desc = "Yank to System Clipboard";
+    }
+    {
+      key = "<leader>Y";
+      mode = "n";
+      action = "\"+y$";
+      desc = "Yank to EOL to System Clipboard";
+    }
+    {
+      key = "<leader>p";
+      mode = ["n" "x"];
+      action = "\"+p";
+      desc = "Paste from System Clipboard";
+    }
+    {
+      key = "<leader>P";
+      mode = ["n" "x"];
+      action = "\"+P";
+      desc = "Paste Before from System Clipboard";
+    }
+
     # --- Buffers ---
     {
       key = "<S-h>";

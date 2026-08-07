@@ -23,6 +23,13 @@
           maplocalleader = "\\";
         };
 
+        # Provider only: `registers` stays "" so yank/delete keep using the
+        # unnamed register. See the Clipboard section in keymaps.nix.
+        clipboard = {
+          enable = true;
+          providers.wl-copy.enable = true;
+        };
+
         opts = {
           number = true;
           relativenumber = true;
