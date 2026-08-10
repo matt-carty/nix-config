@@ -90,6 +90,7 @@ in {
               script = pkgs.writeShellScript "ssh-watchdog-probe-${safeName}" ''
                 echo "ssh-watchdog-probe: touching stamp on ${target.user}@${target.host}:${toString target.port}"
                 ${pkgs.openssh}/bin/ssh \
+                  -T \
                   -i ${lib.escapeShellArg target.privateKeyFile} \
                   -p ${toString target.port} \
                   -o ConnectTimeout=${toString cfg.connectTimeout} \

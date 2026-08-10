@@ -63,6 +63,10 @@ in {
       group = "ssh-watchdog";
       home = "/var/lib/ssh-watchdog";
       createHome = true;
+      # Must be a real shell — nologin prints "This account is currently not
+      # available" and exits before authorized_keys command= can run.
+      # Keys are still restricted to touch via command= below.
+      shell = pkgs.bash;
       # Wrap every authorised key with the command= restriction so a
       # compromised key cannot do anything except touch the stamp file
       openssh.authorizedKeys.keys = map (key:
