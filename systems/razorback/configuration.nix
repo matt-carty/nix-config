@@ -7,6 +7,7 @@
     ../common/optional/nfs-shares.nix
     ../common/optional/desktop/fonts.nix
     ../common/optional/server/docker.nix
+    ../common/optional/server/ssh-watchdog-probe.nix
     #    ../common/optional/server/open-webui.nix
     ./unlock-luks.nix
     ./mount-ssd.nix
@@ -17,12 +18,28 @@
 
   networking.hostName = "razorback";
 
-  # Decrypt secrets at activation via host SSH key (same pattern as behemoth).
-  # example_key is a temporary smoke test — remove once sops is verified.
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.defaultSopsFormat = "yaml";
   sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-  sops.secrets.example_key = {};
+  sops.secrets.ssh_watchdog_razorback_key = {
+    owner = "root";
+    mode = "0400";
+  };
+
+  services.sshWatchdogProbe = {
+    enable = true;
+    targets = [
+      {
+        host = "behemoth.jiba";
+        privateKeyFile = config.sops.secrets.ssh_watchdog_razorback_key.path;
+      }
+    ];
+  };
+
+  # Probe uses StrictHostKeyChecking=yes; pin behemoth's host key system-wide.
+  programs.ssh.knownHosts."behemoth.jiba" = {
+    publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIfGKm8gtbxtT8gpKEsmQzBnIcjhvSFlmU2IkVTadrw+";
+  };
 
   nixpkgs.overlays = [
     # neovim-nightly-overlay.overlays.default

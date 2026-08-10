@@ -9,6 +9,7 @@
     # inputs.hardware.nixosModules.common-ssd
     ../common/global/default.nix
     ../common/optional/nfs-shares.nix
+    ../common/optional/server/ssh-watchdog-target.nix
     ./drives/storage.nix
     ./drives/snapraid.nix
     ../common/optional/network/ipsec.nix
@@ -16,6 +17,13 @@
   ];
 
   networking.hostName = "behemoth";
+
+  services.sshWatchdogTarget = {
+    enable = true;
+    authorizedKeys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO50FO03p5VLyV/PGZfEccVcH3iKJLyFyN4fL9tgoF3y watchdog-razorback"
+    ];
+  };
 
   nfsMounts.backup = true;
 
