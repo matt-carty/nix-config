@@ -93,6 +93,7 @@
         modules = [
           ./systems/razorback/configuration.nix
           nvf.nixosModules.default
+          sops-nix.nixosModules.sops
         ];
       };
       # RPi 4 file server at skippy

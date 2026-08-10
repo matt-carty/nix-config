@@ -1,5 +1,5 @@
 # This is your system's configuration file.
-{pkgs, ...}: {
+{config, pkgs, ...}: {
   imports = [
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
@@ -16,6 +16,13 @@
   ];
 
   networking.hostName = "razorback";
+
+  # Decrypt secrets at activation via host SSH key (same pattern as behemoth).
+  # example_key is a temporary smoke test — remove once sops is verified.
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+  sops.secrets.example_key = {};
 
   nixpkgs.overlays = [
     # neovim-nightly-overlay.overlays.default
