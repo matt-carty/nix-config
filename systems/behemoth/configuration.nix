@@ -12,6 +12,7 @@
     ../common/optional/server/ssh-watchdog-target.nix
     ./drives/storage.nix
     ./drives/snapraid.nix
+    ./sd-card-backup.nix
     ../common/optional/network/ipsec.nix
     ./hardware-configuration.nix
   ];
