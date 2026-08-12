@@ -46,6 +46,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Build aarch64 images (tycho/behemoth) locally via qemu emulation.
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
   # Quadro K2200 (Maxwell) is unsupported by 590+; needs legacy 580.
   hardware.nvidia = {
     modesetting.enable = true;

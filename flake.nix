@@ -140,6 +140,28 @@
         # > Our main nixos configuration file <
         modules = [./systems/holden/configuration.nix];
       };
+      # RPi fleet monitoring host at skippy (gatus + beszel hub)
+      tycho = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [
+          ./systems/tycho/configuration.nix
+          sops-nix.nixosModules.sops
+        ];
+      };
+      # First-boot image for tycho (see systems/tycho/bootstrap-configuration.nix)
+      tycho-bootstrap = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+          ./systems/tycho/bootstrap-configuration.nix
+        ];
+      };
+
       # HP Z400 workstation at skippy  (main pc)
       medina = nixpkgs.lib.nixosSystem {
         specialArgs = {
