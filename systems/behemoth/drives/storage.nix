@@ -28,7 +28,7 @@
   fileSystems."/mnt/storage" = {
     fsType = "fuse.mergerfs";
     device = "/mnt/usb8tb/:/mnt/usb4tb/";
-    options = ["nofail" "noauto" "x-systemd.device-timeout=0" "minfreespace=100G" "category.create=mfs"];
+    options = ["nofail" "noauto" "x-systemd.device-timeout=0" "minfreespace=100G" "category.create=epmfs"];
   };
 
   systemd.targets.external-storage = {
