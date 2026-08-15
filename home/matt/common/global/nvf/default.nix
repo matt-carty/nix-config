@@ -76,6 +76,7 @@
           };
           markdown.enable = true;
           typescript.enable = true;
+          tsx.enable = true;
           lua.enable = true;
           html.enable = true;
           css.enable = true;
