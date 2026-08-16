@@ -22,7 +22,10 @@
           indent.enabled = true;
           input.enabled = true;
           notifier.enabled = true;
-          picker.enabled = true;
+          picker = {
+            enabled = true;
+            sources.grep.exclude = ["graphify-out"];
+          };
           quickfile.enabled = true;
           scope.enabled = true;
           scroll.enabled = true;
