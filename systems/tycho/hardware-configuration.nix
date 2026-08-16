@@ -1,5 +1,6 @@
-# PLACEHOLDER -- regenerate on the real hardware with `nixos-generate-config`
-# before deploying. The root UUID below is not real.
+# Root UUID below is not a placeholder: nixos/lib/make-ext4-fs.nix defaults to
+# uuid "44444444-4444-4444-8888-888888888888", so every Pi flashed from a NixOS
+# sd-image gets it unless sdImage.rootPartitionUUID is set. Same as behemoth.
 {
   lib,
   modulesPath,
