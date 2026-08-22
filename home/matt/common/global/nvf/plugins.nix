@@ -72,7 +72,41 @@
       };
     };
 
-    formatter.conform-nvim.enable = true;
+    formatter.conform-nvim = {
+      enable = true;
+      presets.prettier.enable = true;
+
+      setupOpts = {
+        formatters.biome = {
+          # Prefer the biome the project itself pins (node_modules/.bin, or a
+          # devshell on PATH) so output matches `pnpm format`; the nixpkgs one
+          # is only a last resort since its version can drift from the repo's.
+          command = lib.generators.mkLuaInline ''
+            function(self, ctx)
+              local cmd = require("conform.util").from_node_modules("biome")(self, ctx)
+              if cmd ~= "biome" then return cmd end
+              if vim.fn.executable("biome") == 1 then return "biome" end
+              return "${lib.getExe pkgs.biome}"
+            end
+          '';
+
+          # conform resolves cwd from biome.json/biome.jsonc; without one the
+          # formatter is skipped entirely and prettier takes over.
+          require_cwd = true;
+        };
+
+        formatters_by_ft = let
+          # biome in repos configured for it (e.g. ~/waalabs/class-breeze),
+          # prettier everywhere else.
+          jsLike = lib.generators.mkLuaInline ''{"biome", "prettier", stop_after_first = true}'';
+        in {
+          javascript = jsLike;
+          javascriptreact = jsLike;
+          typescript = jsLike;
+          typescriptreact = jsLike;
+        };
+      };
+    };
 
     ui.noice.enable = true;
 

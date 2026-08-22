@@ -75,8 +75,17 @@
             lsp.servers = ["nixd"];
           };
           markdown.enable = true;
-          typescript.enable = true;
-          tsx.enable = true;
+          # format.enable is off because nvf would hardcode
+          # formatters_by_ft to a single formatter; the biome/prettier
+          # fallback chain is set up in plugins.nix instead.
+          typescript = {
+            enable = true;
+            format.enable = false;
+          };
+          tsx = {
+            enable = true;
+            format.enable = false;
+          };
           lua.enable = true;
           html.enable = true;
           css.enable = true;
