@@ -35,7 +35,7 @@
   # wear-out path, and a monitoring host that dies quietly is the one
   # failure nothing else in the fleet is watching for.
   fileSystems."/mnt/ssd" = {
-    device = "/dev/disk/by-uuid/REPLACE-WITH-USB-SSD-UUID";
+    device = "/dev/disk/by-uuid/55fab441-4149-4050-abef-a82ffcb3ad5a";
     fsType = "ext4";
     options = ["nofail" "x-systemd.device-timeout=30"];
   };
