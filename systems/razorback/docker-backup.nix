@@ -15,10 +15,31 @@
       exit 1
     fi
   '';
+
+  # Reports success/failure of a restic job to tycho's gatus external-endpoint,
+  # regardless of exit status -- ExecStopPost always runs and $SERVICE_RESULT
+  # tells us which it was. tokenVar names an env var from gatus_env rather than
+  # a literal token, so the secret only ever exists in the service's runtime
+  # environment, never baked into this (world-readable) /nix/store script.
+  gatusNotify = key: tokenVar:
+    pkgs.writeShellScript "gatus-notify-${key}" ''
+      if [ "$SERVICE_RESULT" = success ]; then success=true; else success=false; fi
+      token="$(printenv ${tokenVar})"
+      ${pkgs.curl}/bin/curl -fsS -X POST \
+        "http://tycho.skippy.crty.io:8080/api/v1/endpoints/${key}/external?success=$success" \
+        -H "Authorization: Bearer $token" || true
+    '';
 in {
   environment.systemPackages = with pkgs; [restic];
 
   sops.secrets.restic_password = {
+    owner = "root";
+    mode = "0400";
+  };
+
+  # Same secret tycho's gatus reads from -- razorback is already a sops
+  # recipient, so this just materializes it locally for the curl push below.
+  sops.secrets.gatus_env = {
     owner = "root";
     mode = "0400";
   };
@@ -77,6 +98,18 @@ in {
   };
 
   # Make backup wait for network mount
-  systemd.services."restic-backups-razorbackdocker".after = ["mnt-backups.mount"];
-  systemd.services."restic-backups-razorbackdocker-prune".after = ["mnt-backups.mount"];
+  systemd.services."restic-backups-razorbackdocker" = {
+    after = ["mnt-backups.mount"];
+    serviceConfig = {
+      EnvironmentFile = [config.sops.secrets.gatus_env.path];
+      ExecStopPost = ["${gatusNotify "backups_restic-razorback-docker" "RESTIC_BACKUP_TOKEN"}"];
+    };
+  };
+  systemd.services."restic-backups-razorbackdocker-prune" = {
+    after = ["mnt-backups.mount"];
+    serviceConfig = {
+      EnvironmentFile = [config.sops.secrets.gatus_env.path];
+      ExecStopPost = ["${gatusNotify "backups_restic-razorback-docker-prune" "RESTIC_PRUNE_TOKEN"}"];
+    };
+  };
 }

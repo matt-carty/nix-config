@@ -1,4 +1,3 @@
-# This is your system's configuration file.
 {
   inputs,
   config,
@@ -93,6 +92,7 @@
     gnomeExtensions.solaar-extension
     libportal
     deskflow
+    pomodoro-gtk
   ];
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
