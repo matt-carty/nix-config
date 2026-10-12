@@ -40,14 +40,20 @@
     options = ["nofail" "x-systemd.device-timeout=30"];
   };
 
-  fileSystems."/var/lib/gatus" = {
+  # Both services run with DynamicUser + StateDirectory, which makes systemd
+  # itself own /var/lib/<name> by bind-mounting it from /var/lib/private/<name>
+  # into the unit's namespace. Bind-mounting the SSD onto /var/lib/<name>
+  # directly collides with that -- systemd fails with "Device or resource
+  # busy" trying to migrate an already-mounted path. Mount onto the private
+  # path instead and let systemd's own machinery bind it onward from there.
+  fileSystems."/var/lib/private/gatus" = {
     device = "/mnt/ssd/gatus";
     fsType = "none";
     options = ["bind" "nofail"];
     depends = ["/mnt/ssd"];
   };
 
-  fileSystems."/var/lib/beszel-hub" = {
+  fileSystems."/var/lib/private/beszel-hub" = {
     device = "/mnt/ssd/beszel-hub";
     fsType = "none";
     options = ["bind" "nofail"];
