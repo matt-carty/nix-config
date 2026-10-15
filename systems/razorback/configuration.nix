@@ -10,7 +10,6 @@
     ../common/optional/server/ssh-watchdog-probe.nix
     #    ../common/optional/server/open-webui.nix
     ./unlock-luks.nix
-    ./mount-ssd.nix
     ./docker-backup.nix
     ./mount-scooter.nix
     ./hardware-configuration.nix
