@@ -34,18 +34,21 @@ in {
       fileSystems."${cfg.stuff.mountPoint}" = {
         device = "${ceres}:/mnt/main/stuff";
         fsType = "nfs";
+        options = ["nofail"];
       };
     })
     (lib.mkIf cfg.flint {
       fileSystems."/mnt/flint" = {
         device = "${ceres}:/mnt/main/flint";
         fsType = "nfs";
+        options = ["nofail"];
       };
     })
     (lib.mkIf cfg.photosArchive {
       fileSystems."/mnt/photos_archive" = {
         device = "${ceres}:/mnt/main/photos_archive";
         fsType = "nfs";
+        options = ["nofail"];
       };
     })
   ];

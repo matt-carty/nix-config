@@ -2,6 +2,10 @@
   boot.kernelParams = ["ip=dhcp"];
   boot.initrd = {
     availableKernelModules = ["r8169"];
+    # systemd >=258 defaults DHCPv4 ClientIdentifier to a DUID instead of the
+    # MAC, which the router's MAC-keyed static lease for this host doesn't
+    # recognize, so it falls back to a random pool address on every boot.
+    systemd.network.config.dhcpV4Config.ClientIdentifier = "mac";
     network = {
       enable = true;
       ssh = {
