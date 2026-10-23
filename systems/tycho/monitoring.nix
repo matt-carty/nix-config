@@ -114,7 +114,7 @@ in {
           inherit alerts;
           name = "immich";
           group = "services";
-          url = "https://immich.skippy.crty.io/api/server/ping";
+          url = "https://photos.crty.io/api/server/ping";
           interval = hostInterval;
           conditions = ["[STATUS] == 200"];
         }
