@@ -147,6 +147,11 @@ in {
     host = "0.0.0.0";
     port = 8090;
     # dataDir defaults to /var/lib/beszel-hub, which is bind-mounted to the SSD.
+
+    # Agents connect out to the hub over WebSocket (HUB_URL+TOKEN) rather
+    # than the hub dialing back in over SSH. Means no inbound port needs
+    # opening on every monitored host -- see common/optional/server/beszel-agent.nix.
+    environment.DISABLE_SSH = "true";
   };
 
   networking.firewall.allowedTCPPorts = [8090];
