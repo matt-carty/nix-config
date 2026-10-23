@@ -99,8 +99,15 @@ in {
         }
 
         # --- services on razorback --------------------------------------
-        # TODO: homepage has no DNS alias set up yet -- add a check here
-        # once it exists (home.skippy.crty.io was a guess, never real).
+        {
+          inherit alerts;
+          name = "homepage";
+          group = "services";
+          # DNS alias not live yet as of 2026-10-23 -- will go green once set up.
+          url = "https://home.crty.io/";
+          interval = hostInterval;
+          conditions = ["[STATUS] == 200"];
+        }
         {
           inherit alerts;
           name = "immich";
