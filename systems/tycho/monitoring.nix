@@ -160,5 +160,9 @@ in {
     # gatus runs as DynamicUser, so the unit reads this before dropping privs.
     owner = "root";
     mode = "0400";
+    # Without this, rotating the secret's content doesn't restart gatus --
+    # sops-nix only restarts a unit on rotation if told to, so the service
+    # keeps running with whatever it loaded at its last start.
+    restartUnits = ["gatus.service"];
   };
 }
