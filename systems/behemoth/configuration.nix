@@ -23,6 +23,7 @@
     enable = true;
     authorizedKeys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO50FO03p5VLyV/PGZfEccVcH3iKJLyFyN4fL9tgoF3y watchdog-razorback"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMvL48oLLqt7H5WG6GxDv1HLYU2N1q6RBBgL2oz6XOlO watchdog-tycho"
     ];
   };
 

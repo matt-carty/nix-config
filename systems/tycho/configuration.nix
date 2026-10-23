@@ -1,8 +1,9 @@
 # tycho -- dedicated fleet monitoring host (Raspberry Pi).
-{...}: {
+{config, ...}: {
   imports = [
     ../common/global/default.nix
     ../common/optional/server/ssh-watchdog-target.nix
+    ../common/optional/server/ssh-watchdog-probe.nix
     ./monitoring.nix
     ./hardware-configuration.nix
   ];
@@ -19,6 +20,28 @@
     authorizedKeys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO50FO03p5VLyV/PGZfEccVcH3iKJLyFyN4fL9tgoF3y watchdog-razorback"
     ];
+  };
+
+  sops.secrets.ssh_watchdog_tycho_key = {
+    owner = "root";
+    mode = "0400";
+  };
+
+  # Second prober for behemoth's watchdog stamp, alongside razorback's —
+  # keeps behemoth's stamp fresh even when razorback is flaking.
+  services.sshWatchdogProbe = {
+    enable = true;
+    targets = [
+      {
+        host = "behemoth.jiba";
+        privateKeyFile = config.sops.secrets.ssh_watchdog_tycho_key.path;
+      }
+    ];
+  };
+
+  # Probe uses StrictHostKeyChecking=yes; pin behemoth's host key system-wide.
+  programs.ssh.knownHosts."behemoth.jiba" = {
+    publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIfGKm8gtbxtT8gpKEsmQzBnIcjhvSFlmU2IkVTadrw+";
   };
 
   services.openssh = {
