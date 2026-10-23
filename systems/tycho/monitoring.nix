@@ -56,7 +56,6 @@ in {
         (hostCheck "razorback" "razorback.skippy.crty.io")
         (hostCheck "behemoth" "behemoth.jiba")
         (hostCheck "medina" "medina.skippy.crty.io")
-        (hostCheck "holden" "holden.skippy.crty.io")
 
         # --- ceres: real state, not just reachability -------------------
         # TrueNAS SCALE's v2.0 API is authenticated with an API key created
@@ -100,16 +99,8 @@ in {
         }
 
         # --- services on razorback --------------------------------------
-        # PLACEHOLDER URLs -- I could not verify ports or paths. Fill in from
-        # your homepage config, which already has every one of these.
-        {
-          inherit alerts;
-          name = "homepage";
-          group = "services";
-          url = "https://home.skippy.crty.io/";
-          interval = hostInterval;
-          conditions = ["[STATUS] == 200"];
-        }
+        # TODO: homepage has no DNS alias set up yet -- add a check here
+        # once it exists (home.skippy.crty.io was a guess, never real).
         {
           inherit alerts;
           name = "immich";
