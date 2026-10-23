@@ -86,6 +86,7 @@
       gstp = "git stash pop";
       ssk = "kitten ssh";
       raz = "ssk razorback";
+      raz-unlock = "ssk root@10.89.24.24";
       flint = "ssk flint";
       behe = "ssk behemoth.jiba";
       dcup = "docker compose up -d";
