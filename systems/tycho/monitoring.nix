@@ -2,11 +2,115 @@
 #
 # Deliberately NOT hosted on razorback -- a razorback outage would take out
 # visibility into the razorback outage.
-{config, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   # Poll intervals. Hosts are cheap to check; the TrueNAS API calls are not,
   # so they run less often.
   hostInterval = "1m";
   apiInterval = "5m";
+
+  # TrueNAS SCALE's REST API (which the ceres checks below used to poll
+  # directly) is fully removed in TrueNAS 26 -- replaced by a JSON-RPC 2.0
+  # API that's WebSocket-only, which gatus's HTTP endpoint checker can't
+  # speak. gatus's documented answer for exactly this situation is its
+  # "external endpoint" push type (also used by the restic heartbeats
+  # below): something else does the real check and reports pass/fail in.
+  # This script is that something else -- runs on a timer, does the WS
+  # JSON-RPC calls, pushes results to gatus.
+  #
+  # Also fixes a real bug the old REST check had: TrueNAS's alert.list
+  # includes dismissed alerts too (each tagged `dismissed: true/false`),
+  # but the old condition (`len([BODY]) == 0`) counted all of them, so a
+  # dismissed alert could still leave the check red. This filters properly.
+  truenasChecker = pkgs.writers.writePython3Bin "truenas-gatus-checks" {
+    libraries = [pkgs.python3Packages.websockets];
+  } ''
+    import json
+    import os
+    import urllib.parse
+    import urllib.request
+    from websockets.sync.client import connect
+
+    TRUENAS_API_KEY = os.environ["TRUENAS_API_KEY"]
+    TOKEN = os.environ["CERES_CHECKS_TOKEN"]
+    GATUS = "http://127.0.0.1:8080"
+
+
+    def rpc(ws, id_, method, params=None):
+        req = {
+            "jsonrpc": "2.0",
+            "id": id_,
+            "method": method,
+            "params": params or [],
+        }
+        ws.send(json.dumps(req))
+        while True:
+            msg = json.loads(ws.recv())
+            if msg.get("id") == id_:
+                if "error" in msg:
+                    raise RuntimeError(f"{method}: {msg['error']}")
+                return msg["result"]
+
+
+    def push(key, success, error=None):
+        status = "true" if success else "false"
+        url = f"{GATUS}/api/v1/endpoints/{key}/external?success={status}"
+        if error:
+            url += "&error=" + urllib.parse.quote(error)
+        headers = {"Authorization": f"Bearer {TOKEN}"}
+        req = urllib.request.Request(url, method="POST", headers=headers)
+        urllib.request.urlopen(req, timeout=10).close()
+
+
+    def check(key, fn):
+        try:
+            ok, err = fn()
+            push(key, ok, err)
+        except Exception as e:
+            push(key, False, str(e)[:200])
+
+
+    def main():
+        hub_url = "wss://ceres.skippy.crty.io/api/current"
+        with connect(hub_url) as ws:
+            rpc(ws, 1, "auth.login_with_api_key", [TRUENAS_API_KEY])
+
+            def pool_check():
+                pools = rpc(ws, 2, "pool.query")
+                bad = [p["name"] for p in pools if p.get("status") != "ONLINE"]
+                if bad:
+                    return False, f"not ONLINE: {', '.join(bad)}"
+                return True, None
+
+            def alerts_check():
+                alerts = rpc(ws, 3, "alert.list")
+                undismissed = [a for a in alerts if not a.get("dismissed")]
+                if undismissed:
+                    return False, f"{len(undismissed)} undismissed alert(s)"
+                return True, None
+
+            def rsync_check():
+                tasks = rpc(ws, 4, "rsynctask.query")
+                bad = [
+                    t.get("id")
+                    for t in tasks
+                    if (t.get("job") or {}).get("state") != "SUCCESS"
+                ]
+                if bad:
+                    return False, f"task(s) not SUCCESS: {bad}"
+                return True, None
+
+            check("storage_ceres-zfs-pool", pool_check)
+            check("storage_ceres-alerts", alerts_check)
+            check("backups_offsite-rsync-(ceres-->-behemoth)", rsync_check)
+
+
+    if __name__ == "__main__":
+        main()
+  '';
 
   # Reused by every endpoint so alerts are configured in one place.
   alerts = [
@@ -57,46 +161,8 @@ in {
         (hostCheck "behemoth" "behemoth.jiba")
         (hostCheck "medina" "medina.skippy.crty.io")
 
-        # --- ceres: real state, not just reachability -------------------
-        # TrueNAS SCALE's v2.0 API is authenticated with an API key created
-        # in the web UI (Credentials -> Local Users -> API Keys).
-        {
-          inherit alerts;
-          name = "ceres zfs pool";
-          group = "storage";
-          url = "https://ceres.skippy.crty.io/api/v2.0/pool";
-          interval = apiInterval;
-          headers.Authorization = "Bearer \${TRUENAS_API_KEY}";
-          conditions = [
-            "[STATUS] == 200"
-            "[BODY][0].status == ONLINE"
-          ];
-        }
-        {
-          inherit alerts;
-          name = "ceres alerts";
-          group = "storage";
-          url = "https://ceres.skippy.crty.io/api/v2.0/alert/list";
-          interval = apiInterval;
-          headers.Authorization = "Bearer \${TRUENAS_API_KEY}";
-          conditions = [
-            "[STATUS] == 200"
-            # No un-dismissed alerts. Verify against a real response body.
-            "len([BODY]) == 0"
-          ];
-        }
-        {
-          inherit alerts;
-          name = "offsite rsync (ceres -> behemoth)";
-          group = "backups";
-          url = "https://ceres.skippy.crty.io/api/v2.0/rsynctask";
-          interval = apiInterval;
-          headers.Authorization = "Bearer \${TRUENAS_API_KEY}";
-          conditions = [
-            "[STATUS] == 200"
-            "[BODY][0].job.state == SUCCESS"
-          ];
-        }
+        # ceres pool/alerts/rsync checks moved to external-endpoints below --
+        # see truenasChecker.
 
         # --- services on razorback --------------------------------------
         {
@@ -136,7 +202,55 @@ in {
           token = "\${RESTIC_PRUNE_TOKEN}";
           heartbeat.interval = "26h"; # daily job + slack
         }
+
+        # Pushed by truenasChecker (systemd timer below) over JSON-RPC/WS,
+        # not polled directly -- see the comment on truenasChecker for why.
+        {
+          inherit alerts;
+          name = "ceres zfs pool";
+          group = "storage";
+          token = "\${CERES_CHECKS_TOKEN}";
+          heartbeat.interval = "15m"; # checker runs every 5m
+        }
+        {
+          inherit alerts;
+          name = "ceres alerts";
+          group = "storage";
+          token = "\${CERES_CHECKS_TOKEN}";
+          heartbeat.interval = "15m";
+        }
+        {
+          inherit alerts;
+          # Name/group must match exactly -- truenasChecker hardcodes the
+          # gatus key this derives into ("backups_offsite-rsync-(ceres-->-behemoth)").
+          name = "offsite rsync (ceres -> behemoth)";
+          group = "backups";
+          token = "\${CERES_CHECKS_TOKEN}";
+          heartbeat.interval = "15m";
+        }
       ];
+    };
+  };
+
+  systemd.services.truenas-gatus-checks = {
+    description = "Push ceres TrueNAS health to gatus over JSON-RPC/WebSocket";
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${truenasChecker}/bin/truenas-gatus-checks";
+      EnvironmentFile = config.sops.secrets.gatus_env.path;
+      DynamicUser = true;
+    };
+  };
+
+  systemd.timers.truenas-gatus-checks = {
+    description = "Run truenas-gatus-checks on the same cadence gatus used to poll ceres directly";
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnBootSec = "1m";
+      OnUnitActiveSec = apiInterval;
+      Persistent = true;
     };
   };
 
