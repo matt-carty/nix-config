@@ -86,10 +86,20 @@
                 return True, None
 
             def alerts_check():
+                # Levels, least to most severe: INFO, NOTICE, WARNING,
+                # ERROR, CRITICAL, ALERT, EMERGENCY. INFO/NOTICE are
+                # notifications ("backup succeeded"), not problems -- only
+                # WARNING and above should be able to turn this red.
+                noise_levels = ("INFO", "NOTICE")
                 alerts = rpc(ws, 3, "alert.list")
-                undismissed = [a for a in alerts if not a.get("dismissed")]
-                if undismissed:
-                    return False, f"{len(undismissed)} undismissed alert(s)"
+                actionable = [
+                    a
+                    for a in alerts
+                    if not a.get("dismissed")
+                    and a.get("level") not in noise_levels
+                ]
+                if actionable:
+                    return False, f"{len(actionable)} undismissed alert(s)"
                 return True, None
 
             def rsync_check():
