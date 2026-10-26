@@ -175,7 +175,7 @@ in {
         (hostCheck "ceres (TrueNAS)" "ceres.skippy.crty.io")
         (hostCheck "razorback" "razorback.skippy.crty.io")
         (hostCheck "behemoth" "behemoth.jiba")
-        (hostCheck "medina" "medina.skippy.crty.io")
+        (hostCheck "duarte" "duarte.skippy.crty.io")
 
         # ceres pool/alerts/rsync checks moved to external-endpoints below --
         # see truenasChecker.
