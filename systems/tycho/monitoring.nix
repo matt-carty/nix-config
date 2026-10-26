@@ -93,14 +93,20 @@
                 return True, None
 
             def rsync_check():
+                # Job states: WAITING, RUNNING, SUCCESS, FAILED, ABORTED.
+                # Only the last two are actual failures -- a job that's
+                # currently RUNNING (or queued WAITING) hasn't failed, it's
+                # just mid-flight. Checking state == "SUCCESS" would flag
+                # the task red for the entire duration it's actively
+                # copying, not just when something goes wrong.
                 tasks = rpc(ws, 4, "rsynctask.query")
                 bad = [
                     t.get("id")
                     for t in tasks
-                    if (t.get("job") or {}).get("state") != "SUCCESS"
+                    if (t.get("job") or {}).get("state") in ("FAILED", "ABORTED")
                 ]
                 if bad:
-                    return False, f"task(s) not SUCCESS: {bad}"
+                    return False, f"task(s) failed: {bad}"
                 return True, None
 
             check("storage_ceres-zfs-pool", pool_check)
