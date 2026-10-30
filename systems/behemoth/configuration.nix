@@ -54,10 +54,10 @@
     };
   };
 
-  services.journald.extraConfig = ''
-    Storage=volatile
-    RuntimeMaxUse=64M
-  '';
+  services.journald.settings.Journal = {
+    Storage = "volatile";
+    RuntimeMaxUse = "64M";
+  };
 
   systemd.services.strongswan-initiate = {
     description = "Initiate strongSwan VPN connection";
