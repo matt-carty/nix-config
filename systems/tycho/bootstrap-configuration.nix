@@ -17,7 +17,7 @@
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
     settings = {
-      experimental-features = "nix-command flakes";
+      experimental-features = ["nix-command" "flakes"];
       flake-registry = "";
       nix-path = config.nix.nixPath;
     };
