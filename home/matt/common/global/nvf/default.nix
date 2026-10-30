@@ -121,7 +121,7 @@
         statusline = {
           lualine = {
             enable = true;
-            theme = "auto";
+            setupOpts.options.theme = "auto";
           };
         };
 
