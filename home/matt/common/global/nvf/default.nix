@@ -151,7 +151,6 @@
 
         minimap = {
           minimap-vim.enable = false;
-          codewindow.enable = false;
         };
 
         dashboard = {
