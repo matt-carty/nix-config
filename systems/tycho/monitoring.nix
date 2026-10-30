@@ -169,6 +169,10 @@ in {
         host = "razorback.skippy.crty.io";
         port = 8025;
         to = "monitoring@skippy.crty.io";
+        # mailrise now requires auth; value lives in the gatus_env sops
+        # secret as GATUS_SMTP_USER / GATUS_SMTP_PASSWORD.
+        username = "\${GATUS_SMTP_USER}";
+        password = "\${GATUS_SMTP_PASSWORD}";
       };
 
       endpoints = [
