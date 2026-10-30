@@ -131,7 +131,7 @@
   # Reused by every endpoint so alerts are configured in one place.
   alerts = [
     {
-      type = "email";
+      type = "telegram";
       enabled = true;
       failure-threshold = 3;
       success-threshold = 2;
@@ -151,7 +151,7 @@ in {
     enable = true;
     openFirewall = true;
 
-    # SMTP password + TrueNAS API key are interpolated from here as ${VAR}.
+    # Telegram token/chat-id + TrueNAS API key are interpolated from here as ${VAR}.
     environmentFile = config.sops.secrets.gatus_env.path;
 
     settings = {
@@ -162,17 +162,15 @@ in {
         path = "/var/lib/gatus/data.db";
       };
 
-      # Route through the mailrise instance already running on razorback,
-      # rather than configuring a second notification path.
-      alerting.email = {
-        from = "gatus@skippy.crty.io";
-        host = "razorback.skippy.crty.io";
-        port = 8025;
-        to = "monitoring@skippy.crty.io";
-        # mailrise now requires auth; value lives in the gatus_env sops
-        # secret as GATUS_SMTP_USER / GATUS_SMTP_PASSWORD.
-        username = "\${GATUS_SMTP_USER}";
-        password = "\${GATUS_SMTP_PASSWORD}";
+      # Native Telegram alerting, same bot/chat mailrise's tgram:// target
+      # already uses -- avoids SMTP entirely (mailrise's auth model forces
+      # TLS for everyone once enabled, and Postiz's hardcoded nodemailer
+      # client has no way to trust a self-signed cert, so the SMTP path
+      # was a dead end). Token/chat-id live in the gatus_env sops secret
+      # as TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID.
+      alerting.telegram = {
+        token = "\${TELEGRAM_BOT_TOKEN}";
+        "chat-id" = "\${TELEGRAM_CHAT_ID}";
       };
 
       endpoints = [
