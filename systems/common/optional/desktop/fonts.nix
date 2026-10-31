@@ -20,7 +20,7 @@
     ipafont
     kochi-substitute
     source-code-pro
-    ttf_bitstream_vera
+    ttf-bitstream-vera
     (google-fonts.override {fonts = ["MochiyPopOne" "MPLUS1Code" "MouseMemoirs" "Lobster" "ZenKakuGothicNew" "NotoSans" "NotoSerifJP" "WorkSans" "Inter" "Archivo" "Prompt" "Modak" "MysteryQuest" "Ribeye"];})
     #    (nerd-fonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
     nerd-fonts.fira-code
