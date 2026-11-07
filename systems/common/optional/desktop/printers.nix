@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ lib, pkgs, ... }: {
   services.printing = {
     enable = true;
     cups-pdf.enable = true;
@@ -6,6 +6,16 @@
     # print time and stall when a browse packet is missed. Use permanent
     # driverless-IPP queues declared below instead.
     browsed.enable = false;
+  };
+
+  # ensurePrinters runs lpadmin in cups' ExecStartPost under `set -e`, so an
+  # unreachable printer (the canon ignores IPP in standby) fails cupsd itself.
+  # Wait for the network, and don't let a failed lpadmin kill the scheduler;
+  # the queue from the last successful run stays in printers.conf.
+  systemd.services.cups = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+    postStart = lib.mkBefore "set +e";
   };
 
   hardware.printers = {

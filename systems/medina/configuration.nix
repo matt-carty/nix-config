@@ -85,10 +85,15 @@
     };
   };
 
+  # installs solaar *and* its udev rules (hidraw uaccess), which systemPackages alone doesn't
+  hardware.logitech.wireless = {
+    enable = true;
+    enableGraphical = true;
+  };
+
   environment.systemPackages = with pkgs; [
     libimobiledevice
     ifuse
-    solaar
     gnomeExtensions.solaar-extension
     libportal
     deskflow
