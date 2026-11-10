@@ -132,6 +132,7 @@ in {
     ./common/features/gen-desktop.nix
     ./common/features/claude-desktop.nix
     ./common/features/cursor-wrapper.nix
+    ./common/features/ai-apps-distrobox.nix
   ];
 
   # Customisations for matt@medina
