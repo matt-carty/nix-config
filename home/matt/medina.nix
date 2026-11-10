@@ -130,7 +130,6 @@ in {
     ./common/features/editing.nix
     ./common/features/obsidian.nix
     ./common/features/gen-desktop.nix
-    ./common/features/claude-desktop.nix
     ./common/features/cursor-wrapper.nix
     ./common/features/ai-apps-distrobox.nix
   ];
