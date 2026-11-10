@@ -69,6 +69,11 @@
   medinaLibvirtBridge.enable = true;
   services.usbmuxd.enable = true;
 
+  # Distrobox for the ai-apps box (Claude Desktop + Grok Bot); see
+  # home/matt/common/features/ai-apps-distrobox.nix. Docker is also enabled here,
+  # so no podman.dockerCompat (it conflicts).
+  virtualisation.podman.enable = true;
+
   # Read-only NFS export for ubuntu-openclaw VM (and any other host on the LAN subnet).
   services.nfs.server = {
     enable = true;
@@ -98,6 +103,7 @@
     libportal
     deskflow
     pomodoro-gtk
+    distrobox
   ];
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
