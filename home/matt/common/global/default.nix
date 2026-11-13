@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -39,7 +43,7 @@
   };
 
   # Packages that will be on all systems for Matt only
-  home.packages = with pkgs; [claude-code];
+  home.packages = [inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.default];
   programs.kitty = {
     enable = true;
     # theme = "Rosé Pine";
@@ -64,6 +68,7 @@
     shellAliases = {
       hms = "home-manager switch --flake .#$(whoami)@$(hostname)";
       nrs = "sudo nixos-rebuild switch --flake .#$(hostname)";
+      ccu = "nix flake update claude-code && home-manager switch --flake .#$(whoami)@$(hostname)";
       cd = "z";
       # git
       gs = "git status";

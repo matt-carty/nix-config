@@ -100,6 +100,7 @@
     libimobiledevice
     ifuse
     gnomeExtensions.solaar-extension
+    gnomeExtensions.appindicator
     libportal
     deskflow
     pomodoro-gtk

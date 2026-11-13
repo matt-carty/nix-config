@@ -4,7 +4,6 @@
   inputs = {
     # Nix ecosystem
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     systems.url = "github:nix-systems/default-linux";
 
     # Home manager
@@ -42,6 +41,12 @@
       #      inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
     };
 
+    # Separate input so Claude Code can be bumped on its own: nix flake update claude-code
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     claude-desktop = {
       url = "github:aaddrick/claude-desktop-debian";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -52,7 +57,6 @@
     nixpkgs,
     home-manager,
     nvf,
-    nixpkgs-stable,
     sops-nix,
     ...
   } @ inputs: let
