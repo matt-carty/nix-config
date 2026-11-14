@@ -1,6 +1,6 @@
 # Claude Desktop + Grok Bot live in a Debian 12 distrobox ("ai-apps"). The box and the
 # apps inside it are imperative; this module only ships the assemble manifest and a
-# weekly update timer. Both apps update through apt (claude-desktop.list and the
+# daily update timer. Both apps update through apt (claude-desktop.list and the
 # grok-bot.sources entry the grok-bot .deb registers itself). Host needs podman + distrobox (see systems/medina/configuration.nix).
 #
 # Create: distrobox assemble create --file ~/.config/distrobox/ai-apps.ini
@@ -70,9 +70,9 @@ in {
   };
 
   systemd.user.timers.ai-apps-update = {
-    Unit.Description = "Weekly ai-apps distrobox update";
+    Unit.Description = "Daily ai-apps distrobox update";
     Timer = {
-      OnCalendar = "weekly";
+      OnCalendar = "daily";
       Persistent = true;
     };
     Install.WantedBy = ["timers.target"];
