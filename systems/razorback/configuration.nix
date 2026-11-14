@@ -11,6 +11,7 @@
     #    ../common/optional/server/open-webui.nix
     ./unlock-luks.nix
     ./docker-backup.nix
+    ./docker-diff.nix
     ./mount-scooter.nix
     ./hardware-configuration.nix
   ];
