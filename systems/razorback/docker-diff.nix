@@ -42,7 +42,8 @@
 
 
     def running_containers():
-        return [l for l in docker("ps", "--format", "{{.Names}}").splitlines() if l]
+        output = docker("ps", "--format", "{{.Names}}")
+        return [name for name in output.splitlines() if name]
 
 
     def notify(text):
@@ -62,7 +63,7 @@
 
         for name in running_containers():
             diff = docker("diff", name).strip()
-            lines = {l for l in diff.splitlines() if l}
+            lines = {line for line in diff.splitlines() if line}
             state_file = STATE_DIR / f"{name}.known"
 
             if not state_file.exists():
@@ -72,7 +73,7 @@
                 state_file.write_text("\n".join(sorted(lines)))
                 continue
 
-            known = {l for l in state_file.read_text().splitlines() if l}
+            known = {line for line in state_file.read_text().splitlines() if line}
             new = lines - known
             if new:
                 alerts.append((name, sorted(new)))
