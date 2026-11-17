@@ -10,6 +10,7 @@
     picard
     cursor-cli
     gnomeExtensions.claude-code-usage
+    slack
   ];
   programs.gnome-shell = {
     enable = true;
